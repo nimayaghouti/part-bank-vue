@@ -1,0 +1,20 @@
+@use '../utils/mixins' as *;
+@use '../utils/variables' as *;
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  @include flex();
+
+  &_login {
+    background: url('../image/login-background.png') no-repeat center center;
+    background-color: lightgray;
+    background-size: cover;
+  }
+
+  &_watch-header {
+    height: calc(100vh - $header-height);
+    align-items: baseline;
+    padding-top: 2.5rem;
+  }
+}
