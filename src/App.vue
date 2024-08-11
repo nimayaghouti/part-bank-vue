@@ -1,11 +1,8 @@
 <script setup></script>
 
 <template>
-  <div class="container test">سلام دنیا</div>
+  <!-- just for test -->
+  <BaseButton text="ورود" />
 </template>
 
-<style lang="scss">
-.test {
-  background-color: var(--primary-100);
-}
-</style>
+<style lang="scss"></style>
