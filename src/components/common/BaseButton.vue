@@ -2,8 +2,7 @@
 defineProps({
   text: {
     type: String,
-    required: true,
-    default: 'دکمه'
+    required: true
   },
   mode: {
     type: String,
@@ -92,9 +91,7 @@ defineProps({
   }
 
   &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex();
   }
 }
 
