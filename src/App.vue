@@ -1,8 +1,10 @@
-<script setup></script>
+<script setup>
+import LoginView from './views/LoginView.vue'
+</script>
 
 <template>
   <!-- just for test -->
-  <BaseButton text="ورود" />
+  <LoginView />
 </template>
 
 <style lang="scss"></style>
