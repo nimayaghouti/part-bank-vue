@@ -8,4 +8,4 @@ import TheHeader from '@/components/common/TheHeader.vue'
     <router-view />
   </main>
 </template>
-<style></style>
+<style lang="scss"></style>
