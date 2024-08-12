@@ -1,7 +1,15 @@
-<script setup></script>
+<script setup>
+import IndexTransaction from "@/components/transactions/IndexTransactions.vue"
+</script>
 
 <template>
-  <h1>به داشبورد خوش آمدید</h1>
+  <div class="dashboard">
+    <IndexTransaction />
+  </div>
 </template>
 
-<style></style>
+<style lang="scss" >
+.dashboard {
+  width: 100rem;
+}
+</style>
