@@ -1,11 +1,10 @@
-<script setup></script>
+<script setup>
+import LoginView from './views/LoginView.vue'
+</script>
 
 <template>
-  <div class="container test">سلام دنیا</div>
+  <!-- just for test -->
+  <LoginView />
 </template>
 
-<style lang="scss">
-.test {
-  background-color: var(--primary-100);
-}
-</style>
+<style lang="scss"></style>

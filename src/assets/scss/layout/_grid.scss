@@ -7,7 +7,7 @@
   @include flex();
 
   &_login {
-    background: url('../image/login-background.png') no-repeat center center;
+    background: url('@/assets/image/login-background.png') no-repeat center center;
     background-color: lightgray;
     background-size: cover;
   }
