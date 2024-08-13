@@ -1,15 +1,15 @@
 <script setup>
-import IndexTransaction from "@/components/transactions/IndexTransactions.vue"
+import IndexTransactions from '@/components/transactions/IndexTransactions.vue'
 </script>
 
 <template>
-  <div class="dashboard">
-    <IndexTransaction />
+  <div class="dashboard__info info">
+    <IndexTransactions class="info__transactions" />
   </div>
 </template>
 
-<style lang="scss" >
-.dashboard {
+<style lang="scss">
+.info {
   width: 100rem;
 }
 </style>

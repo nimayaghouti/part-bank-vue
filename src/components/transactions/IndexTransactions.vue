@@ -1,4 +1,5 @@
 <script setup>
+import TransactionsHeader from './TransactionsHeader.vue'
 import TransactionsPagination from './TransactionsPagination.vue'
 import TransactionsTable from './TransactionsTable.vue'
 
@@ -80,6 +81,7 @@ const setSlicedData = (newSlice) => {
 
 <template>
   <section class="transactions">
+    <TransactionsHeader class="transaction__trans-header" />
     <TransactionsTable class="transactions__table" :sliced-data-array="slicedDataArray" />
     <TransactionsPagination
       class="transactions__pagination"
@@ -92,9 +94,19 @@ const setSlicedData = (newSlice) => {
 
 <style lang="scss">
 .transactions {
+  width: 100%;
+  height: 33rem;
+  background-color: #fff;
+  padding: 1.5rem 1.5rem 1rem;
   display: flex;
   flex-direction: column;
-  height: 30rem;
+  @include box-shadow();
+  @include border-radius($radius: 0.75rem);
+
+
+  &__table {
+    margin-top: 1.5rem;
+  }
 
   &__pagination {
     margin-top: auto;
