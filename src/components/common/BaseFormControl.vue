@@ -2,15 +2,19 @@
 import { ref } from 'vue'
 
 const props = defineProps({
-  // tag: {
-  //   type: String
-  // },
+  // label
   labelText: {
     type: String
   },
   labelFor: {
     type: String
   },
+  labelColor: {
+    type: String,
+    default: 'var(--text-color)'
+  },
+
+  // textfield (input / textarea)
   type: {
     type: String,
     required: true
@@ -24,6 +28,17 @@ const props = defineProps({
   maxlength: {
     type: String
   },
+  isAutofocus: {
+    type: Boolean
+  },
+  isRequired: {
+    type: Boolean
+  },
+  hasBorder: {
+    type: Boolean
+  },
+
+  // textfield-wrapper
   validationMessage: {
     type: String
   },
@@ -33,7 +48,7 @@ const props = defineProps({
   },
   height: {
     type: String,
-    required: true
+    default: '3rem'
   },
   icon: {
     type: Object,
@@ -47,33 +62,41 @@ const props = defineProps({
   }
 })
 
-const showMessage = ref({ state: true, type: '' })
+const htmlTag = props.type === 'textarea' ? 'textarea' : 'input'
+
+const message = ref({ isShowing: true, type: '' })
 const patternToRegex = new RegExp(props.pattern)
 
 const handleOnInput = (event) => {
   if (patternToRegex.test(event.target.value)) {
-    showMessage.value.state = false
+    message.value.isShowing = false
   } else {
-    showMessage.value.state = true
-    showMessage.value.type = 'error'
+    message.value.isShowing = true
+    message.value.type = 'error'
   }
 }
 </script>
 
 <template>
   <div class="control">
-    <label class="control__label" :for="labelFor">{{ labelText }}</label>
-    <div class="control__input-wrapper" :style="{ maxWidth: maxWidth, height: height }">
-      <input
-        class="control__input"
+    <label class="control__label" :for="labelFor" :style="{ color: labelColor }">
+      {{ labelText }}
+    </label>
+    <div
+      :class="['control__textfield-wrapper', hasBorder && 'control__textfield-wrapper_has-border']"
+      :style="{ maxWidth: maxWidth, height: height }"
+    >
+      <component
+        :is="htmlTag"
+        :class="`control__${htmlTag}`"
         :type="type"
         :id="labelFor"
         :placeholder="placeholder"
         :pattern="pattern"
         @input="handleOnInput"
         :maxlength="maxlength"
-        autofocus
-        required
+        :autofocus="isAutofocus"
+        :required="isRequired"
       />
       <component
         v-if="icon.component"
@@ -84,8 +107,9 @@ const handleOnInput = (event) => {
       />
     </div>
     <div
-      :style="{ opacity: showMessage.state ? 1 : 0 }"
-      :class="`control__validation-message control__validation-message_${showMessage.type}`"
+      v-if="validationMessage"
+      :style="{ opacity: message.isShowing ? 1 : 0 }"
+      :class="['control__validation-message', `control__validation-message_${message.type}`]"
     >
       {{ validationMessage }}
     </div>
@@ -94,7 +118,8 @@ const handleOnInput = (event) => {
 
 <style lang="scss">
 .control {
-  @include flex($direction: column, $align: stretch);
+  display: flex;
+  flex-direction: column;
   gap: 0.25rem;
 
   /////////////////
@@ -106,34 +131,48 @@ const handleOnInput = (event) => {
 
   /////////////////
 
-  &__input-wrapper {
+  &__textfield-wrapper {
     display: flex;
+    width: 100%;
     overflow: hidden;
     border-radius: 0.4rem;
     background-color: var(--common-surface-lightBlue);
+
+    &_has-border {
+      border: 1px solid var(--black-50);
+    }
 
     &:focus-within {
       outline: 2px solid var(--primary-200);
     }
   }
 
-  &__input {
+  &__input,
+  &__textarea {
     border: none;
     outline: none;
     width: 100%;
     height: 100%;
-    padding: 0 0.5rem;
     background-color: transparent;
     text-align: right;
     color: var(--common-text-color);
     font-size: 14px;
     font-weight: 600;
+    resize: none;
 
     &::placeholder {
       font-weight: 400;
       color: var(--black-100);
       font-size: 14px;
     }
+  }
+
+  &__input {
+    padding: 0 0.5rem;
+  }
+
+  &__textarea {
+    padding: 1rem 0.5rem;
   }
 
   &__icon {
