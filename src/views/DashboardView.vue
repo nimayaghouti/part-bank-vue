@@ -1,7 +1,15 @@
-<script setup></script>
+<script setup>
+import IndexTransactions from '@/components/view/transactions/IndexTransactions.vue'
+</script>
 
 <template>
-  <section />
+  <div class="dashboard__info info">
+    <IndexTransactions class="info__transactions" />
+  </div>
 </template>
 
-<style></style>
+<style lang="scss">
+.info {
+  width: 100rem;
+}
+</style>
