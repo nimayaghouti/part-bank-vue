@@ -1,7 +1,31 @@
-<script setup></script>
+<script setup>
+import AccountCard from '@/components/view/accountcard/AccountCard.vue'
+</script>
 
 <template>
-  <section />
+  <section class="dashboard__info info">
+    <div class="info__wrapper">
+      <AccountCard class="info__card" />
+    </div>
+    <div class="info__transactions transactions"></div>
+  </section>
 </template>
 
-<style></style>
+<style lang="scss">
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &__wrapper {
+    display: flex;
+    gap: 1rem;
+  }
+
+  &__dialog {
+    position: absolute; // relative to .info
+    top: 0;
+    left: 0;
+  }
+}
+</style>
