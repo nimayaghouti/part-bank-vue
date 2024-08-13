@@ -8,7 +8,7 @@ import IndexTransactions from '@/components/view/transactions/IndexTransactions.
     <div class="info__wrapper">
       <AccountCard class="info__card" />
     </div>
-    <IndexTransactions class="info__transactions">
+    <IndexTransactions class="info__transactions" />
   </section>
 </template>
 
