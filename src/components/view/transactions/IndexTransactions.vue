@@ -86,7 +86,7 @@ const setSlicedData = (newSlice) => {
     <TransactionsPagination
       class="transactions__pagination"
       :data-array="tempData"
-      items-per-page="5"
+      :items-per-page="5"
       @slicer="setSlicedData"
     />
   </section>
