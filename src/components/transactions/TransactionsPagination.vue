@@ -1,4 +1,6 @@
 <script setup>
+import AngleLeft from '@/assets/svg/icons/common/angle-left.vue'
+import AngleRight from '@/assets/svg/icons/common/angle-right.vue'
 import { ref } from 'vue'
 
 const props = defineProps({
@@ -59,39 +61,31 @@ const nextButton = () => {
 
 <template>
   <div class="pagination">
-    <button id="previous" title="قبلی" @click="previousButton">
-      <img src="../assets/icons/pagination-right.svg" />
+    <button class="pagination__previous" title="قبلی" @click="previousButton">
+      <AngleRight />
     </button>
-    <div class="pagination__dynamic-buttons-wrapper">
-      <button
-        v-for="index in lastPage"
-        :key="'dynamic-button-' + index"
-        :id="'dynamic-button-' + index"
-        @click="setCurrentPage(index)"
-        :class="{ selected: currentPage === index }"
-        class="dynamic-button-"
-      >
-        {{ index }}
-      </button>
-    </div>
-    <button id="next" title="بعدی" @click="nextButton">
-      <img src="../assets/icons/pagination-left.svg" />
+    <button
+      v-for="index in lastPage"
+      :key="'dynamic-button-' + index"
+      :id="'dynamic-button-' + index"
+      @click="setCurrentPage(index)"
+      :class="[
+        'pagination__dynamic-button',
+        currentPage === index && 'pagination__dynamic-button_selected'
+      ]"
+    >
+      {{ index }}
+    </button>
+    <button class="pagination__next" title="بعدی" @click="nextButton">
+      <AngleLeft />
     </button>
   </div>
 </template>
 
 <style lang="scss">
-%pagination-styles {
+.pagination {
   @include flex;
   gap: 16px;
-}
-
-.pagination {
-  @extend %pagination-styles;
-
-  &__dynamic-buttons-wrapper {
-    @extend %pagination-styles;
-  }
 
   %active-styles {
     color: white;

@@ -96,7 +96,6 @@ const setSlicedData = (newSlice) => {
   display: flex;
   flex-direction: column;
   height: 30rem;
-  border: solid red;
 
   &__pagination {
     margin-top: auto;

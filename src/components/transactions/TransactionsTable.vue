@@ -1,4 +1,6 @@
 <script setup>
+import MoneyDeposit from '@/assets/svg/icons/dashboard/money-deposit.vue'
+import MoneyWithdraw from '@/assets/svg/icons/dashboard/money-withdraw.vue'
 import { onUpdated } from 'vue'
 
 const props = defineProps({
@@ -7,6 +9,13 @@ const props = defineProps({
     required: true
   }
 })
+
+// const TransactionIcon = (iconName) => {
+//   const test = import(`@/assets/svg/icons/dashboard/money-${iconName}.vue`)
+//   console.log('icon', test)
+//   console.log('name', iconName)
+//   return test
+// }
 
 onUpdated(() => {
   console.log('table', props.slicedDataArray)
@@ -25,12 +34,6 @@ const formatDate = (dateStr) => {
 const formatAmount = (amount) => {
   return parseInt(amount).toLocaleString('fa-IR')
 }
-
-const setIcon = (type) => {
-  return `@/assets/svg/icons/dashboard/money-${type}.svg`
-}
-// const TransactionIcon = (src) => import(`@/assets/icons/${src}.vue`)
-
 </script>
 
 <template>
@@ -46,7 +49,7 @@ const setIcon = (type) => {
     <tbody class="table__body">
       <tr class="table__row" v-for="data in slicedDataArray" :key="data.id">
         <td class="table__column-type">
-          <img :src="setIcon(data.type)" />
+          <MoneyDeposit v-if="data.type === 'deposit'" /> <MoneyWithdraw v-else />
           <span>{{ formatType(data.type) }}</span>
         </td>
         <td class="table__column-data">
