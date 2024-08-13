@@ -20,5 +20,9 @@ import Sidebar from '@/components/view/sidebar/TheSidebar.vue'
   display: flex;
   justify-content: center;
   gap: 1rem;
+
+  &__info {
+    position: relative; // for info__dialog
+  }
 }
 </style>
