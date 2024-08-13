@@ -1,6 +1,7 @@
 <script setup>
 import AccountCard from '@/components/view/accountcard/AccountCard.vue'
 import IndexTransactions from '@/components/view/transactions/IndexTransactions.vue'
+import DashboardDialog from '@/components/view/DashboardDialog.vue'
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import IndexTransactions from '@/components/view/transactions/IndexTransactions.
       <AccountCard class="info__card" />
     </div>
     <IndexTransactions class="info__transactions" />
+    <DashboardDialog v-if="true" class="info__dialog" />
   </section>
 </template>
 
