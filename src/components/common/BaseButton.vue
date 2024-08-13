@@ -47,8 +47,8 @@ defineProps({
   >
     <span v-if="isLoading" class="button__spinner"></span>
     <template v-else>
-      <component v-if="icon" :is="icon" class="button__icon"></component>
       <span>{{ text }}</span>
+      <component v-if="icon" :is="icon" class="button__icon"></component>
     </template>
   </button>
 </template>
@@ -57,7 +57,6 @@ defineProps({
 .button {
   @include flex();
   @include text-style($weight: 700);
-  flex-grow: 1;
   gap: 0.75rem;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
