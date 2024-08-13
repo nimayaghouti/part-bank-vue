@@ -1,5 +1,6 @@
 <script setup>
 import AccountCard from '@/components/view/accountcard/AccountCard.vue'
+import IndexTransactions from '@/components/view/transactions/IndexTransactions.vue'
 </script>
 
 <template>
@@ -7,7 +8,7 @@ import AccountCard from '@/components/view/accountcard/AccountCard.vue'
     <div class="info__wrapper">
       <AccountCard class="info__card" />
     </div>
-    <div class="info__transactions transactions"></div>
+    <IndexTransactions class="info__transactions">
   </section>
 </template>
 
