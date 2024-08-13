@@ -35,6 +35,12 @@ const routes = [
         name: 'personal-info',
         component: () => import('@/views/PersonalInfo.vue'),
         meta: { title: 'اطلاعات فردی', prevButtonText: 'قبلی', nextButtonText: 'ثبت و ادامه' }
+      },
+      {
+        path: 'id-card',
+        name: 'id-card',
+        component: () => import('@/views/UploadIDCardView.vue'),
+        meta: { title: 'تصویر کارت ملی', prevButtonText: 'قبلی', nextButtonText: 'ثبت و ادامه' }
       }
     ]
   }
