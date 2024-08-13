@@ -4,11 +4,16 @@ import { ref } from 'vue'
 
 const emits = defineEmits(['sendData'])
 
-const test = ref('')
+const valuesFromInnerComponents = ref({
+  firstName: '',
+  lastName: '',
+  postalCode: '',
+  address: ''
+})
 
-const doEmit = () => {
-  // console.log('test', test.value)
-  emits('sendData', test.value)
+const setValuesFromInnerComponents = (innerValue, field) => {
+  valuesFromInnerComponents.value[field] = innerValue
+  emits('sendData', valuesFromInnerComponents.value)
 }
 </script>
 
@@ -24,6 +29,7 @@ const doEmit = () => {
       isRequired
       isAutofocus
       hasBorder
+      @sendValue="(innerValue) => setValuesFromInnerComponents(innerValue, 'firstName')"
     />
     <BaseFormControl
       class="form-row__form-control"
@@ -34,6 +40,7 @@ const doEmit = () => {
       placeholder="نام خانوادگی به صورت کامل"
       isRequired
       hasBorder
+      @sendValue="(innerValue) => setValuesFromInnerComponents(innerValue, 'lastName')"
     />
     <BaseFormControl
       class="form-row__form-control"
@@ -44,6 +51,7 @@ const doEmit = () => {
       placeholder="کدپستی ۱۰ رقمی"
       isRequired
       hasBorder
+      @sendValue="(innerValue) => setValuesFromInnerComponents(innerValue, 'postalCode')"
     />
   </div>
 
@@ -59,6 +67,7 @@ const doEmit = () => {
       hasBorder
       maxWidth="none"
       height="7.5rem"
+      @sendValue="(innerValue) => setValuesFromInnerComponents(innerValue, 'address')"
     />
   </div>
 </template>

@@ -62,18 +62,29 @@ const props = defineProps({
   }
 })
 
+const emits = defineEmits(['sendValue'])
+
 const htmlTag = props.type === 'textarea' ? 'textarea' : 'input'
 
 const message = ref({ isShowing: true, type: '' })
 const patternToRegex = new RegExp(props.pattern)
 
-const handleOnInput = (event) => {
+const handleValidationMessage = (event) => {
   if (patternToRegex.test(event.target.value)) {
     message.value.isShowing = false
   } else {
     message.value.isShowing = true
     message.value.type = 'error'
   }
+}
+
+const textfieldValue = ref('')
+
+const handleOnInput = (event) => {
+  if (props.validationMessage) handleValidationMessage(event)
+
+  textfieldValue.value = event.target.value
+  emits('sendValue', textfieldValue.value)
 }
 </script>
 
@@ -93,10 +104,11 @@ const handleOnInput = (event) => {
         :id="labelFor"
         :placeholder="placeholder"
         :pattern="pattern"
-        @input="handleOnInput"
         :maxlength="maxlength"
         :autofocus="isAutofocus"
         :required="isRequired"
+        @input="handleOnInput"
+        :value="textfieldValue"
       />
       <component
         v-if="icon.component"
