@@ -1,7 +1,7 @@
 <script setup>
 import AngleLeft from '@/assets/svg/icons/common/angle-left.vue'
 import AngleRight from '@/assets/svg/icons/common/angle-right.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const props = defineProps({
   dataArray: {
@@ -16,14 +16,10 @@ const props = defineProps({
 
 const emits = defineEmits(['slicer'])
 
-// const modelValue = defineModel("data-array");
-
 // pagination logic /////////////////////////////
-
 const currentPage = ref(1)
 const lastPage = Math.ceil(props.dataArray.length / props.itemsPerPage) // totalPages
 
-// refresh table rows of data
 const slicer = () => {
   return props.dataArray.slice(
     currentPage.value * props.itemsPerPage - props.itemsPerPage,
@@ -32,20 +28,20 @@ const slicer = () => {
 }
 
 const setSlicedData = () => {
-  const test = slicer()
-  console.log(test)
-  emits('slicer', test)
+  const newSlice = slicer()
+  emits('slicer', newSlice)
 }
 
 const setCurrentPage = (index) => {
   currentPage.value = index
-
   setSlicedData()
 }
 
-// handle buttons /////////////////////////////
+onMounted(() => {
+  setSlicedData()
+})
 
-// arrow buttons
+// handle buttons /////////////////////////////
 const previousButton = () => {
   if (currentPage.value === 1) return
   setCurrentPage(currentPage.value - 1)
@@ -55,8 +51,6 @@ const nextButton = () => {
   if (currentPage.value === lastPage) return
   setCurrentPage(currentPage.value + 1)
 }
-
-// dynamic button
 </script>
 
 <template>

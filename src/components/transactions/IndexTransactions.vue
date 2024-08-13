@@ -75,7 +75,6 @@ const tempData = [
 const slicedDataArray = ref([])
 const setSlicedData = (newSlice) => {
   slicedDataArray.value = newSlice
-  //   console.log('parent', slicedDataArray.value)
 }
 </script>
 

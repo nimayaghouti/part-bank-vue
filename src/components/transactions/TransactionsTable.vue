@@ -1,7 +1,6 @@
 <script setup>
 import MoneyDeposit from '@/assets/svg/icons/dashboard/money-deposit.vue'
 import MoneyWithdraw from '@/assets/svg/icons/dashboard/money-withdraw.vue'
-import { onUpdated } from 'vue'
 
 const props = defineProps({
   slicedDataArray: {
@@ -10,6 +9,7 @@ const props = defineProps({
   }
 })
 
+// TODO (lazy importing the icon):
 // const TransactionIcon = (iconName) => {
 //   const test = import(`@/assets/svg/icons/dashboard/money-${iconName}.vue`)
 //   console.log('icon', test)
@@ -17,12 +17,7 @@ const props = defineProps({
 //   return test
 // }
 
-onUpdated(() => {
-  console.log('table', props.slicedDataArray)
-})
-
 // modify table data into persian format //////////////
-
 const formatType = (type) => {
   return type === 'deposit' ? 'واریز' : 'برداشت'
 }
