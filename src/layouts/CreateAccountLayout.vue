@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import TheHeader from '@/components/common/TheHeader.vue'
+import BaseLayout from '@/layouts/BaseLayout.vue'
 
 const route = useRoute()
 const pageTitle = ref('')
@@ -27,30 +27,31 @@ watch(
 </script>
 
 <template>
-  <TheHeader />
-  <main class="container container_watch-header">
-    <div class="create-account">
-      <h2 class="create-account__title">{{ pageTitle }}</h2>
-      <div class="create-account__seperator"></div>
-      <form class="create-account__form account-form">
-        <router-view @sendData="setDataFromInnerComponent" />
-        <div class="create-account__buttons-wrapper">
-          <BaseButton
-            class="create-account__button"
-            :text="prevButtonText"
-            mode="button_secondary"
-            buttonType="button"
-          />
-          <BaseButton
-            class="create-account__button"
-            :text="nextButtonText"
-            mode="button_primary"
-            buttonType="submit"
-          />
-        </div>
-      </form>
-    </div>
-  </main>
+  <BaseLayout>
+    <template #content>
+      <div class="create-account">
+        <h2 class="create-account__title">{{ pageTitle }}</h2>
+        <div class="create-account__seperator"></div>
+        <form class="create-account__form account-form">
+          <router-view @sendData="setDataFromInnerComponent" />
+          <div class="create-account__buttons-wrapper">
+            <BaseButton
+              class="create-account__button"
+              :text="prevButtonText"
+              mode="button_secondary"
+              buttonType="button"
+            />
+            <BaseButton
+              class="create-account__button"
+              :text="nextButtonText"
+              mode="button_primary"
+              buttonType="submit"
+            />
+          </div>
+        </form>
+      </div>
+    </template>
+  </BaseLayout>
 </template>
 
 <style lang="scss">

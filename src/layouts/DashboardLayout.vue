@@ -1,16 +1,17 @@
 <script setup>
-import TheHeader from '@/components/common/TheHeader.vue'
+import BaseLayout from '@/layouts/BaseLayout.vue'
 import Sidebar from '@/components/view/sidebar/TheSidebar.vue'
 </script>
 
 <template>
-  <TheHeader />
-  <main class="container container_watch-header">
-    <div class="dashboard">
-      <Sidebar class="dashboard__sidebar" />
-      <router-view />
-    </div>
-  </main>
+  <BaseLayout>
+    <template #content>
+      <div class="dashboard">
+        <Sidebar class="dashboard__sidebar" />
+        <router-view />
+      </div>
+    </template>
+  </BaseLayout>
 </template>
 <style lang="scss">
 .dashboard {
@@ -22,7 +23,7 @@ import Sidebar from '@/components/view/sidebar/TheSidebar.vue'
   gap: 1rem;
 
   &__info {
-    position: relative; // for info__dialog
+    position: relative;
   }
 }
 </style>
