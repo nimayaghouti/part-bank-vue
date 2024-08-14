@@ -53,6 +53,14 @@ const routes = [
       prevButtonText: 'قبلی',
       nextButtonText: 'افتتاح حساب'
     }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/ErrorView.vue'),
+    meta: {
+      layout: 'LoginLayout'
+    }
   }
 ]
 
