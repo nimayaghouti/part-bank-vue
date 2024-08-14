@@ -1,20 +1,20 @@
 export default class StorageData {
-  #data
-  #storage
-  #dataName
+  data
+  storage
+  dataName
 
   constructor(data, dataName, storage) {
-    this.#data = data
-    this.#dataName = `${dataName}Data`
-    this.#storage = storage
+    this.data = data
+    this.dataName = dataName
+    this.storage = storage
   }
 
-  save() {
-    this.#storage.setItem(this.#dataName, this.#data)
+  setItem() { // save()
+    this.storage.setItem(this.dataName, this.data)
   }
 
-  load() {
-    const storedData = this.#storage.getItem(this.#dataName)
+  getItem() { // load()
+    const storedData = this.storage.getItem(this.dataName)
     if (storedData) {
       return storedData
     } else {
@@ -22,13 +22,13 @@ export default class StorageData {
     }
   }
 
-  clear() {
-    this.#storage.removeItem('userData')
-    this.#data = null
+  removeItem() { // remove
+    this.storage.removeItem('userData')
+    this.data = null
   }
 
-  clearStorage() {
-    this.#storage.clearStorage()
+  clear() { // clearStorage
+    this.storage.clear()
   }
 }
 
@@ -85,12 +85,12 @@ class BaseStorage {
     throw new Error("Method 'removeItem()' must be implemented.")
   }
 
-  clearStorage() {
-    throw new Error("Method 'clearStorage()' must be implemented.")
+  clear() {
+    throw new Error("Method 'clear()' must be implemented.")
   }
 }
 
-class CustomLocalStorage extends BaseStorage {
+export class CustomLocalStorage extends BaseStorage {
   constructor() {
     super()
     this.encrypting = new CustomBase64Securing()
@@ -110,7 +110,7 @@ class CustomLocalStorage extends BaseStorage {
     localStorage.removeItem(key)
   }
 
-  clearStorage() {
+  clear() {
     localStorage.clear()
   }
 }
@@ -135,7 +135,7 @@ class CustomSessionStorage extends BaseStorage {
     sessionStorage.removeItem(key)
   }
 
-  clearStorage() {
+  clear() {
     sessionStorage.clear()
   }
 }

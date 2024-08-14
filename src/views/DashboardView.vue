@@ -4,6 +4,12 @@ import InstallmentBox from '@/components/view/accountBox/InstallmentBox.vue'
 import ScoreBox from '@/components/view/accountBox/ScoreBox.vue'
 import IndexTransactions from '@/components/view/transactions/IndexTransactions.vue'
 import DashboardDialog from '@/components/view/DashboardDialog.vue'
+
+import { useUserDataStore } from '@/stores/userDataStore'
+const userDataStore = useUserDataStore()
+
+console.log(userDataStore.userData.getItem())
+// console.log(userDataStore)
 </script>
 
 <template>
