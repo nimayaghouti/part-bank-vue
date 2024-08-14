@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { useDataStore } from '@/stores/useDataStore'
-import { hasDepositAccount } from '@/composables/useGetDeposit'
 import { onMounted } from 'vue'
 
 import { formattedPersianNumber } from '@/utils/stringFormatter'
@@ -11,15 +10,14 @@ import exitIcon from '@/assets/svg/icons/common/exitIcon.vue'
 import convertCard from '@/assets/svg/icons/dashboard/convert-card.vue'
 
 const dataStore = useDataStore()
-const userData = dataStore.userData
+const hasDepositAccount = dataStore.hasDepositAccount
+const depositData = dataStore.depositData
 
 const accountBalance = ref(formattedPersianNumber(0))
 
-onMounted(async () => {
-  const depositeData = await hasDepositAccount(userData.token)
-
-  if (depositeData.id) {
-    accountBalance.value = ref(formattedPersianNumber(depositeData.balance))
+onMounted(() => {
+  if (hasDepositAccount) {
+    accountBalance.value = ref(formattedPersianNumber(depositData.balance))
   }
 })
 </script>

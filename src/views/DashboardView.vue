@@ -7,19 +7,22 @@ import DashboardDialog from '@/components/view/DashboardDialog.vue'
 
 import { ref } from 'vue'
 import { useDataStore } from '@/stores/useDataStore'
-import { hasDepositAccount } from '@/composables/useGetDeposit'
+import { getDepositAccount } from '@/composables/useGetDeposit'
 import { onMounted } from 'vue'
 
 const dataStore = useDataStore()
 const userData = dataStore.userData
 // console.log(userData)
 
-const hasAccount = ref(false)
+const hasDepositAccount = ref(false)
 
 onMounted(async () => {
-  const depositeData = await hasDepositAccount(userData.token)
-  hasAccount.value = depositeData.id ? true : false
-  // console.log('hasAccount', hasAccount.value)
+  const depositData = await getDepositAccount(userData.token)
+  // console.log(depositData)
+  hasDepositAccount.value = depositData.id ? true : false
+  // console.log('hasDepositAccount', hasDepositAccount.value)
+  dataStore.setHasDepositAccount(hasDepositAccount.value)
+  dataStore.setDepositData(depositData)
 })
 </script>
 
@@ -32,7 +35,7 @@ onMounted(async () => {
     </div>
 
     <IndexTransactions class="info__transactions" />
-    <DashboardDialog v-if="!hasAccount" class="info__dialog" />
+    <DashboardDialog v-if="!hasDepositAccount" class="info__dialog" />
   </section>
 </template>
 

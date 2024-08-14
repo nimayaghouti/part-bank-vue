@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { useDataStore } from '@/stores/useDataStore'
-import { hasDepositAccount } from '@/composables/useGetDeposit'
 import { onMounted } from 'vue'
 
 import { formattedPersianNumber, convertNumberToPersian } from '@/utils/stringFormatter'
@@ -10,17 +9,16 @@ import TheAccountBox from '@/components/view/accountBox/TheAccountBox.vue'
 import CircleInfoBold from '@/assets/svg/icons/common/circle-info-bold.vue'
 
 const dataStore = useDataStore()
-const userData = dataStore.userData
+const depositData = dataStore.depositData
+const hasDepositAccount = dataStore.hasDepositAccount
 
 const scoreAmount = ref(formattedPersianNumber(0))
 const scorePaymentPeriod = ref(convertNumberToPersian(0))
 
-onMounted(async () => {
-  const depositeData = await hasDepositAccount(userData.token)
-
-  if (depositeData.id) {
-    scoreAmount.value = ref(formattedPersianNumber(depositeData.score.amount))
-    scorePaymentPeriod.value = ref(convertNumberToPersian(depositeData.score.paymentPeriod))
+onMounted(() => {
+  if (hasDepositAccount) {
+    scoreAmount.value = ref(formattedPersianNumber(depositData.score.amount))
+    scorePaymentPeriod.value = ref(convertNumberToPersian(depositData.score.paymentPeriod))
   }
 })
 </script>
