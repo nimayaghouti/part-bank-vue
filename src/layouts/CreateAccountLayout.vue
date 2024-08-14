@@ -24,6 +24,12 @@ watch(
   },
   { immediate: true }
 )
+
+const dataFromInnerComponent = ref(undefined)
+const setDataFromInnerComponent = (innerData) =>  {
+  dataFromInnerComponent.value = innerData
+  // console.log(dataFromInnerComponent.value)
+}
 </script>
 
 <template>

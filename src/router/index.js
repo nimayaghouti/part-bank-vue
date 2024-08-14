@@ -33,7 +33,7 @@ const routes = [
       {
         path: 'personal-info',
         name: 'personal-info',
-        component: () => import('@/views/PersonalInfo.vue'),
+        component: () => import('@/views/PersonalInfoView.vue'),
         meta: { title: 'اطلاعات فردی', prevButtonText: 'قبلی', nextButtonText: 'ثبت و ادامه' }
       },
       {
