@@ -5,11 +5,21 @@ import ScoreBox from '@/components/view/accountBox/ScoreBox.vue'
 import IndexTransactions from '@/components/view/transactions/IndexTransactions.vue'
 import DashboardDialog from '@/components/view/DashboardDialog.vue'
 
-import { useDataStorageStore } from '@/stores/userStorageStore'
-const dataStorageStore = useDataStorageStore()
+import { ref } from 'vue'
+import { useDataStore } from '@/stores/useDataStore'
+import { hasDepositAccount } from '@/composables/useGetDeposit'
+import { onMounted } from 'vue'
 
-console.log(dataStorageStore.userStorage.getItem())
-console.log(dataStorageStore.depositStorage.getItem())
+const dataStore = useDataStore()
+const userData = dataStore.userData
+// console.log(userData)
+
+const hasAccount = ref(false)
+
+onMounted(async () => {
+  hasAccount.value = await hasDepositAccount(userData.token)
+  // console.log('hasAccount', hasAccount.value)
+})
 </script>
 
 <template>
@@ -21,7 +31,7 @@ console.log(dataStorageStore.depositStorage.getItem())
     </div>
 
     <IndexTransactions class="info__transactions" />
-    <DashboardDialog v-if="true" class="info__dialog" />
+    <DashboardDialog v-if="!hasAccount" class="info__dialog" />
   </section>
 </template>
 

@@ -9,11 +9,13 @@ export default class DataStorage {
     this.storage = storage
   }
 
-  setItem() { // save()
+  setItem() {
+    // save()
     this.storage.setItem(this.dataName, this.data)
   }
 
-  getItem() { // load()
+  getItem() {
+    // load()
     const storedData = this.storage.getItem(this.dataName)
     if (storedData) {
       return storedData
@@ -22,12 +24,14 @@ export default class DataStorage {
     }
   }
 
-  removeItem() { // remove
+  removeItem() {
+    // remove
     this.storage.removeItem('userData')
     this.data = null
   }
 
-  clear() { // clearStorage
+  clear() {
+    // clearStorage
     this.storage.clear()
   }
 }
@@ -99,11 +103,17 @@ export class CustomLocalStorage extends BaseStorage {
   setItem(key, value) {
     const encryptedValue = this.encrypting.encrypt(value)
     localStorage.setItem(key, encryptedValue)
+
+    // [debug] set pure data
+    // localStorage.setItem(key, JSON.stringify(value))
   }
 
   getItem(key) {
     const value = localStorage.getItem(key)
     return value ? this.encrypting.decrypt(value) : null
+
+    // [debug] get pure data
+    // return value ? JSON.parse(value) : null
   }
 
   removeItem(key) {
@@ -115,7 +125,7 @@ export class CustomLocalStorage extends BaseStorage {
   }
 }
 
-class CustomSessionStorage extends BaseStorage {
+export class CustomSessionStorage extends BaseStorage {
   constructor() {
     super()
     this.encrypting = new CustomBase64Securing()
@@ -124,11 +134,17 @@ class CustomSessionStorage extends BaseStorage {
   setItem(key, value) {
     const encryptedValue = this.encrypting.encrypt(value)
     sessionStorage.setItem(key, encryptedValue)
+
+    // [debug] set pure data
+    // localStorage.setItem(key, JSON.stringify(value))
   }
 
   getItem(key) {
     const value = sessionStorage.getItem(key)
     return value ? this.encrypting.decrypt(value) : null
+
+    // [debug] get pure data
+    // return value ? JSON.parse(value) : null
   }
 
   removeItem(key) {
@@ -139,29 +155,3 @@ class CustomSessionStorage extends BaseStorage {
     sessionStorage.clear()
   }
 }
-
-/////////////////////////////////
-
-// let localUser
-
-// const setUserDataToLocalStorage = (data) => {
-//   const userData = {
-//     firstName: data.firstName,
-//     lastName: data.lastName,
-//     idNumber: data.idNumber,
-//     token: data.token,
-//     refreshToken: data.refreshToken,
-//     phoneNumber: data.phoneNumber
-//   }
-
-//   localUser = new StorageData(userData, 'userData', new CustomLocalStorage())
-//   localUser.save()
-// }
-
-// const getUserDataFromLocalStorage = () => {
-//   const encrypting = new CustomBase64Securing()
-//   const decrypted = encrypting.decrypt(localStorage.getItem('userData'))
-//   return decrypted
-// }
-
-// export { setUserDataToLocalStorage, getUserDataFromLocalStorage }

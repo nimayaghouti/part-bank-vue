@@ -3,12 +3,14 @@ import logoSimple from '@/assets/svg/logos/logo-simple.vue'
 import notificationIcon from '@/assets/svg/icons/dashboard/notificationIcon.vue'
 import angleDown from '@/assets/svg/icons/common/angle-down.vue'
 
-import { useDataStorageStore } from '@/stores/userStorageStore'
-const userDataStore = useDataStorageStore()
+import { useDataStore } from '@/stores/useDataStore'
+import { convertNumberToPersian } from '@/utils/stringFormatter'
 
-const userData = userDataStore.userStorage.getItem();
-
+const dataStore = useDataStore()
+const userData = dataStore.userData
+const phoneNumber = convertNumberToPersian(userData.phoneNumber)
 </script>
+
 <template>
   <header class="header">
     <div class="header__logo">
@@ -23,7 +25,7 @@ const userData = userDataStore.userStorage.getItem();
       <div class="user-info__avatar">
         <img src="@/assets/svg/flats/avatar.svg" alt="avatar" />
       </div>
-      <div class="user-info__phone"></div>
+      <div class="user-info__phone">{{ phoneNumber }}</div>
       <div class="user-info__logout">
         <angleDown />
       </div>
