@@ -82,13 +82,15 @@ const setSlicedData = (newSlice) => {
 <template>
   <section class="transactions">
     <TransactionsHeader class="transaction__trans-header" />
-    <TransactionsTable class="transactions__table" :sliced-data-array="slicedDataArray" />
-    <TransactionsPagination
-      class="transactions__pagination"
-      :data-array="tempData"
-      :items-per-page="5"
-      @slicer="setSlicedData"
-    />
+    <template v-if="false">
+      <TransactionsTable class="transactions__table" :sliced-data-array="slicedDataArray" />
+      <TransactionsPagination
+        class="transactions__pagination"
+        :data-array="tempData"
+        :items-per-page="5"
+        @slicer="setSlicedData"
+      />
+    </template>
   </section>
 </template>
 
@@ -102,7 +104,6 @@ const setSlicedData = (newSlice) => {
   flex-direction: column;
   @include box-shadow();
   @include border-radius($radius: 0.75rem);
-
 
   &__table {
     margin-top: 1.5rem;

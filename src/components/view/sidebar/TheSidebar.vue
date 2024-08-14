@@ -1,6 +1,9 @@
 <script setup>
 import SibebarMenuItem from './SibebarMenuItem.vue'
 
+import { useDataStore } from '@/stores/useDataStore'
+import { convertNumberToPersian } from '@/utils/stringFormatter'
+
 import element4 from '@/assets/svg/icons/dashboard/element-4.vue'
 import walletIcon from '@/assets/svg/icons/dashboard/walletIcon.vue'
 import strongboxIcon from '@/assets/svg/icons/dashboard/strongboxIcon.vue'
@@ -8,6 +11,12 @@ import cardsIcon from '@/assets/svg/icons/dashboard/cardsIcon.vue'
 import receiptSearch from '@/assets/svg/icons/dashboard/receipt-search.vue'
 import cardPos from '@/assets/svg/icons/dashboard/card-pos.vue'
 import exitIcon from '@/assets/svg/icons/common/exitIcon.vue'
+
+const dataStore = useDataStore()
+const userData = dataStore.userData
+
+const username = `${userData.firstName} ${userData.lastName}`
+const idNumber = convertNumberToPersian(userData.idNumber)
 
 const menuItems = [
   {
@@ -58,10 +67,10 @@ const menuItems = [
 <template>
   <aside class="sidebar">
     <div class="sidebar__header">
-      <div class="sidebar__user-name"></div>
+      <div class="sidebar__user-name">{{ username }}</div>
       <div class="sidebar__user-id user-id">
         <div class="user-id__label">کد ملی:</div>
-        <div class="user-id__number"></div>
+        <div class="user-id__number">{{ idNumber }}</div>
       </div>
     </div>
     <div class="sidebar__separator"></div>

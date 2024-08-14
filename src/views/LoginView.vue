@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue'
+import router from '@/router'
 
 import { useAuth } from '@/composables/useAuth'
+import { useDataStore } from '@/stores/useDataStore'
 
 import logoWithText from '@/assets/svg/logos/logo-with-text.vue'
 import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
@@ -40,7 +42,13 @@ const handleSubmit = async (event) => {
     valuesFromInputs.value['password']
   )
 
-  console.log(data)
+  const dataStore = useDataStore()
+  // TODO: maybe filter data
+  dataStore.setUserData(data)
+  dataStore.setDepositData({ test: 'test' })
+
+  router.push({ path: '/dashboard' })
+
   isLoading.value = false
 }
 </script>
