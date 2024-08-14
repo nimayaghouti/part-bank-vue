@@ -1,22 +1,22 @@
 export default class DataStorage {
-  data
-  storage
-  dataName
+  #data
+  #storage
+  #dataName
 
   constructor(data, dataName, storage) {
-    this.data = data
-    this.dataName = dataName
-    this.storage = storage
+    this.#data = data
+    this.#dataName = dataName
+    this.#storage = storage
   }
 
   setItem() {
     // save()
-    this.storage.setItem(this.dataName, this.data)
+    this.#storage.setItem(this.#dataName, this.#data)
   }
 
   getItem() {
     // load()
-    const storedData = this.storage.getItem(this.dataName)
+    const storedData = this.#storage.getItem(this.#dataName)
     if (storedData) {
       return storedData
     } else {
@@ -26,13 +26,13 @@ export default class DataStorage {
 
   removeItem() {
     // remove
-    this.storage.removeItem('userData')
-    this.data = null
+    this.#storage.removeItem('userData')
+    this.#data = null
   }
 
   clear() {
     // clearStorage
-    this.storage.clear()
+    this.#storage.clear()
   }
 }
 
@@ -102,6 +102,8 @@ export class CustomLocalStorage extends BaseStorage {
 
   setItem(key, value) {
     const encryptedValue = this.encrypting.encrypt(value)
+
+    // [use]
     localStorage.setItem(key, encryptedValue)
 
     // [debug] set pure data
@@ -110,6 +112,8 @@ export class CustomLocalStorage extends BaseStorage {
 
   getItem(key) {
     const value = localStorage.getItem(key)
+
+    // [use]
     return value ? this.encrypting.decrypt(value) : null
 
     // [debug] get pure data
@@ -133,6 +137,8 @@ export class CustomSessionStorage extends BaseStorage {
 
   setItem(key, value) {
     const encryptedValue = this.encrypting.encrypt(value)
+
+    // [use]
     sessionStorage.setItem(key, encryptedValue)
 
     // [debug] set pure data
@@ -141,6 +147,8 @@ export class CustomSessionStorage extends BaseStorage {
 
   getItem(key) {
     const value = sessionStorage.getItem(key)
+
+    // [use]
     return value ? this.encrypting.decrypt(value) : null
 
     // [debug] get pure data
