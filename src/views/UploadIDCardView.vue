@@ -1,8 +1,6 @@
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref } from 'vue'
 import IDCard from '@/components/view/IDCard.vue'
-
-const emit = defineEmits(['sendData'])
 
 const frontImageUrl = ref('')
 const backImageUrl = ref('')
@@ -13,26 +11,38 @@ const updateImageUrl = (type, imageUrl) => {
   } else if (type === 'back') {
     backImageUrl.value = imageUrl
   }
-
-  if (frontImageUrl.value !== '' && backImageUrl.value !== '') {
-    emit('sendData', { frontImageUrl, backImageUrl })
-  }
 }
 </script>
 
 <template>
-  <div class="account-form__cards-wrapper">
-    <IDCard
-      class="account-form__id-card"
-      description="تصویر روی کارت ملی"
-      @update:image="(imageUrl) => updateImageUrl('front', imageUrl)"
-    />
-    <IDCard
-      class="account-form__id-card"
-      description="تصویر پشت کارت ملی"
-      @update:image="(imageUrl) => updateImageUrl('back', imageUrl)"
-    />
-  </div>
+  <form class="create-account__form account-form">
+    <div class="account-form__cards-wrapper">
+      <IDCard
+        class="account-form__id-card"
+        description="تصویر روی کارت ملی"
+        @update:image="(imageUrl) => updateImageUrl('front', imageUrl)"
+      />
+      <IDCard
+        class="account-form__id-card"
+        description="تصویر پشت کارت ملی"
+        @update:image="(imageUrl) => updateImageUrl('back', imageUrl)"
+      />
+    </div>
+    <div class="create-account__buttons-wrapper">
+      <BaseButton
+        class="create-account__button"
+        text="قبلی"
+        mode="button_secondary"
+        buttonType="button"
+      />
+      <BaseButton
+        class="create-account__button"
+        text="ثبت و ادامه"
+        mode="button_primary"
+        buttonType="submit"
+      />
+    </div>
+  </form>
 </template>
 
 <style lang="scss">

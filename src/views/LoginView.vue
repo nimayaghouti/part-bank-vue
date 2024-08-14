@@ -7,7 +7,13 @@ import { useDataStore } from '@/stores/useDataStore'
 
 import logoWithText from '@/assets/svg/logos/logo-with-text.vue'
 import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
-// import eyeOpen from '@/assets/svg/icons/login/eye-open.vue'
+import eyeOpen from '@/assets/svg/icons/login/eye-open.vue'
+
+const isPasswordVisible = ref(false)
+
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value
+}
 
 const isDisabled = ref(true)
 const setIsDisabled = (condition) => {
@@ -76,14 +82,14 @@ const handleSubmit = async (event) => {
           class="form__control"
           labelText="رمز عبور"
           labelFor="input-password"
-          type="password"
+          :type="isPasswordVisible ? 'text' : 'password'"
           placeholder="رمز عبور"
           pattern="[A-Za-z0-9]{4,}"
           validationMessage="رمز عبور خود را وارد کنید"
           @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'password')"
           :icon="{
-            component: eyeClosed,
-            onClick: () => console.log('temp')
+            component: isPasswordVisible ? eyeOpen : eyeClosed,
+            onClick: togglePasswordVisibility
           }"
         />
 

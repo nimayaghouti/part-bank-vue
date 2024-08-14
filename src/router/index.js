@@ -1,54 +1,60 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginLayout from '@/layouts/LoginLayout.vue'
-import DashboardLayout from '@/layouts/DashboardLayout.vue'
-import CreateAccountLayout from '@/layouts/CreateAccountLayout.vue'
 
 const routes = [
   {
+    path: '/',
+    redirect: '/login'
+  },
+  {
     path: '/login',
-    component: LoginLayout,
-    children: [
-      {
-        path: '',
-        name: 'login',
-        component: () => import('@/views/LoginView.vue')
-      }
-    ]
+    name: 'login',
+    component: () => import('@/views/LoginView.vue'),
+    meta: {
+      layout: 'LoginLayout'
+    }
   },
   {
     path: '/dashboard',
-    component: DashboardLayout,
-    children: [
-      {
-        path: '',
-        name: 'Dashboard',
-        component: () => import('@/views/DashboardView.vue')
-      }
-    ]
+    name: 'dashboard',
+    component: () => import('@/views/DashboardView.vue'),
+    meta: {
+      layout: 'DashboardLayout'
+    }
   },
   {
-    path: '/create-account',
-    component: CreateAccountLayout,
-    children: [
-      {
-        path: 'personal-info',
-        name: 'personal-info',
-        component: () => import('@/views/PersonalInfoView.vue'),
-        meta: { title: 'اطلاعات فردی', prevButtonText: 'قبلی', nextButtonText: 'ثبت و ادامه' }
-      },
-      {
-        path: 'id-card',
-        name: 'id-card',
-        component: () => import('@/views/UploadIDCardView.vue'),
-        meta: { title: 'تصویر کارت ملی', prevButtonText: 'قبلی', nextButtonText: 'ثبت و ادامه' }
-      },
-      {
-        path: 'confirm-info',
-        name: 'confirm-info',
-        component: () => import('@/views/ConfirmInfoView.vue'),
-        meta: { title: 'تایید اطلاعات', prevButtonText: 'قبلی', nextButtonText: 'افتتاح حساب' }
-      }
-    ]
+    path: '/personal-info',
+    name: 'personal-info',
+    component: () => import('@/views/PersonalInfoView.vue'),
+    meta: {
+      layout: 'CreateAccountLayout',
+      title: 'اطلاعات فردی'
+    }
+  },
+  {
+    path: '/id-card',
+    name: 'id-card',
+    component: () => import('@/views/UploadIDCardView.vue'),
+    meta: {
+      layout: 'CreateAccountLayout',
+      title: 'تصویر کارت ملی'
+    }
+  },
+  {
+    path: '/confirm-info',
+    name: 'confirm-info',
+    component: () => import('@/views/ConfirmInfoView.vue'),
+    meta: {
+      layout: 'CreateAccountLayout',
+      title: 'تایید اطلاعات'
+    }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/ErrorView.vue'),
+    meta: {
+      layout: 'LoginLayout'
+    }
   }
 ]
 
