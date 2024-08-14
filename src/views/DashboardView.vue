@@ -5,11 +5,11 @@ import ScoreBox from '@/components/view/accountBox/ScoreBox.vue'
 import IndexTransactions from '@/components/view/transactions/IndexTransactions.vue'
 import DashboardDialog from '@/components/view/DashboardDialog.vue'
 
-import { useUserDataStore } from '@/stores/userDataStore'
-const userDataStore = useUserDataStore()
+import { useDataStorageStore } from '@/stores/userStorageStore'
+const dataStorageStore = useDataStorageStore()
 
-console.log(userDataStore.userData.getItem())
-// console.log(userDataStore)
+console.log(dataStorageStore.userStorage.getItem())
+console.log(dataStorageStore.depositStorage.getItem())
 </script>
 
 <template>

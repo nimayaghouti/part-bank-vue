@@ -2,6 +2,12 @@
 import logoSimple from '@/assets/svg/logos/logo-simple.vue'
 import notificationIcon from '@/assets/svg/icons/dashboard/notificationIcon.vue'
 import angleDown from '@/assets/svg/icons/common/angle-down.vue'
+
+import { useDataStorageStore } from '@/stores/userStorageStore'
+const userDataStore = useDataStorageStore()
+
+const userData = userDataStore.userStorage.getItem();
+
 </script>
 <template>
   <header class="header">

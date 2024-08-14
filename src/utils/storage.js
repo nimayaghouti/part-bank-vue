@@ -1,4 +1,4 @@
-export default class StorageData {
+export default class DataStorage {
   data
   storage
   dataName

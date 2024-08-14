@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import router from '@/router'
 
 import { useAuth } from '@/composables/useAuth'
-import { useUserDataStore } from '@/stores/userDataStore'
+import { useDataStorageStore } from '@/stores/userStorageStore'
 
 import logoWithText from '@/assets/svg/logos/logo-with-text.vue'
 import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
@@ -44,8 +44,11 @@ const handleSubmit = async (event) => {
 
   // const filteredData = data
 
-  const userDataStore = useUserDataStore()
-  userDataStore.setUserData(data)
+  const dataStorageStore = useDataStorageStore()
+  
+  dataStorageStore.setUserStorage(data)
+  dataStorageStore.setDepositStorage({ test: 'test' })
+  
 
   router.push({ path: '/dashboard' })
 
