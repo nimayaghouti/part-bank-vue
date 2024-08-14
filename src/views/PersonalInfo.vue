@@ -65,7 +65,6 @@ const setValuesFromInnerComponents = (innerValue, field) => {
       placeholder="محل سکونت"
       isRequired
       hasBorder
-      maxWidth="none"
       height="7.5rem"
       @sendValue="(innerValue) => setValuesFromInnerComponents(innerValue, 'address')"
     />
