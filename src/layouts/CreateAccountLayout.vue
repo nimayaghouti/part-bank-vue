@@ -5,22 +5,11 @@ import BaseLayout from '@/layouts/BaseLayout.vue'
 
 const route = useRoute()
 const pageTitle = ref('')
-const prevButtonText = ref('')
-const nextButtonText = ref('')
-
-const dataFromInnerComponent = ref(undefined)
-const setDataFromInnerComponent = (innerData) => {
-  dataFromInnerComponent.value = innerData
-
-  // console.log(dataFromInnerComponent.value)
-}
 
 watch(
   () => route.meta,
   (meta) => {
     pageTitle.value = meta.title
-    prevButtonText.value = meta.prevButtonText
-    nextButtonText.value = meta.nextButtonText
   },
   { immediate: true }
 )
@@ -32,23 +21,7 @@ watch(
       <div class="create-account">
         <h2 class="create-account__title">{{ pageTitle }}</h2>
         <div class="create-account__seperator"></div>
-        <form class="create-account__form account-form">
-          <router-view @sendData="setDataFromInnerComponent" />
-          <div class="create-account__buttons-wrapper">
-            <BaseButton
-              class="create-account__button"
-              :text="prevButtonText"
-              mode="button_secondary"
-              buttonType="button"
-            />
-            <BaseButton
-              class="create-account__button"
-              :text="nextButtonText"
-              mode="button_primary"
-              buttonType="submit"
-            />
-          </div>
-        </form>
+        <router-view />
       </div>
     </template>
   </BaseLayout>

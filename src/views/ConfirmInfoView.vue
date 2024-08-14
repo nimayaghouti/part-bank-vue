@@ -1,27 +1,43 @@
 <script setup></script>
 <template>
-  <div class="account-form__row">
-    <div class="account-form__item confirm-item">
-      <div class="confirm-item__label">نام:</div>
-      <div class="confirm-item__detail">بهنام</div>
-    </div>
-    <div class="account-form__item confirm-item">
-      <div class="confirm-item__label">نام خانوادگی:</div>
-      <div class="confirm-item__detail">وهانی</div>
-    </div>
-    <div class="account-form__item confirm-item">
-      <div class="confirm-item__label">کدپستی:</div>
-      <div class="confirm-item__detail">۹۱۷۵۶۸۷۴۲۳</div>
-    </div>
-  </div>
-  <div class="account-form__row">
-    <div class="account-form__item confirm-item">
-      <div class="confirm-item__label">محل سکونت:</div>
-      <div class="confirm-item__detail">
-        بولوار ملک آباد ، خیام جنوبی ۱۳ ، گلایل ۱۰ ، پلاک۱۲۳ ، واحد۱
+  <form class="create-account__form account-form">
+    <div class="account-form__row">
+      <div class="account-form__item confirm-item">
+        <div class="confirm-item__label">نام:</div>
+        <div class="confirm-item__detail">بهنام</div>
+      </div>
+      <div class="account-form__item confirm-item">
+        <div class="confirm-item__label">نام خانوادگی:</div>
+        <div class="confirm-item__detail">وهانی</div>
+      </div>
+      <div class="account-form__item confirm-item">
+        <div class="confirm-item__label">کدپستی:</div>
+        <div class="confirm-item__detail">۹۱۷۵۶۸۷۴۲۳</div>
       </div>
     </div>
-  </div>
+    <div class="account-form__row">
+      <div class="account-form__item confirm-item">
+        <div class="confirm-item__label">محل سکونت:</div>
+        <div class="confirm-item__detail">
+          بولوار ملک آباد ، خیام جنوبی ۱۳ ، گلایل ۱۰ ، پلاک۱۲۳ ، واحد۱
+        </div>
+      </div>
+    </div>
+    <div class="create-account__buttons-wrapper">
+      <BaseButton
+        class="create-account__button"
+        text="قبلی"
+        mode="button_secondary"
+        buttonType="button"
+      />
+      <BaseButton
+        class="create-account__button"
+        text="افتتاح حساب"
+        mode="button_primary"
+        buttonType="submit"
+      />
+    </div>
+  </form>
 </template>
 
 <style lang="scss">

@@ -27,9 +27,7 @@ const routes = [
     component: () => import('@/views/PersonalInfoView.vue'),
     meta: {
       layout: 'CreateAccountLayout',
-      title: 'اطلاعات فردی',
-      prevButtonText: 'قبلی',
-      nextButtonText: 'ثبت و ادامه'
+      title: 'اطلاعات فردی'
     }
   },
   {
@@ -38,9 +36,7 @@ const routes = [
     component: () => import('@/views/UploadIDCardView.vue'),
     meta: {
       layout: 'CreateAccountLayout',
-      title: 'تصویر کارت ملی',
-      prevButtonText: 'قبلی',
-      nextButtonText: 'ثبت و ادامه'
+      title: 'تصویر کارت ملی'
     }
   },
   {
@@ -49,9 +45,7 @@ const routes = [
     component: () => import('@/views/ConfirmInfoView.vue'),
     meta: {
       layout: 'CreateAccountLayout',
-      title: 'تایید اطلاعات',
-      prevButtonText: 'قبلی',
-      nextButtonText: 'افتتاح حساب'
+      title: 'تایید اطلاعات'
     }
   },
   {
