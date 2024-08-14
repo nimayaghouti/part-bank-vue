@@ -27,14 +27,26 @@ const routes = [
     ]
   },
   {
-    path: '/createaccount',
+    path: '/create-account',
     component: CreateAccountLayout,
     children: [
       {
         path: 'personal-info',
         name: 'personal-info',
-        component: () => import('@/views/PersonalInfo.vue'),
+        component: () => import('@/views/PersonalInfoView.vue'),
         meta: { title: 'اطلاعات فردی', prevButtonText: 'قبلی', nextButtonText: 'ثبت و ادامه' }
+      },
+      {
+        path: 'id-card',
+        name: 'id-card',
+        component: () => import('@/views/UploadIDCardView.vue'),
+        meta: { title: 'تصویر کارت ملی', prevButtonText: 'قبلی', nextButtonText: 'ثبت و ادامه' }
+      },
+      {
+        path: 'confirm-info',
+        name: 'confirm-info',
+        component: () => import('@/views/ConfirmInfoView.vue'),
+        meta: { title: 'تایید اطلاعات', prevButtonText: 'قبلی', nextButtonText: 'افتتاح حساب' }
       }
     ]
   }

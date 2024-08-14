@@ -1,4 +1,3 @@
-<!-- CreateAccountLayout.vue -->
 <script setup>
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -8,6 +7,13 @@ const route = useRoute()
 const pageTitle = ref('')
 const prevButtonText = ref('')
 const nextButtonText = ref('')
+
+const dataFromInnerComponent = ref(undefined)
+const setDataFromInnerComponent = (innerData) => {
+  dataFromInnerComponent.value = innerData
+
+  // console.log(dataFromInnerComponent.value)
+}
 
 watch(
   () => route.meta,
@@ -27,7 +33,7 @@ watch(
       <h2 class="create-account__title">{{ pageTitle }}</h2>
       <div class="create-account__seperator"></div>
       <form class="create-account__form account-form">
-        <router-view />
+        <router-view @sendData="setDataFromInnerComponent" />
         <div class="create-account__buttons-wrapper">
           <BaseButton
             class="create-account__button"
