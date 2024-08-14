@@ -84,7 +84,8 @@ const handleOnInput = (event) => {
   if (props.validationMessage) handleValidationMessage(event)
 
   textfieldValue.value = event.target.value
-  emits('sendValue', textfieldValue.value)
+
+  emits('sendValue', { textfieldValue: textfieldValue.value, isValid: !message.value.isShowing })
 }
 </script>
 

@@ -1,7 +1,31 @@
 <script setup>
+import { ref } from 'vue'
 import logoWithText from '@/assets/svg/logos/logo-with-text.vue'
 import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
 // import eyeOpen from '@/assets/svg/icons/login/eye-open.vue'
+
+const isDisabled = ref(true)
+const setIsDisabled = (condition) => {
+  isDisabled.value = !condition
+}
+
+const valuesFromInputs = ref({
+  phoneNumber: '',
+  password: ''
+})
+
+const valuesAreValid = ref({
+  phoneNumber: false,
+  password: false
+})
+
+const setValuesFromInputs = (innerValue, field) => {
+  valuesFromInputs.value[field] = innerValue.textfieldValue
+  valuesAreValid.value[field] = innerValue.isValid
+
+  const condition = valuesAreValid.value.password && valuesAreValid.value.phoneNumber
+  setIsDisabled(condition)
+}
 </script>
 
 <template>
@@ -19,7 +43,7 @@ import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
           pattern="[0-9]{11}"
           maxlength="11"
           validationMessage="شماره همراه خود را وارد کنید"
-          height="3rem"
+          @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'phoneNumber')"
         />
         <!-- TODO: pattern must be [۰-۹]{11} -->
 
@@ -31,7 +55,7 @@ import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
           placeholder="رمز عبور"
           pattern="[A-Za-z0-9]{4,}"
           validationMessage="رمز عبور خود را وارد کنید"
-          height="3rem"
+          @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'password')"
           :icon="{
             component: eyeClosed,
             onClick: () => console.log('temp')
@@ -43,7 +67,7 @@ import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
           text="ورود"
           mode="button_primary"
           buttonType="submit"
-          isDisabled
+          :isDisabled="isDisabled"
         />
       </form>
 
