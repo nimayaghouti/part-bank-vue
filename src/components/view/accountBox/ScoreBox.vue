@@ -1,21 +1,39 @@
 <script setup>
+import { ref } from 'vue'
+import { useDataStore } from '@/stores/useDataStore'
+import { hasDepositAccount } from '@/composables/useGetDeposit'
+import { onMounted } from 'vue'
+
+import { formattedPersianNumber, convertNumberToPersian } from '@/utils/stringFormatter'
+
 import TheAccountBox from '@/components/view/accountBox/TheAccountBox.vue'
 import CircleInfoBold from '@/assets/svg/icons/common/circle-info-bold.vue'
+
+const dataStore = useDataStore()
+const userData = dataStore.userData
+
+const scoreAmount = ref(formattedPersianNumber(0))
+const scorePaymentPeriod = ref(convertNumberToPersian(0))
+
+onMounted(async () => {
+  const depositeData = await hasDepositAccount(userData.token)
+
+  if (depositeData.id) {
+    scoreAmount.value = ref(formattedPersianNumber(depositeData.score.amount))
+    scorePaymentPeriod.value = ref(convertNumberToPersian(depositeData.score.paymentPeriod))
+  }
+})
 </script>
 
 <template>
-  <TheAccountBox
-    titleText="امتیاز حساب"
-    :moreIcon="CircleInfoBold"
-    buttonTitle="محاسبه امتیاز"
-  >
+  <TheAccountBox titleText="امتیاز حساب" :moreIcon="CircleInfoBold" buttonTitle="محاسبه امتیاز">
     <div class="account-box__score score">
       <div class="score__control">
-        <span class="score__money">۰</span>
+        <span class="score__money">{{ scoreAmount }}</span>
         <span class="score__label">ریال</span>
       </div>
       <div class="score__control">
-        <span class="score__number">۰</span>
+        <span class="score__number">{{ scorePaymentPeriod }}</span>
         <span class="score__label">ماهه</span>
       </div>
     </div>
