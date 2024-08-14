@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+
+import { useAuth } from '@/composables/useAuth'
+
 import logoWithText from '@/assets/svg/logos/logo-with-text.vue'
 import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
 // import eyeOpen from '@/assets/svg/icons/login/eye-open.vue'
@@ -8,6 +11,8 @@ const isDisabled = ref(true)
 const setIsDisabled = (condition) => {
   isDisabled.value = !condition
 }
+
+const isLoading = ref(false)
 
 const valuesFromInputs = ref({
   phoneNumber: '',
@@ -25,6 +30,18 @@ const setValuesFromInputs = (innerValue, field) => {
 
   const condition = valuesAreValid.value.password && valuesAreValid.value.phoneNumber
   setIsDisabled(condition)
+}
+
+const handleSubmit = async (event) => {
+  event.preventDefault()
+  isLoading.value = true
+  const data = await useAuth(
+    valuesFromInputs.value['phoneNumber'],
+    valuesFromInputs.value['password']
+  )
+
+  console.log(data)
+  isLoading.value = false
 }
 </script>
 
@@ -68,6 +85,8 @@ const setValuesFromInputs = (innerValue, field) => {
           mode="button_primary"
           buttonType="submit"
           :isDisabled="isDisabled"
+          :isLoading="isLoading"
+          @click="handleSubmit"
         />
       </form>
 

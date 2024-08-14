@@ -83,7 +83,7 @@ defineProps({
   &__spinner {
     width: 25px;
     height: 25px;
-    border: 4px solid var(--black-500);
+    border: 4px solid #fff;
     border-radius: 50%;
     border-top-color: transparent;
     animation: rotate 1s linear infinite;
