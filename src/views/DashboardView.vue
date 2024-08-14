@@ -17,7 +17,8 @@ const userData = dataStore.userData
 const hasAccount = ref(false)
 
 onMounted(async () => {
-  hasAccount.value = await hasDepositAccount(userData.token)
+  const depositeData = await hasDepositAccount(userData.token)
+  hasAccount.value = depositeData.id ? true : false
   // console.log('hasAccount', hasAccount.value)
 })
 </script>

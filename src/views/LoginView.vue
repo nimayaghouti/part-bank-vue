@@ -45,7 +45,7 @@ const handleSubmit = async (event) => {
   const dataStore = useDataStore()
   // TODO: maybe filter data
   dataStore.setUserData(data)
-  dataStore.setDepositData({ test: 'test' })
+  // dataStore.setDepositData({ test: 'test' })
 
   router.push({ path: '/dashboard' })
 
