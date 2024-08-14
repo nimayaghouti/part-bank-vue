@@ -27,7 +27,7 @@ const routes = [
     ]
   },
   {
-    path: '/createaccount',
+    path: '/create-account',
     component: CreateAccountLayout,
     children: [
       {
@@ -41,6 +41,12 @@ const routes = [
         name: 'id-card',
         component: () => import('@/views/UploadIDCardView.vue'),
         meta: { title: 'تصویر کارت ملی', prevButtonText: 'قبلی', nextButtonText: 'ثبت و ادامه' }
+      },
+      {
+        path: 'confirm-info',
+        name: 'confirm-info',
+        component: () => import('@/views/ConfirmInfoView.vue'),
+        meta: { title: 'تایید اطلاعات', prevButtonText: 'قبلی', nextButtonText: 'افتتاح حساب' }
       }
     ]
   }
