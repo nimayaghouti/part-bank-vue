@@ -7,12 +7,12 @@ const route = useRoute()
 const pageTitle = ref('')
 const prevButtonText = ref('')
 const nextButtonText = ref('')
-const dataFromInnerComponent = ref(undefined)
 
+const dataFromInnerComponent = ref(undefined)
 const setDataFromInnerComponent = (innerData) => {
   dataFromInnerComponent.value = innerData
 
-  console.log(dataFromInnerComponent.value)
+  // console.log(dataFromInnerComponent.value)
 }
 
 watch(
@@ -24,12 +24,6 @@ watch(
   },
   { immediate: true }
 )
-
-const dataFromInnerComponent = ref(undefined)
-const setDataFromInnerComponent = (innerData) =>  {
-  dataFromInnerComponent.value = innerData
-  // console.log(dataFromInnerComponent.value)
-}
 </script>
 
 <template>
