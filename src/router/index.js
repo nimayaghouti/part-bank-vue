@@ -10,7 +10,8 @@ const routes = [
     name: 'login',
     component: () => import('@/views/LoginView.vue'),
     meta: {
-      layout: 'LoginLayout'
+      layout: 'LoginLayout',
+      requiresAuth: false
     }
   },
   {
@@ -18,7 +19,8 @@ const routes = [
     name: 'dashboard',
     component: () => import('@/views/DashboardView.vue'),
     meta: {
-      layout: 'DashboardLayout'
+      layout: 'DashboardLayout',
+      requiresAuth: true
     }
   },
   {
@@ -27,7 +29,8 @@ const routes = [
     component: () => import('@/views/PersonalInfoView.vue'),
     meta: {
       layout: 'CreateAccountLayout',
-      title: 'اطلاعات فردی'
+      title: 'اطلاعات فردی',
+      requiresAuth: true
     }
   },
   {
@@ -36,7 +39,8 @@ const routes = [
     component: () => import('@/views/UploadIDCardView.vue'),
     meta: {
       layout: 'CreateAccountLayout',
-      title: 'تصویر کارت ملی'
+      title: 'تصویر کارت ملی',
+      requiresAuth: true
     }
   },
   {
@@ -45,7 +49,8 @@ const routes = [
     component: () => import('@/views/ConfirmInfoView.vue'),
     meta: {
       layout: 'CreateAccountLayout',
-      title: 'تایید اطلاعات'
+      title: 'تایید اطلاعات',
+      requiresAuth: true
     }
   },
   {
@@ -53,7 +58,8 @@ const routes = [
     name: 'NotFound',
     component: () => import('@/views/ErrorView.vue'),
     meta: {
-      layout: 'LoginLayout'
+      layout: 'LoginLayout',
+      requiresAuth: false
     }
   }
 ]
@@ -61,6 +67,16 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = !!localStorage.getItem('userData')
+
+  if (to.meta.requiresAuth && !isLoggedIn) {
+    next({ name: 'login' })
+  } else {
+    next()
+  }
 })
 
 export default router
