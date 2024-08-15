@@ -1,9 +1,13 @@
 <script setup>
 import { ref } from 'vue'
-import { useUserStore } from '@/stores/userStore'
+// import { useUserStore } from '@/stores/userStore'
 import { onMounted } from 'vue'
 
-import { formattedPersianNumber } from '@/utils/stringFormatter'
+import {
+  formattedCardNumber,
+  formattedPersianNumber,
+  convertNumberToPersian
+} from '@/utils/stringFormatter'
 
 import moreIcon from '@/assets/svg/icons/common/moreIcon.vue'
 import exitIcon from '@/assets/svg/icons/common/exitIcon.vue'
@@ -25,10 +29,15 @@ const props = defineProps({
 })
 
 const accountBalance = ref(formattedPersianNumber(0))
+const cardNumber = ref()
 
 onMounted(() => {
   if (props.hasDepositAccount) {
+    console.log(props.depositData)
     accountBalance.value = ref(formattedPersianNumber(props.depositData.balance))
+    cardNumber.value = ref(
+      convertNumberToPersian(formattedCardNumber(props.depositData.cardNumber))
+    )
   }
 })
 </script>
@@ -54,7 +63,7 @@ onMounted(() => {
         <p class="account-card__balance-amount">{{ accountBalance }}</p>
       </div>
     </div>
-    <div class="account-card__number-group"></div>
+    <div class="account-card__number-group">{{ cardNumber }}</div>
   </div>
 </template>
 
