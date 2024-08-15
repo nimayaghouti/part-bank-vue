@@ -1,6 +1,10 @@
 <script setup>
-import { ref } from 'vue'
 import IDCard from '@/components/view/IDCard.vue'
+
+import { ref } from 'vue'
+import router from '@/router'
+import { useAppStore } from '@/stores/appStore'
+import { useCreateAccountStore } from '@/stores/createAccountStore'
 
 const frontImageUrl = ref('')
 const backImageUrl = ref('')
@@ -11,6 +15,40 @@ const updateImageUrl = (type, imageUrl) => {
   } else if (type === 'back') {
     backImageUrl.value = imageUrl
   }
+}
+
+const appStore = useAppStore()
+const createAccountStore = useCreateAccountStore()
+const isLoading = ref(false)
+
+// console.log('id-card: userPersonalInfo',createAccountStore.userPersonalInfo)
+
+const handleSubmit = (event) => {
+  event.preventDefault()
+  if (frontImageUrl.value === '' || backImageUrl.value === '') {
+    appStore.showToast('error', 'لطفا هردو تصویر را آپلود نمایید')
+    return
+  }
+
+  try {
+    isLoading.value = true
+    createAccountStore.setUserIdCards({
+      frontImageUrl: frontImageUrl.value,
+      backImageUrl: backImageUrl.value
+    })
+    router.push({ path: '/confirm-info' })
+  } catch (error) {
+    appStore.showToast('error', 'خطا در ثبت تصاویر کارت ملی')
+  } finally {
+    isLoading.value = false
+    // console.log('userIdCards', createAccountStore.userIdCards)
+  }
+}
+
+const handlePrevious = () => {
+  const isSure = confirm('تصاویر کارت ملی دخیره نشده اند، از برگشت به صفحه قبل اطمینان دارید؟')
+  if (!isSure) return
+  router.push({ path: '/personal-info' })
 }
 </script>
 
@@ -34,12 +72,15 @@ const updateImageUrl = (type, imageUrl) => {
         text="قبلی"
         mode="button_secondary"
         buttonType="button"
+        @click="handlePrevious"
       />
       <BaseButton
         class="create-account__button"
         text="ثبت و ادامه"
         mode="button_primary"
         buttonType="submit"
+        @click="handleSubmit"
+        :isLoading="isLoading"
       />
     </div>
   </form>

@@ -1,25 +1,85 @@
-<script setup></script>
+<script setup>
+import { onMounted } from 'vue'
+import router from '@/router'
+import { useAppStore } from '@/stores/appStore'
+import { useUserStore } from '@/stores/userStore'
+import { useCreateAccountStore } from '@/stores/createAccountStore'
+import { postCreateDeposit } from '@/composables/usePostCreateDeposit'
+
+const appStore = useAppStore()
+const userStore = useUserStore()
+const createAccountStore = useCreateAccountStore()
+const isLoading = ref(false)
+const userData = userStore.userData
+
+const userPersonalInfo = ref(null)
+const nullMessage = 'ذخیره نشده'
+
+onMounted(() => {
+  userPersonalInfo.value = createAccountStore.userPersonalInfo
+})
+
+const handleSubmit = async (event) => {
+  event.preventDefault()
+
+  if (!userPersonalInfo.value) {
+    appStore.showToast('error', 'داده ای برای ایجاد حساب بانکی، ثبت نشده است')
+    return
+  }
+
+  const purifiedUserPersonalInfo = {
+    firstName: userPersonalInfo.value.firstName.textfieldValue,
+    lastName: userPersonalInfo.value.firstName.textfieldValue,
+    postalCode: userPersonalInfo.value.postalCode.textfieldValue,
+    address: userPersonalInfo.value.address.textfieldValue
+  }
+
+  try {
+    isLoading.value = true
+    const response = await postCreateDeposit(userData.token, purifiedUserPersonalInfo)
+    console.log('confirm-info:', response)
+    router.push({ path: '/dashboard' })
+  } catch (error) {
+    appStore.showToast('error', 'خطا در ایجاد حساب بانکی')
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const handlePrevious = () => {
+  const isSure = confirm('حساب بانکی ایجاد نشده است، از برگشت به صفحه قبل اطمینان دارید؟')
+  if (!isSure) return
+  router.push({ path: '/id-card' })
+}
+</script>
+
 <template>
   <form class="create-account__form account-form">
     <div class="account-form__row">
       <div class="account-form__item confirm-item">
         <div class="confirm-item__label">نام:</div>
-        <div class="confirm-item__detail">بهنام</div>
+        <div class="confirm-item__detail">
+          {{ userPersonalInfo?.firstName.textfieldValue || nullMessage }}
+        </div>
       </div>
       <div class="account-form__item confirm-item">
         <div class="confirm-item__label">نام خانوادگی:</div>
-        <div class="confirm-item__detail">وهانی</div>
+        <div class="confirm-item__detail">
+          {{ userPersonalInfo?.lastName.textfieldValue || nullMessage }}
+        </div>
       </div>
       <div class="account-form__item confirm-item">
         <div class="confirm-item__label">کدپستی:</div>
-        <div class="confirm-item__detail">۹۱۷۵۶۸۷۴۲۳</div>
+        <div class="confirm-item__detail">
+          {{ userPersonalInfo?.postalCode.textfieldValue || nullMessage }}
+        </div>
       </div>
     </div>
     <div class="account-form__row">
       <div class="account-form__item confirm-item">
         <div class="confirm-item__label">محل سکونت:</div>
         <div class="confirm-item__detail">
-          بولوار ملک آباد ، خیام جنوبی ۱۳ ، گلایل ۱۰ ، پلاک۱۲۳ ، واحد۱
+          {{ userPersonalInfo?.address.textfieldValue || nullMessage }}
         </div>
       </div>
     </div>
@@ -29,12 +89,15 @@
         text="قبلی"
         mode="button_secondary"
         buttonType="button"
+        @click="handlePrevious"
       />
       <BaseButton
         class="create-account__button"
         text="افتتاح حساب"
         mode="button_primary"
         buttonType="submit"
+        @click="handleSubmit"
+        :isLoading="isLoading"
       />
     </div>
   </form>
