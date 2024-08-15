@@ -1,7 +1,84 @@
 <script setup>
+import { ref } from 'vue'
+import router from '@/router'
+
+import { useAuth } from '@/composables/useAuth'
+import { useUserStore } from '@/stores/userStore'
+
 import logoWithText from '@/assets/svg/logos/logo-with-text.vue'
 import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
-// import eyeOpen from '@/assets/svg/icons/login/eye-open.vue'
+import eyeOpen from '@/assets/svg/icons/login/eye-open.vue'
+import { useAppStore } from '@/stores/appStore'
+
+const isPasswordVisible = ref(false)
+
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value
+}
+
+const isDisabled = ref(true)
+const setIsDisabled = (areAllValuesValid) => {
+  isDisabled.value = !areAllValuesValid
+}
+
+const isLoading = ref(false)
+
+const valuesFromInputs = ref({
+  phoneNumber: '',
+  password: ''
+})
+
+const valuesAreValid = ref({
+  phoneNumber: false,
+  password: false
+})
+
+const setValuesFromInputs = (innerValue, field) => {
+  valuesFromInputs.value[field] = innerValue.textfieldValue
+  valuesAreValid.value[field] = innerValue.isValid
+
+  const areAllValuesValid = valuesAreValid.value.password && valuesAreValid.value.phoneNumber
+  setIsDisabled(areAllValuesValid)
+}
+
+const handleSubmit = async (event) => {
+  event.preventDefault()
+  isLoading.value = true
+
+  const userStore = useUserStore()
+  const appStore = useAppStore()
+
+  try {
+    console.log('userData', userStore.userData)
+    console.log('depositData', userStore.depositData)
+    console.log('isLoggedin', userStore.isLoggedin)
+    console.log('isLoggedin', userStore.isLoggedin)
+
+    if (userStore.isLoggedin) return
+
+    const data = await useAuth(
+      valuesFromInputs.value['phoneNumber'],
+      valuesFromInputs.value['password']
+    )
+
+    userStore.$reset()
+
+    userStore.setUserData(data)
+    userStore.setIsLoggedin(true)
+
+    console.log('userData', userStore.userData)
+    console.log('depositData', userStore.depositData)
+    console.log('isLoggedin', userStore.isLoggedin)
+    console.log('isLoggedin', userStore.isLoggedin)
+
+    router.push({ path: '/dashboard' })
+  } catch (error) {
+    console.error(error)
+    appStore.showToast('error', 'خطایی رخ داد!')
+  } finally {
+    isLoading.value = false
+  }
+}
 </script>
 
 <template>
@@ -19,7 +96,7 @@ import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
           pattern="[0-9]{11}"
           maxlength="11"
           validationMessage="شماره همراه خود را وارد کنید"
-          height="3rem"
+          @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'phoneNumber')"
         />
         <!-- TODO: pattern must be [۰-۹]{11} -->
 
@@ -27,14 +104,14 @@ import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
           class="form__control"
           labelText="رمز عبور"
           labelFor="input-password"
-          type="password"
+          :type="isPasswordVisible ? 'text' : 'password'"
           placeholder="رمز عبور"
           pattern="[A-Za-z0-9]{4,}"
           validationMessage="رمز عبور خود را وارد کنید"
-          height="3rem"
+          @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'password')"
           :icon="{
-            component: eyeClosed,
-            onClick: () => console.log('temp')
+            component: isPasswordVisible ? eyeOpen : eyeClosed,
+            onClick: togglePasswordVisibility
           }"
         />
 
@@ -43,7 +120,9 @@ import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
           text="ورود"
           mode="button_primary"
           buttonType="submit"
-          isDisabled
+          :isDisabled="isDisabled"
+          :isLoading="isLoading"
+          @click="handleSubmit"
         />
       </form>
 

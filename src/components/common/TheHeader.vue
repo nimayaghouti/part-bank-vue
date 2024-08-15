@@ -2,7 +2,15 @@
 import logoSimple from '@/assets/svg/logos/logo-simple.vue'
 import notificationIcon from '@/assets/svg/icons/dashboard/notificationIcon.vue'
 import angleDown from '@/assets/svg/icons/common/angle-down.vue'
+
+import { useUserStore } from '@/stores/userStore'
+import { convertNumberToPersian } from '@/utils/stringFormatter'
+
+const userStore = useUserStore()
+const userData = userStore.userData
+const phoneNumber = convertNumberToPersian(userData.phoneNumber)
 </script>
+
 <template>
   <header class="header">
     <div class="header__logo">
@@ -17,8 +25,8 @@ import angleDown from '@/assets/svg/icons/common/angle-down.vue'
       <div class="user-info__avatar">
         <img src="@/assets/svg/flats/avatar.svg" alt="avatar" />
       </div>
-      <div class="user-info__phone"></div>
-      <div class="user-info__logout">
+      <div class="user-info__phone">{{ phoneNumber }}</div>
+      <div class="user-info__dropdown">
         <angleDown />
       </div>
     </div>
@@ -52,7 +60,7 @@ import angleDown from '@/assets/svg/icons/common/angle-down.vue'
   @include flex();
   gap: 0.5rem;
 
-  &__logout {
+  &__dropdown {
     @include flex();
     color: var(--black-500);
 

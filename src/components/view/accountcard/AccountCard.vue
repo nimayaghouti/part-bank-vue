@@ -1,7 +1,45 @@
 <script setup>
+import { ref } from 'vue'
+// import { useUserStore } from '@/stores/userStore'
+import { onMounted } from 'vue'
+
+import {
+  formattedCardNumber,
+  formattedPersianNumber,
+  convertNumberToPersian
+} from '@/utils/stringFormatter'
+
 import moreIcon from '@/assets/svg/icons/common/moreIcon.vue'
 import exitIcon from '@/assets/svg/icons/common/exitIcon.vue'
 import convertCard from '@/assets/svg/icons/dashboard/convert-card.vue'
+
+// const userStore = useUserStore()
+// const depositData = userStore.depositData
+// const hasDepositAccount = userStore.hasDepositAccount
+
+const props = defineProps({
+  depositData: {
+    type: Object,
+    required: true
+  },
+  hasDepositAccount: {
+    type: Boolean,
+    required: true
+  }
+})
+
+const accountBalance = ref(formattedPersianNumber(0))
+const cardNumber = ref()
+
+onMounted(() => {
+  if (props.hasDepositAccount) {
+    console.log(props.depositData)
+    accountBalance.value = ref(formattedPersianNumber(props.depositData.balance))
+    cardNumber.value = ref(
+      convertNumberToPersian(formattedCardNumber(props.depositData.cardNumber))
+    )
+  }
+})
 </script>
 <template>
   <div class="account-card">
@@ -22,10 +60,10 @@ import convertCard from '@/assets/svg/icons/dashboard/convert-card.vue'
       </div>
       <div class="account-card__balance-info">
         <p class="account-card__balance-title">موجودی کل</p>
-        <p class="account-card__balance-amount">۰</p>
+        <p class="account-card__balance-amount">{{ accountBalance }}</p>
       </div>
     </div>
-    <div class="account-card__number-group"></div>
+    <div class="account-card__number-group">{{ cardNumber }}</div>
   </div>
 </template>
 
