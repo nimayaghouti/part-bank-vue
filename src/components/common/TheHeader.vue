@@ -5,29 +5,10 @@ import angleDown from '@/assets/svg/icons/common/angle-down.vue'
 
 import { useUserStore } from '@/stores/userStore'
 import { convertNumberToPersian } from '@/utils/stringFormatter'
-import { useAuthOut } from '@/composables/useAuthOut'
-import router from '@/router'
 
 const userStore = useUserStore()
 const userData = userStore.userData
 const phoneNumber = convertNumberToPersian(userData.phoneNumber)
-
-const handleLogout = async () => {
-  try {
-    if (!userStore.isLoggedin) return
-
-    const response = await useAuthOut(userData.token)
-
-    if (response === '200') {
-      userStore.$reset()
-      router.push({ path: '/login' })
-    } else {
-      throw new Error('not logged in!')
-    }
-  } catch (error) {
-    console.error(error)
-  }
-}
 </script>
 
 <template>
@@ -45,8 +26,8 @@ const handleLogout = async () => {
         <img src="@/assets/svg/flats/avatar.svg" alt="avatar" />
       </div>
       <div class="user-info__phone">{{ phoneNumber }}</div>
-      <div class="user-info__logout">
-        <angleDown @click="handleLogout" />
+      <div class="user-info__dropdown">
+        <angleDown />
       </div>
     </div>
   </header>
@@ -79,7 +60,7 @@ const handleLogout = async () => {
   @include flex();
   gap: 0.5rem;
 
-  &__logout {
+  &__dropdown {
     @include flex();
     color: var(--black-500);
 

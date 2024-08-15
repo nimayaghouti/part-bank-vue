@@ -8,6 +8,7 @@ import { useUserStore } from '@/stores/userStore'
 import logoWithText from '@/assets/svg/logos/logo-with-text.vue'
 import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
 import eyeOpen from '@/assets/svg/icons/login/eye-open.vue'
+import { useAppStore } from '@/stores/appStore'
 
 const isPasswordVisible = ref(false)
 
@@ -45,8 +46,14 @@ const handleSubmit = async (event) => {
   isLoading.value = true
 
   const userStore = useUserStore()
+  const appStore = useAppStore()
 
   try {
+    console.log('userData', userStore.userData)
+    console.log('depositData', userStore.depositData)
+    console.log('isLoggedin', userStore.isLoggedin)
+    console.log('isLoggedin', userStore.isLoggedin)
+
     if (userStore.isLoggedin) return
 
     const data = await useAuth(
@@ -54,12 +61,20 @@ const handleSubmit = async (event) => {
       valuesFromInputs.value['password']
     )
 
+    userStore.$reset()
+
     userStore.setUserData(data)
     userStore.setIsLoggedin(true)
+
+    console.log('userData', userStore.userData)
+    console.log('depositData', userStore.depositData)
+    console.log('isLoggedin', userStore.isLoggedin)
+    console.log('isLoggedin', userStore.isLoggedin)
 
     router.push({ path: '/dashboard' })
   } catch (error) {
     console.error(error)
+    appStore.showToast('error', 'خطایی رخ داد!')
   } finally {
     isLoading.value = false
   }

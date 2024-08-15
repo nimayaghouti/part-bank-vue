@@ -1,5 +1,9 @@
 <script setup>
-defineProps({
+import { useAuthOut } from '@/composables/useAuthOut'
+import router from '@/router'
+import { useUserStore } from '@/stores/userStore'
+
+const props = defineProps({
   icon: {
     type: Object,
     default: null
@@ -13,11 +17,33 @@ defineProps({
     default: ''
   }
 })
+
+const userStore = useUserStore()
+const userData = userStore.userData
+
+const handleLogout = async () => {
+  try {
+    if (!userStore.isLoggedin || props.modifier !== 'exit') return
+
+    const response = await useAuthOut(userData.token)
+
+    if (response === '200') {
+      userStore.$reset()
+      router.push({ path: '/login' })
+      sessionStorage.clear()
+      localStorage.clear()
+    } else {
+      throw new Error('not logged in!')
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
 </script>
 
 <template>
-  <li :class="['menu__item', modifier && `menu__item_${modifier}`]">
-    <component v-if="icon" :is="icon" class="menu__item-icon"></component>
+  <li :class="['menu__item', modifier && `menu__item_${modifier}`]" @click="handleLogout">
+    <component v-if="icon" :is="icon" class="menu__item-icon" />
     {{ text }}
   </li>
 </template>
