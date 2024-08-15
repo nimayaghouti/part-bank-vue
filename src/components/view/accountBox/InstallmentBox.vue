@@ -9,17 +9,28 @@ import TheAccountBox from '@/components/view/accountBox/TheAccountBox.vue'
 import AngleLeft from '@/assets/svg/icons/common/angle-left.vue'
 import ArrowLeft from '@/assets/svg/icons/common/arrow-left.vue'
 
-const userStore = useUserStore()
-const depositData = userStore.depositData
-const hasDepositAccount = userStore.hasDepositAccount
+// const userStore = useUserStore()
+// const depositData = userStore.depositData
+// const hasDepositAccount = userStore.hasDepositAccount
+
+const props = defineProps({
+  depositData: {
+    type: Object,
+    required: true
+  },
+  hasDepositAccount: {
+    type: Boolean,
+    required: true
+  }
+})
 
 const instalmentAmount = ref(formattedPersianNumber(0))
 const instalmentDueDate = ref(convertNumberToPersian(0))
 
 onMounted(() => {
-  if (hasDepositAccount) {
-    instalmentAmount.value = ref(formattedPersianNumber(depositData.upcomingInstalment.amount))
-    instalmentDueDate.value = ref(convertNumberToPersian(depositData.upcomingInstalment.dueDate))
+  if (props.hasDepositAccount) {
+    instalmentAmount.value = ref(formattedPersianNumber(props.depositData.upcomingInstalment.amount))
+    instalmentDueDate.value = ref(convertNumberToPersian(props.depositData.upcomingInstalment.dueDate))
   }
 })
 </script>

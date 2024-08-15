@@ -9,22 +9,23 @@ import { ref } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { getDepositAccount } from '@/composables/useGetDeposit'
 import { onMounted } from 'vue'
-import router from '@/router'
 
 const userStore = useUserStore()
 const userData = userStore.userData
 // console.log(userData)
 
 const hasDepositAccount = ref(false)
+const depositData = ref([])
+const hasDataLoaded = ref(false)
 
 onMounted(async () => {
   try {
-    vm.$forceUpdate();
-    const depositData = await getDepositAccount(userData.token)
+    depositData.value = await getDepositAccount(userData.token)
     // console.log(depositData)
-    hasDepositAccount.value = depositData?.id ? true : false
+    hasDepositAccount.value = depositData.value?.id ? true : false
+    hasDataLoaded.value = true
     // console.log('hasDepositAccount', hasDepositAccount.value)
-    userStore.setHasDepositAccount(hasDepositAccount.value)
+    // userStore.setHasDepositAccount(hasDepositAccount.value)
     userStore.setDepositData(depositData)
   } catch (error) {
     console.error(error)
@@ -34,13 +35,32 @@ onMounted(async () => {
 
 <template>
   <section class="dashboard__info info">
-    <div class="info__wrapper">
-      <AccountCard class="info__account-card" />
-      <ScoreBox class="info__account-box" />
-      <InstallmentBox class="info__account-box" />
-    </div>
+    <template v-if="hasDataLoaded">
+      <div class="info__wrapper">
+        <AccountCard
+          class="info__account-card"
+          :deposit-data="depositData"
+          :has-deposit-account="hasDepositAccount"
+        />
+        <ScoreBox
+          class="info__account-box"
+          :deposit-data="depositData"
+          :has-deposit-account="hasDepositAccount"
+        />
+        <InstallmentBox
+          class="info__account-box"
+          :deposit-data="depositData"
+          :has-deposit-account="hasDepositAccount"
+        />
+      </div>
 
-    <IndexTransactions class="info__transactions" />
+      <IndexTransactions
+        class="info__transactions"
+        :deposit-data="depositData"
+        :has-deposit-account="hasDepositAccount"
+      />
+    </template>
+
     <DashboardDialog v-if="!hasDepositAccount" class="info__dialog" />
   </section>
 </template>
@@ -50,6 +70,7 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 72.75rem;
 
   &__wrapper {
     display: flex;

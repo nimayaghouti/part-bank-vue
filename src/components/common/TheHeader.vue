@@ -21,6 +21,8 @@ const handleLogout = async () => {
     if (response === '200') {
       userStore.$reset()
       router.push({ path: '/login' })
+      sessionStorage.clear()
+      localStorage.clear()
     } else {
       throw new Error('not logged in!')
     }

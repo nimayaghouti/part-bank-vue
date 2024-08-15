@@ -3,7 +3,12 @@ import DataStorage, { CustomLocalStorage } from '@/utils/storage'
 
 export const useUserStore = defineStore('storeUser', {
   state: () => {
-    return { userData: null, depositData: null, hasDepositAccount: false, isLoggedin: false }
+    return {
+      userData: null,
+      depositData: null,
+      //  hasDepositAccount: false,
+      isLoggedin: false
+    }
   },
   actions: {
     setUserData(data) {
@@ -18,9 +23,9 @@ export const useUserStore = defineStore('storeUser', {
       this.depositData = depositStorage.getItem()
     },
 
-    setHasDepositAccount(hasDepositAccount) {
-      this.hasDepositAccount = hasDepositAccount
-    },
+    // setHasDepositAccount(hasDepositAccount) {
+    //   this.hasDepositAccount = hasDepositAccount
+    // },
 
     setIsLoggedin(isLogin) {
       this.isLoggedin = isLogin

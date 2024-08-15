@@ -8,17 +8,28 @@ import { formattedPersianNumber, convertNumberToPersian } from '@/utils/stringFo
 import TheAccountBox from '@/components/view/accountBox/TheAccountBox.vue'
 import CircleInfoBold from '@/assets/svg/icons/common/circle-info-bold.vue'
 
-const userStore = useUserStore()
-const depositData = userStore.depositData
-const hasDepositAccount = userStore.hasDepositAccount
+// const userStore = useUserStore()
+// const depositData = userStore.depositData
+// const hasDepositAccount = userStore.hasDepositAccount
+
+const props = defineProps({
+  depositData: {
+    type: Object,
+    required: true
+  },
+  hasDepositAccount: {
+    type: Boolean,
+    required: true
+  }
+})
 
 const scoreAmount = ref(formattedPersianNumber(0))
 const scorePaymentPeriod = ref(convertNumberToPersian(0))
 
 onMounted(() => {
-  if (hasDepositAccount) {
-    scoreAmount.value = ref(formattedPersianNumber(depositData.score.amount))
-    scorePaymentPeriod.value = ref(convertNumberToPersian(depositData.score.paymentPeriod))
+  if (props.hasDepositAccount) {
+    scoreAmount.value = ref(formattedPersianNumber(props.depositData.score.amount))
+    scorePaymentPeriod.value = ref(convertNumberToPersian(props.depositData.score.paymentPeriod))
   }
 })
 </script>

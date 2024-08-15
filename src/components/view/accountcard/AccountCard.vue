@@ -9,15 +9,26 @@ import moreIcon from '@/assets/svg/icons/common/moreIcon.vue'
 import exitIcon from '@/assets/svg/icons/common/exitIcon.vue'
 import convertCard from '@/assets/svg/icons/dashboard/convert-card.vue'
 
-const userStore = useUserStore()
-const depositData = userStore.depositData
-const hasDepositAccount = userStore.hasDepositAccount
+// const userStore = useUserStore()
+// const depositData = userStore.depositData
+// const hasDepositAccount = userStore.hasDepositAccount
+
+const props = defineProps({
+  depositData: {
+    type: Object,
+    required: true
+  },
+  hasDepositAccount: {
+    type: Boolean,
+    required: true
+  }
+})
 
 const accountBalance = ref(formattedPersianNumber(0))
 
 onMounted(() => {
-  if (hasDepositAccount) {
-    accountBalance.value = ref(formattedPersianNumber(depositData.balance))
+  if (props.hasDepositAccount) {
+    accountBalance.value = ref(formattedPersianNumber(props.depositData.balance))
   }
 })
 </script>

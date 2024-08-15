@@ -10,6 +10,7 @@ export const useAuthOut = async (token) => {
     // console.log('isEmpty', isEmpty)
 
     if (isEmpty) {
+      console.log('logged out successfully')
       return '404'
     } else {
       return '200'

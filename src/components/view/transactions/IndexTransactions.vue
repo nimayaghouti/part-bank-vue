@@ -10,21 +10,28 @@ import TransactionsTable from './TransactionsTable.vue'
 
 const userStore = useUserStore()
 const userData = userStore.userData
-const hasDepositAccount = userStore.hasDepositAccount
+// const hasDepositAccount = userStore.hasDepositAccount
+
+const props = defineProps({
+  hasDepositAccount: {
+    type: Boolean,
+    required: true
+  }
+})
 
 const transactionsArray = ref([])
 const isDataLoaded = ref(false)
 
 onMounted(async () => {
   try {
-    if (hasDepositAccount) {
+    if (props.hasDepositAccount) {
       transactionsArray.value = await getTransaction(userData.token)
       isDataLoaded.value = true
       console.log(transactionsArray.value)
     }
     console.log('isDataLoaded', isDataLoaded.value)
-    console.log('hasDepositAccount', hasDepositAccount)
-    console.log('show transactions', isDataLoaded.value && hasDepositAccount)
+    console.log('hasDepositAccount', props.hasDepositAccount)
+    console.log('show transactions', isDataLoaded.value && props.hasDepositAccount)
   } catch (error) {
     console.error(error)
   }
