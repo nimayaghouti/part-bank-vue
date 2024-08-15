@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { useDataStore } from '@/stores/useDataStore'
+import { useUserStore } from '@/stores/userStore'
 import { getTransaction } from '@/composables/useGetTransactions'
 import { onMounted } from 'vue'
 
@@ -8,35 +8,44 @@ import TransactionsHeader from './TransactionsHeader.vue'
 import TransactionsPagination from './TransactionsPagination.vue'
 import TransactionsTable from './TransactionsTable.vue'
 
-const dataStore = useDataStore()
-const userData = dataStore.userData
-const hasDepositAccount = dataStore.hasDepositAccount
+const userStore = useUserStore()
+const userData = userStore.userData
+const hasDepositAccount = userStore.hasDepositAccount
 
-const transactionsList = ref([])
+const transactionsArray = ref([])
+const isDataLoaded = ref(false)
 
 onMounted(async () => {
-  if (hasDepositAccount) {
-    transactionsList.value = await getTransaction(userData.token)
-    console.log(transactionsList.value)
+  try {
+    if (hasDepositAccount) {
+      transactionsArray.value = await getTransaction(userData.token)
+      isDataLoaded.value = true
+      console.log(transactionsArray.value)
+    }
+    console.log('isDataLoaded', isDataLoaded.value)
+    console.log('hasDepositAccount', hasDepositAccount)
+    console.log('show transactions', isDataLoaded.value && hasDepositAccount)
+  } catch (error) {
+    console.error(error)
   }
 })
 
-const slicedDataArray = ref([])
-const setSlicedData = (newSlice) => {
-  slicedDataArray.value = newSlice
+const slicedtransactionsArray = ref([])
+const setSlicedtransactionsArray = (newSlice) => {
+  slicedtransactionsArray.value = newSlice
 }
 </script>
 
 <template>
   <section class="transactions">
     <TransactionsHeader class="transaction__trans-header" />
-    <template v-if="true">
-      <TransactionsTable class="transactions__table" :sliced-data-array="slicedDataArray" />
+    <template v-if="isDataLoaded && hasDepositAccount">
+      <TransactionsTable class="transactions__table" :sliced-data-array="slicedtransactionsArray" />
       <TransactionsPagination
         class="transactions__pagination"
-        :data-array="transactionsList"
+        :data-array="transactionsArray"
         :items-per-page="5"
-        @slicer="setSlicedData"
+        @slicer="setSlicedtransactionsArray"
       />
     </template>
   </section>

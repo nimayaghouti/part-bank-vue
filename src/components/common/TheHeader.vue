@@ -3,12 +3,31 @@ import logoSimple from '@/assets/svg/logos/logo-simple.vue'
 import notificationIcon from '@/assets/svg/icons/dashboard/notificationIcon.vue'
 import angleDown from '@/assets/svg/icons/common/angle-down.vue'
 
-import { useDataStore } from '@/stores/useDataStore'
+import { useUserStore } from '@/stores/userStore'
 import { convertNumberToPersian } from '@/utils/stringFormatter'
+import { useAuthOut } from '@/composables/useAuthOut'
+import router from '@/router'
 
-const dataStore = useDataStore()
-const userData = dataStore.userData
+const userStore = useUserStore()
+const userData = userStore.userData
 const phoneNumber = convertNumberToPersian(userData.phoneNumber)
+
+const handleLogout = async () => {
+  try {
+    if (!userStore.isLoggedin) return
+
+    const response = await useAuthOut(userData.token)
+
+    if (response === '200') {
+      userStore.$reset()
+      router.push({ path: '/login' })
+    } else {
+      throw new Error('not logged in!')
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
 </script>
 
 <template>
@@ -27,7 +46,7 @@ const phoneNumber = convertNumberToPersian(userData.phoneNumber)
       </div>
       <div class="user-info__phone">{{ phoneNumber }}</div>
       <div class="user-info__logout">
-        <angleDown />
+        <angleDown @click="handleLogout" />
       </div>
     </div>
   </header>

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import router from '@/router'
 
 import { useAuth } from '@/composables/useAuth'
-import { useDataStore } from '@/stores/useDataStore'
+import { useUserStore } from '@/stores/userStore'
 
 import logoWithText from '@/assets/svg/logos/logo-with-text.vue'
 import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
@@ -37,19 +37,26 @@ const setValuesFromInputs = (innerValue, field) => {
 const handleSubmit = async (event) => {
   event.preventDefault()
   isLoading.value = true
-  const data = await useAuth(
-    valuesFromInputs.value['phoneNumber'],
-    valuesFromInputs.value['password']
-  )
 
-  const dataStore = useDataStore()
-  // TODO: maybe filter data
-  dataStore.setUserData(data)
-  // dataStore.setDepositData({ test: 'test' })
+  const userStore = useUserStore()
 
-  router.push({ path: '/dashboard' })
+  try {
+    if (userStore.isLoggedin) return
 
-  isLoading.value = false
+    const data = await useAuth(
+      valuesFromInputs.value['phoneNumber'],
+      valuesFromInputs.value['password']
+    )
+
+    userStore.setUserData(data)
+    userStore.setIsLoggedin(true)
+
+    router.push({ path: '/dashboard' })
+  } catch (error) {
+    console.error(error)
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>
 

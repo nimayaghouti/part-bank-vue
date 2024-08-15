@@ -6,23 +6,29 @@ import IndexTransactions from '@/components/view/transactions/IndexTransactions.
 import DashboardDialog from '@/components/view/DashboardDialog.vue'
 
 import { ref } from 'vue'
-import { useDataStore } from '@/stores/useDataStore'
+import { useUserStore } from '@/stores/userStore'
 import { getDepositAccount } from '@/composables/useGetDeposit'
 import { onMounted } from 'vue'
+import router from '@/router'
 
-const dataStore = useDataStore()
-const userData = dataStore.userData
+const userStore = useUserStore()
+const userData = userStore.userData
 // console.log(userData)
 
 const hasDepositAccount = ref(false)
 
 onMounted(async () => {
-  const depositData = await getDepositAccount(userData.token)
-  // console.log(depositData)
-  hasDepositAccount.value = depositData.id ? true : false
-  // console.log('hasDepositAccount', hasDepositAccount.value)
-  dataStore.setHasDepositAccount(hasDepositAccount.value)
-  dataStore.setDepositData(depositData)
+  try {
+    vm.$forceUpdate();
+    const depositData = await getDepositAccount(userData.token)
+    // console.log(depositData)
+    hasDepositAccount.value = depositData?.id ? true : false
+    // console.log('hasDepositAccount', hasDepositAccount.value)
+    userStore.setHasDepositAccount(hasDepositAccount.value)
+    userStore.setDepositData(depositData)
+  } catch (error) {
+    console.error(error)
+  }
 })
 </script>
 

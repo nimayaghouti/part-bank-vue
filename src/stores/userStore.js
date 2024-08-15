@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import DataStorage, { CustomLocalStorage } from '@/utils/storage'
 
-export const useDataStore = defineStore('storeData', {
+export const useUserStore = defineStore('storeUser', {
   state: () => {
-    return { userData: null, depositData: null, hasDepositAccount: false }
+    return { userData: null, depositData: null, hasDepositAccount: false, isLoggedin: false }
   },
   actions: {
     setUserData(data) {
@@ -20,6 +20,10 @@ export const useDataStore = defineStore('storeData', {
 
     setHasDepositAccount(hasDepositAccount) {
       this.hasDepositAccount = hasDepositAccount
+    },
+
+    setIsLoggedin(isLogin) {
+      this.isLoggedin = isLogin
     }
   },
   persist: {

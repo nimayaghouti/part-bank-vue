@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { useDataStore } from '@/stores/useDataStore'
+import { useUserStore } from '@/stores/userStore'
 import { onMounted } from 'vue'
 
 import { formattedPersianNumber, convertNumberToPersian } from '@/utils/stringFormatter'
@@ -9,9 +9,9 @@ import TheAccountBox from '@/components/view/accountBox/TheAccountBox.vue'
 import AngleLeft from '@/assets/svg/icons/common/angle-left.vue'
 import ArrowLeft from '@/assets/svg/icons/common/arrow-left.vue'
 
-const dataStore = useDataStore()
-const depositData = dataStore.depositData
-const hasDepositAccount = dataStore.hasDepositAccount
+const userStore = useUserStore()
+const depositData = userStore.depositData
+const hasDepositAccount = userStore.hasDepositAccount
 
 const instalmentAmount = ref(formattedPersianNumber(0))
 const instalmentDueDate = ref(convertNumberToPersian(0))

@@ -1,7 +1,7 @@
 <script setup>
 import SibebarMenuItem from './SibebarMenuItem.vue'
 
-import { useDataStore } from '@/stores/useDataStore'
+import { useUserStore } from '@/stores/userStore'
 import { convertNumberToPersian } from '@/utils/stringFormatter'
 
 import element4 from '@/assets/svg/icons/dashboard/element-4.vue'
@@ -12,8 +12,8 @@ import receiptSearch from '@/assets/svg/icons/dashboard/receipt-search.vue'
 import cardPos from '@/assets/svg/icons/dashboard/card-pos.vue'
 import exitIcon from '@/assets/svg/icons/common/exitIcon.vue'
 
-const dataStore = useDataStore()
-const userData = dataStore.userData
+const userStore = useUserStore()
+const userData = userStore.userData
 
 const username = `${userData.firstName} ${userData.lastName}`
 const idNumber = convertNumberToPersian(userData.idNumber)
