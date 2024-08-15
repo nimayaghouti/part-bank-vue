@@ -1,114 +1,51 @@
 <script setup>
 import { ref } from 'vue'
-import { useDataStore } from '@/stores/useDataStore'
-import { hasDepositAccount } from '@/composables/useGetDeposit'
-import { onMounted } from 'vue'
+import { useUserStore } from '@/stores/userStore'
 import { getTransaction } from '@/composables/useGetTransactions'
+import { onMounted } from 'vue'
 
 import TransactionsHeader from './TransactionsHeader.vue'
 import TransactionsPagination from './TransactionsPagination.vue'
 import TransactionsTable from './TransactionsTable.vue'
 
-const dataStore = useDataStore()
-const userData = dataStore.userData
+const userStore = useUserStore()
+const userData = userStore.userData
+const hasDepositAccount = userStore.hasDepositAccount
 
-const tempData = ref([])
+const transactionsArray = ref([])
+const isDataLoaded = ref(false)
 
 onMounted(async () => {
-  const depositeData = await hasDepositAccount(userData.token)
-  console.log(depositeData)
-  if (depositeData.id) {
-    tempData.value = await getTransaction(userData.token)
-    console.log(tempData.value)
+  try {
+    if (hasDepositAccount) {
+      transactionsArray.value = await getTransaction(userData.token)
+      isDataLoaded.value = true
+      console.log(transactionsArray.value)
+    }
+    console.log('isDataLoaded', isDataLoaded.value)
+    console.log('hasDepositAccount', hasDepositAccount)
+    console.log('show transactions', isDataLoaded.value && hasDepositAccount)
+  } catch (error) {
+    console.error(error)
   }
 })
 
-// temporaty table data (transactions)
-// const tempData = [
-//   {
-//     id: 1,
-//     type: 'withdraw',
-//     date: 'Sat Jul 27 2024 16:19:02 GMT+0330 (Iran Standard Time)',
-//     amount: '21200000'
-//   },
-//   {
-//     id: 2,
-//     type: 'deposit',
-//     date: 'Sat Jul 27 2024 16:19:02 GMT+0330 (Iran Standard Time)',
-//     amount: '21200000'
-//   },
-//   {
-//     id: 3,
-//     type: 'withdraw',
-//     date: 'Sat Jul 27 2024 16:19:02 GMT+0330 (Iran Standard Time)',
-//     amount: '21200000'
-//   },
-//   {
-//     id: 4,
-//     type: 'deposit',
-//     date: 'Sat Jul 27 2024 16:19:02 GMT+0330 (Iran Standard Time)',
-//     amount: '21200000'
-//   },
-//   {
-//     id: 5,
-//     type: 'withdraw',
-//     date: 'Sat Jul 27 2024 16:19:02 GMT+0330 (Iran Standard Time)',
-//     amount: '21200000'
-//   },
-//   {
-//     id: 6,
-//     type: 'deposit',
-//     date: 'Sat Jul 27 2024 16:19:02 GMT+0330 (Iran Standard Time)',
-//     amount: '21200000'
-//   },
-//   {
-//     id: 7,
-//     type: 'withdraw',
-//     date: 'Sat Jul 27 2024 16:19:02 GMT+0330 (Iran Standard Time)',
-//     amount: '21200000'
-//   },
-//   {
-//     id: 8,
-//     type: 'deposit',
-//     date: 'Sat Jul 27 2024 16:19:02 GMT+0330 (Iran Standard Time)',
-//     amount: '21200000'
-//   },
-//   {
-//     id: 9,
-//     type: 'withdraw',
-//     date: 'Sat Jul 27 2024 16:19:02 GMT+0330 (Iran Standard Time)',
-//     amount: '21200000'
-//   },
-//   {
-//     id: 10,
-//     type: 'deposit',
-//     date: 'Sat Jul 27 2024 16:19:02 GMT+0330 (Iran Standard Time)',
-//     amount: '21200000'
-//   },
-//   {
-//     id: 11,
-//     type: 'withdraw',
-//     date: 'Sat Jul 27 2024 16:19:02 GMT+0330 (Iran Standard Time)',
-//     amount: '21200000'
-//   }
-// ]
-
-const slicedDataArray = ref([])
-const setSlicedData = (newSlice) => {
-  slicedDataArray.value = newSlice
+const slicedtransactionsArray = ref([])
+const setSlicedtransactionsArray = (newSlice) => {
+  slicedtransactionsArray.value = newSlice
 }
 </script>
 
 <template>
   <section class="transactions">
     <TransactionsHeader class="transaction__trans-header" />
-    <template v-if="true">
-      <TransactionsTable class="transactions__table" :sliced-data-array="slicedDataArray" />
+    <template v-if="isDataLoaded && hasDepositAccount">
+      <TransactionsTable class="transactions__table" :sliced-data-array="slicedtransactionsArray" />
       <TransactionsPagination
         class="transactions__pagination"
-        :data-array="tempData"
+        :data-array="transactionsArray"
         :items-per-page="5"
-        @slicer="setSlicedData"
+        @slicer="setSlicedtransactionsArray"
       />
     </template>
   </section>

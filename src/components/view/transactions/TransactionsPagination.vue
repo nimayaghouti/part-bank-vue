@@ -1,6 +1,7 @@
 <script setup>
 import AngleLeft from '@/assets/svg/icons/common/angle-left.vue'
 import AngleRight from '@/assets/svg/icons/common/angle-right.vue'
+import { formattedPersianNumber } from '@/utils/stringFormatter'
 import { onMounted, ref } from 'vue'
 
 const props = defineProps({
@@ -18,10 +19,10 @@ const emits = defineEmits(['slicer'])
 
 // pagination logic /////////////////////////////
 const currentPage = ref(1)
-const lastPage = Math.ceil(props.dataArray.length / props.itemsPerPage) // totalPages
+const lastPage = ref(0) // totalPages
 
 const slicer = () => {
-  return props.dataArray.slice(
+  return props.dataArray?.slice(
     currentPage.value * props.itemsPerPage - props.itemsPerPage,
     currentPage.value * props.itemsPerPage
   )
@@ -38,6 +39,8 @@ const setCurrentPage = (index) => {
 }
 
 onMounted(() => {
+  // console.log('<TransactionsPagination />', props.dataArray)
+  lastPage.value = Math.ceil(props.dataArray?.length / props.itemsPerPage)
   setSlicedData()
 })
 
@@ -68,7 +71,7 @@ const nextButton = () => {
         currentPage === index && 'pagination__dynamic-button_selected'
       ]"
     >
-      {{ index }}
+      {{ formattedPersianNumber(index) }}
     </button>
     <button class="pagination__next" title="بعدی" @click="nextButton">
       <AngleLeft />
