@@ -1,16 +1,82 @@
 <script setup>
 import BaseFormControl from '@/components/common/BaseFormControl.vue'
-import { ref } from 'vue'
 
-const valuesFromInnerComponents = ref({
+import { ref } from 'vue'
+import router from '@/router'
+import { useAppStore } from '@/stores/appStore'
+import { useCreateAccountStore } from '@/stores/createAccountStore'
+
+const appStore = useAppStore()
+const createAccountStore = useCreateAccountStore()
+const isLoading = ref(false)
+const isDisabled = ref(true)
+
+const setIsDisabled = (areAllValuesValid) => {
+  isDisabled.value = !areAllValuesValid
+}
+
+const valuesFromInputs = ref({
   firstName: '',
   lastName: '',
   postalCode: '',
   address: ''
 })
 
-const setValuesFromInnerComponents = (innerValue, field) => {
-  valuesFromInnerComponents.value[field] = innerValue
+const valuesAreValid = ref({
+  firstName: false,
+  lastName: false,
+  postalCode: false,
+  address: false
+})
+
+const setValuesFromInputs = (innerValue, field) => {
+  valuesFromInputs.value[field] = innerValue.textfieldValue
+  valuesAreValid.value[field] = innerValue.isValid
+
+  const areAllValuesValid =
+    valuesAreValid.value.firstName &&
+    valuesAreValid.value.lastName &&
+    valuesAreValid.value.postalCode &&
+    valuesAreValid.value.address
+  setIsDisabled(areAllValuesValid)
+}
+
+const handleSubmit = (event) => {
+  event.preventDefault()
+  console.log(valuesFromInputs.value)
+  if (isDisabled.value) {
+    appStore.showToast('error', 'لطفا مقادیر صحیح را وارد نمایید')
+    return
+  }
+
+  try {
+    console.log(valuesFromInputs.value)
+    isLoading.value = true
+    createAccountStore.setUserPersonalInfo(valuesFromInputs.value)
+    router.push({ path: '/id-card' })
+  } catch (error) {
+    appStore.showToast('error', 'خطا در ثبت اطلاعات فردی')
+  } finally {
+    isLoading.value = false
+    // console.log('userPersonalInfo', createAccountStore.userPersonalInfo)
+  }
+}
+
+const handlePrevious = () => {
+  const areAllinputsEmpty =
+    valuesFromInputs.value.firstName !== '' ||
+    valuesFromInputs.value.lastName !== '' ||
+    valuesFromInputs.value.postalCode !== '' ||
+    valuesFromInputs.value.address !== ''
+
+  if (areAllinputsEmpty) {
+    const isSure = confirm('اطلاعات فردی دخیره نشده اند، از برگشت به صفحه قبل اطمینان دارید؟')
+
+    if (!isSure) return
+    router.push({ path: '/dashboard' })
+  } else {
+    router.push({ path: '/dashboard' })
+  }
 }
 </script>
 
@@ -27,7 +93,9 @@ const setValuesFromInnerComponents = (innerValue, field) => {
         isRequired
         isAutofocus
         hasBorder
-        @sendValue="(innerValue) => setValuesFromInnerComponents(innerValue, 'firstName')"
+        @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'firstName')"
+        pattern="^[\u0600-\u06FF\s]+$"
+        validation-message="نام فارسی خود را وارد نمایید"
       />
       <BaseFormControl
         class="form-row__form-control"
@@ -38,7 +106,9 @@ const setValuesFromInnerComponents = (innerValue, field) => {
         placeholder="نام خانوادگی به صورت کامل"
         isRequired
         hasBorder
-        @sendValue="(innerValue) => setValuesFromInnerComponents(innerValue, 'lastName')"
+        @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'lastName')"
+        pattern="^[\u0600-\u06FF\s]+$"
+        validation-message="نام خانوادگی فارسی خود را وارد نمایید"
       />
       <BaseFormControl
         class="form-row__form-control"
@@ -49,9 +119,13 @@ const setValuesFromInnerComponents = (innerValue, field) => {
         placeholder="کدپستی ۱۰ رقمی"
         isRequired
         hasBorder
-        @sendValue="(innerValue) => setValuesFromInnerComponents(innerValue, 'postalCode')"
+        @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'postalCode')"
+        pattern="[0-9]{10}"
+        maxlength="10"
+        validation-message="کد پستی 10 رقمی خود را وارد نمایید"
       />
     </div>
+    <!-- pattern="[۰۱۲۳۴۵۶۷۸۹0-9]{10}" -->
 
     <div class="form-row">
       <BaseFormControl
@@ -64,7 +138,9 @@ const setValuesFromInnerComponents = (innerValue, field) => {
         isRequired
         hasBorder
         height="7.5rem"
-        @sendValue="(innerValue) => setValuesFromInnerComponents(innerValue, 'address')"
+        @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'address')"
+        pattern="^[\u0600-\u06FF\s]+$"
+        validation-message="محل سکونت خود را به صورت فارسی وارد نمایید"
       />
     </div>
     <div class="create-account__buttons-wrapper">
@@ -73,12 +149,15 @@ const setValuesFromInnerComponents = (innerValue, field) => {
         text="قبلی"
         mode="button_secondary"
         buttonType="button"
+        @click="handlePrevious"
       />
       <BaseButton
         class="create-account__button"
         text="ثبت و ادامه"
         mode="button_primary"
         buttonType="submit"
+        @click="handleSubmit"
+        :isLoading="isLoading"
       />
     </div>
   </form>

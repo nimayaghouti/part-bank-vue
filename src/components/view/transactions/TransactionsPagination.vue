@@ -51,7 +51,7 @@ const previousButton = () => {
 }
 
 const nextButton = () => {
-  if (currentPage.value === lastPage) return
+  if (currentPage.value === lastPage.value) return
   setCurrentPage(currentPage.value + 1)
 }
 </script>

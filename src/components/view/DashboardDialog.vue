@@ -1,10 +1,18 @@
-<script setup></script>
+<script setup>
+import router from '@/router'
+</script>
 
 <template>
   <div class="dialog">
     <img src="@/assets/svg/flats/empty-state-illustration.svg" />
     <span class="dialog__note"> برای دسترسی به داشبورد، لطفا ابتدا افتتاح حساب کنید </span>
-    <BaseButton class="dialog__button" text="افتتاح حساب" maxWidth="12.5rem" type="button" />
+    <BaseButton
+      class="dialog__button"
+      text="افتتاح حساب"
+      maxWidth="12.5rem"
+      type="button"
+      @click="router.push({ path: '/personal-info' })"
+    />
   </div>
 </template>
 
