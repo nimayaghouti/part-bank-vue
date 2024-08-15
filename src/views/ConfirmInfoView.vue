@@ -17,6 +17,7 @@ const nullMessage = 'ذخیره نشده'
 
 onMounted(() => {
   userPersonalInfo.value = createAccountStore.userPersonalInfo
+  console.log('confirm-info', userPersonalInfo.value)
 })
 
 const handleSubmit = async (event) => {
@@ -27,16 +28,12 @@ const handleSubmit = async (event) => {
     return
   }
 
-  const purifiedUserPersonalInfo = {
-    firstName: userPersonalInfo.value.firstName.textfieldValue,
-    lastName: userPersonalInfo.value.firstName.textfieldValue,
-    postalCode: userPersonalInfo.value.postalCode.textfieldValue,
-    address: userPersonalInfo.value.address.textfieldValue
-  }
-
   try {
+    const isSure = confirm('در شرف ایجاد حساب هستید، آیا از صحت اطلاعت وارد شده اطمینان دارید؟')
+    if (!isSure) return
+
     isLoading.value = true
-    const response = await postCreateDeposit(userData.token, purifiedUserPersonalInfo)
+    const response = await postCreateDeposit(userData.token, userPersonalInfo.value)
     console.log('confirm-info:', response)
     router.push({ path: '/dashboard' })
   } catch (error) {
@@ -59,19 +56,19 @@ const handlePrevious = () => {
       <div class="account-form__item confirm-item">
         <div class="confirm-item__label">نام:</div>
         <div class="confirm-item__detail">
-          {{ userPersonalInfo?.firstName.textfieldValue || nullMessage }}
+          {{ userPersonalInfo?.firstName || nullMessage }}
         </div>
       </div>
       <div class="account-form__item confirm-item">
         <div class="confirm-item__label">نام خانوادگی:</div>
         <div class="confirm-item__detail">
-          {{ userPersonalInfo?.lastName.textfieldValue || nullMessage }}
+          {{ userPersonalInfo?.lastName || nullMessage }}
         </div>
       </div>
       <div class="account-form__item confirm-item">
         <div class="confirm-item__label">کدپستی:</div>
         <div class="confirm-item__detail">
-          {{ userPersonalInfo?.postalCode.textfieldValue || nullMessage }}
+          {{ userPersonalInfo?.postalCode || nullMessage }}
         </div>
       </div>
     </div>
@@ -79,7 +76,7 @@ const handlePrevious = () => {
       <div class="account-form__item confirm-item">
         <div class="confirm-item__label">محل سکونت:</div>
         <div class="confirm-item__detail">
-          {{ userPersonalInfo?.address.textfieldValue || nullMessage }}
+          {{ userPersonalInfo?.address || nullMessage }}
         </div>
       </div>
     </div>

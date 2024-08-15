@@ -17,8 +17,8 @@ const togglePasswordVisibility = () => {
 }
 
 const isDisabled = ref(true)
-const setIsDisabled = (condition) => {
-  isDisabled.value = !condition
+const setIsDisabled = (areAllValuesValid) => {
+  isDisabled.value = !areAllValuesValid
 }
 
 const isLoading = ref(false)
@@ -37,8 +37,8 @@ const setValuesFromInputs = (innerValue, field) => {
   valuesFromInputs.value[field] = innerValue.textfieldValue
   valuesAreValid.value[field] = innerValue.isValid
 
-  const condition = valuesAreValid.value.password && valuesAreValid.value.phoneNumber
-  setIsDisabled(condition)
+  const areAllValuesValid = valuesAreValid.value.password && valuesAreValid.value.phoneNumber
+  setIsDisabled(areAllValuesValid)
 }
 
 const handleSubmit = async (event) => {

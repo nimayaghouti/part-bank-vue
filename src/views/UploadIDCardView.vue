@@ -46,9 +46,16 @@ const handleSubmit = (event) => {
 }
 
 const handlePrevious = () => {
-  const isSure = confirm('تصاویر کارت ملی دخیره نشده اند، از برگشت به صفحه قبل اطمینان دارید؟')
-  if (!isSure) return
-  router.push({ path: '/personal-info' })
+  const areAllinputsEmpty = frontImageUrl.value !== '' || backImageUrl.value !== ''
+
+  if (areAllinputsEmpty) {
+    const isSure = confirm('تصاویر کارت ملی دخیره نشده اند، از برگشت به صفحه قبل اطمینان دارید؟')
+
+    if (!isSure) return
+    router.push({ path: '/personal-info' })
+  } else {
+    router.push({ path: '/personal-info' })
+  }
 }
 </script>
 
