@@ -1,7 +1,10 @@
 <script setup>
-import { ref } from 'vue'
-// import { useUserStore } from '@/stores/userStore'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
+import router from '@/router'
+
+import { useAppStore } from '@/stores/appStore'
+import { useUserStore } from '@/stores/userStore'
+import { deleteDeposite } from '@/composables/useDeleteDeposite'
 
 import {
   formattedCardNumber,
@@ -13,9 +16,9 @@ import moreIcon from '@/assets/svg/icons/common/moreIcon.vue'
 import exitIcon from '@/assets/svg/icons/common/exitIcon.vue'
 import convertCard from '@/assets/svg/icons/dashboard/convert-card.vue'
 
-// const userStore = useUserStore()
-// const depositData = userStore.depositData
-// const hasDepositAccount = userStore.hasDepositAccount
+const appStore = useAppStore()
+const userStore = useUserStore()
+const userData = userStore.userData
 
 const props = defineProps({
   depositData: {
@@ -40,6 +43,19 @@ onMounted(() => {
     )
   }
 })
+
+const handelDeleteAccount = async () => {
+  try {
+    const isSure = confirm('آیا از حذف حساب بانکی خود اطمینان دارید؟')
+    if (!isSure) return
+
+    const response = await deleteDeposite(userData.token)
+    console.log('delete account:', response)
+    router.go()
+  } catch (error) {
+    appStore.showToast('error', 'خطا در حدف حساب بانکی')
+  }
+}
 </script>
 <template>
   <div class="account-card">
@@ -52,7 +68,7 @@ onMounted(() => {
             تغییر حساب متصل
           </div>
           <div class="actions-btn__separator"></div>
-          <div class="actions-menu__item actions-menu__item_delete">
+          <div class="actions-menu__item actions-menu__item_delete" @click="handelDeleteAccount">
             <exitIcon class="actions-menu__icon" />
             حذف حساب بانکی
           </div>
