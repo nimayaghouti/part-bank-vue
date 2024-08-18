@@ -73,7 +73,7 @@ const handleSubmit = async (event) => {
     console.log('isLoggedin', userStore.isLoggedin)
     console.log('isLoggedin', userStore.isLoggedin)
 
-    router.push({ path: '/dashboard' })
+    router.push({ path: '/dashboard', replace: true })
   } catch (error) {
     console.error(error)
     appStore.showToast('error', 'خطایی رخ داد!')
