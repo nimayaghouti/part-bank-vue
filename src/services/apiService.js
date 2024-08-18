@@ -10,7 +10,7 @@ let authToken = ''
 
 const instance = axios.create({
   baseURL: BASE_URL,
-  timeout: 1000
+  timeout: 3000
 })
 
 instance.interceptors.request.use(

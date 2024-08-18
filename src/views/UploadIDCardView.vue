@@ -1,5 +1,6 @@
 <script setup>
 import IDCard from '@/components/view/IDCard.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
 
 import { ref } from 'vue'
 import router from '@/router'

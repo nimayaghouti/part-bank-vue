@@ -8,6 +8,12 @@ import CreateAccountLayout from '@/layouts/CreateAccountLayout.vue'
 import TheToast from './components/common/TheToast.vue'
 import { useAppStore } from './stores/appStore'
 
+const layouts = {
+  LoginLayout,
+  DashboardLayout,
+  CreateAccountLayout
+}
+
 const appStore = useAppStore()
 const route = useRoute()
 
@@ -20,18 +26,7 @@ watch(
   }
 )
 
-const currentLayout = computed(() => {
-  switch (layoutName.value) {
-    case 'LoginLayout':
-      return LoginLayout
-    case 'DashboardLayout':
-      return DashboardLayout
-    case 'CreateAccountLayout':
-      return CreateAccountLayout
-    default:
-      return null
-  }
-})
+const currentLayout = computed(() => layouts[layoutName.value] || null)
 </script>
 
 <template>
