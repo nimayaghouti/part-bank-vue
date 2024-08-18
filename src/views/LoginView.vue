@@ -4,13 +4,13 @@ import router from '@/router'
 
 import { useAuth } from '@/composables/useAuth'
 import { useUserStore } from '@/stores/userStore'
+import useShowToast from '@/composables/useShowToast'
 
 import BaseFormControl from '@/components/common/BaseFormControl.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import logoWithText from '@/assets/svg/logos/logo-with-text.vue'
 import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
 import eyeOpen from '@/assets/svg/icons/login/eye-open.vue'
-import { useAppStore } from '@/stores/appStore'
 
 const isPasswordVisible = ref(false)
 
@@ -48,7 +48,7 @@ const handleSubmit = async (event) => {
   isLoading.value = true
 
   const userStore = useUserStore()
-  const appStore = useAppStore()
+  const { showToast } = useShowToast()
 
   try {
     console.log('userData', userStore.userData)
@@ -76,7 +76,7 @@ const handleSubmit = async (event) => {
     router.push({ path: '/dashboard', replace: true })
   } catch (error) {
     console.error(error)
-    appStore.showToast('error', 'خطایی رخ داد!')
+    showToast()
   } finally {
     isLoading.value = false
   }

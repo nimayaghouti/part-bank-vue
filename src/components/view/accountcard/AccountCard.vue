@@ -53,7 +53,10 @@ const handelDeleteAccount = async () => {
     console.log('delete account:', response)
     router.go()
   } catch (error) {
-    appStore.showToast('error', 'خطا در حدف حساب بانکی')
+    appStore.showToast({
+      mode: 'error',
+      message: 'خطا در حدف حساب بانکی'
+    })
   }
 }
 </script>
