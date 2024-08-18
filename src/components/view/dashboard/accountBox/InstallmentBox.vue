@@ -5,7 +5,7 @@ import { onMounted } from 'vue'
 
 import { formattedPersianNumber, convertNumberToPersian } from '@/utils/stringFormatter'
 
-import TheAccountBox from '@/components/view/accountBox/TheAccountBox.vue'
+import TheAccountBox from '@/components/view/dashboard/accountBox/TheAccountBox.vue'
 import AngleLeftIcon from '@/assets/svg/icons/common/AngleLeftIcon.vue'
 import ArrowLeftIcon from '@/assets/svg/icons/common/ArrowLeftIcon.vue'
 

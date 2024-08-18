@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import router from '@/router'
 
-import { useAuth } from '@/composables/useAuth'
+import { useAuth } from '@/services/loginService'
 import { useUserStore } from '@/stores/userStore'
 
 import useButtonLoading from '@/composables/useButtonLoading'
@@ -59,7 +59,6 @@ const handleSubmit = async (event) => {
     router.push({ path: '/dashboard', replace: true })
   } catch (error) {
     console.error(error)
-  } finally {
   }
 }
 </script>

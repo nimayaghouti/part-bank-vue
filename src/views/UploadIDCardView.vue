@@ -1,5 +1,5 @@
 <script setup>
-import IDCard from '@/components/view/IDCard.vue'
+import IDCard from '@/components/view/uploadIdCard/IDCard.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 
 import { ref } from 'vue'
@@ -51,7 +51,6 @@ const handleSubmit = (event) => {
       mode: 'error',
       message: 'خطا در ثبت تصاویر کارت ملی'
     })
-  } finally {
   }
 }
 

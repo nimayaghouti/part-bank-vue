@@ -1,6 +1,6 @@
 <script setup>
 import router from '@/router'
-import BaseButton from '../common/BaseButton.vue'
+import BaseButton from '../../common/BaseButton.vue'
 </script>
 
 <template>

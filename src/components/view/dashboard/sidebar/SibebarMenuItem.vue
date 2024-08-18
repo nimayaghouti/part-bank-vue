@@ -1,5 +1,5 @@
 <script setup>
-import { useAuthOut } from '@/composables/useAuthOut'
+import { useAuthOut } from '@/services/logoutService'
 import router from '@/router'
 import { useUserStore } from '@/stores/userStore'
 

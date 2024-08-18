@@ -1,6 +1,6 @@
 <script setup>
 import BaseLayout from '@/layouts/BaseLayout.vue'
-import Sidebar from '@/components/view/sidebar/TheSidebar.vue'
+import Sidebar from '@/components/view/dashboard/sidebar/TheSidebar.vue'
 </script>
 
 <template>

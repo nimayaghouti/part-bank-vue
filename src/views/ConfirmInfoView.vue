@@ -5,8 +5,7 @@ import BaseButton from '@/components/common/BaseButton.vue'
 
 import { useUserStore } from '@/stores/userStore'
 import { useCreateAccountStore } from '@/stores/createAccountStore'
-import { postCreateDeposit } from '@/composables/usePostCreateDeposit'
-
+import { postCreateDeposit } from '@/services/createDepositService'
 import useShowToast from '@/composables/useShowToast'
 import useButtonLoading from '@/composables/useButtonLoading'
 
@@ -48,7 +47,6 @@ const handleSubmit = async (event) => {
       mode: 'error',
       message: 'خطا در ایجاد حساب بانکی'
     })
-  } finally {
   }
 }
 

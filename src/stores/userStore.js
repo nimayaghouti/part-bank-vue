@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import DataStorage, { CustomLocalStorage } from '@/utils/storage'
+import DataStorage, { CustomLocalStorage } from '@/helper/storageHelper'
 
 export const useUserStore = defineStore('storeUser', {
   state: () => {
