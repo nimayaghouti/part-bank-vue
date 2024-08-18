@@ -1,4 +1,4 @@
-import instance, { setToken } from '@/services/apiService'
+import instance, { setToken } from '@/helper/apiHelper'
 
 export const getTransaction = async (token) => {
   try {

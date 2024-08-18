@@ -5,9 +5,9 @@ import { onMounted } from 'vue'
 
 import { formattedPersianNumber, convertNumberToPersian } from '@/utils/stringFormatter'
 
-import TheAccountBox from '@/components/view/accountBox/TheAccountBox.vue'
-import AngleLeft from '@/assets/svg/icons/common/angle-left.vue'
-import ArrowLeft from '@/assets/svg/icons/common/arrow-left.vue'
+import TheAccountBox from '@/components/view/dashboard/accountBox/TheAccountBox.vue'
+import AngleLeftIcon from '@/assets/svg/icons/common/AngleLeftIcon.vue'
+import ArrowLeftIcon from '@/assets/svg/icons/common/ArrowLeftIcon.vue'
 
 // const userStore = useUserStore()
 // const depositData = userStore.depositData
@@ -29,8 +29,12 @@ const instalmentDueDate = ref(convertNumberToPersian(0))
 
 onMounted(() => {
   if (props.hasDepositAccount) {
-    instalmentAmount.value = ref(formattedPersianNumber(props.depositData.upcomingInstalment.amount))
-    instalmentDueDate.value = ref(convertNumberToPersian(props.depositData.upcomingInstalment.dueDate))
+    instalmentAmount.value = ref(
+      formattedPersianNumber(props.depositData.upcomingInstalment.amount)
+    )
+    instalmentDueDate.value = ref(
+      convertNumberToPersian(props.depositData.upcomingInstalment.dueDate)
+    )
   }
 })
 </script>
@@ -38,10 +42,10 @@ onMounted(() => {
 <template>
   <TheAccountBox
     titleText="قسط پیش رو"
-    :moreIcon="AngleLeft"
+    :moreIcon="AngleLeftIcon"
     moreText="جزئیات"
     buttonTitle="پرداخت"
-    :buttonIcon="ArrowLeft"
+    :buttonIcon="ArrowLeftIcon"
   >
     <div class="account-box__installment installment">
       <div class="installment__wrapper">

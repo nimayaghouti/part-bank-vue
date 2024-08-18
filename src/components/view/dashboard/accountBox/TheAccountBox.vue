@@ -1,4 +1,6 @@
 <script setup>
+import BaseButton from '@/components/common/BaseButton.vue'
+
 defineProps({
   titleText: {
     type: String,
@@ -34,12 +36,11 @@ defineProps({
 
     <slot></slot>
 
-    <BaseButton
-      class="account-box__button"
-      :text="buttonTitle"
-      :icon="buttonIcon"
-      mode="button_secondary"
-    />
+    <BaseButton class="account-box__button" :text="buttonTitle" mode="secondary">
+      <template #append>
+        <component :is="buttonIcon" />
+      </template>
+    </BaseButton>
   </div>
 </template>
 

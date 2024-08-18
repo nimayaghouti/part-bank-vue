@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
-import DataStorage, { CustomLocalStorage } from '@/utils/storage'
+import DataStorage, { CustomLocalStorage } from '@/helper/storageHelper'
 
 export const useUserStore = defineStore('storeUser', {
   state: () => {
     return {
       userData: null,
       depositData: null,
-      //  hasDepositAccount: false,
+      hasDepositAccount: false,
       isLoggedin: false
     }
   },
@@ -23,9 +23,9 @@ export const useUserStore = defineStore('storeUser', {
       this.depositData = depositStorage.getItem()
     },
 
-    // setHasDepositAccount(hasDepositAccount) {
-    //   this.hasDepositAccount = hasDepositAccount
-    // },
+    setHasDepositAccount(hasDepositAccount) {
+      this.hasDepositAccount = hasDepositAccount
+    },
 
     setIsLoggedin(isLogin) {
       this.isLoggedin = isLogin

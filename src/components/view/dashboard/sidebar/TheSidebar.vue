@@ -4,13 +4,13 @@ import SibebarMenuItem from './SibebarMenuItem.vue'
 import { useUserStore } from '@/stores/userStore'
 import { convertNumberToPersian } from '@/utils/stringFormatter'
 
-import element4 from '@/assets/svg/icons/dashboard/element-4.vue'
-import walletIcon from '@/assets/svg/icons/dashboard/walletIcon.vue'
-import strongboxIcon from '@/assets/svg/icons/dashboard/strongboxIcon.vue'
-import cardsIcon from '@/assets/svg/icons/dashboard/cardsIcon.vue'
-import receiptSearch from '@/assets/svg/icons/dashboard/receipt-search.vue'
-import cardPos from '@/assets/svg/icons/dashboard/card-pos.vue'
-import exitIcon from '@/assets/svg/icons/common/exitIcon.vue'
+import Element4Icon from '@/assets/svg/icons/dashboard/Element4Icon.vue'
+import WalletIcon from '@/assets/svg/icons/dashboard/WalletIcon.vue'
+import StrongBoxIcon from '@/assets/svg/icons/dashboard/StrongBoxIcon.vue'
+import CardsIcon from '@/assets/svg/icons/dashboard/CardsIcon.vue'
+import ReceiptSearchIcon from '@/assets/svg/icons/dashboard/ReceiptSearchIcon.vue'
+import CardPosIcon from '@/assets/svg/icons/dashboard/CardPosIcon.vue'
+import ExitIcon from '@/assets/svg/icons/common/ExitIcon.vue'
 
 const userStore = useUserStore()
 const userData = userStore.userData
@@ -21,43 +21,43 @@ const idNumber = convertNumberToPersian(userData.idNumber)
 const menuItems = [
   {
     id: 1,
-    icon: element4,
+    icon: Element4Icon,
     text: 'داشبورد',
     modifier: 'active'
   },
   {
     id: 2,
-    icon: walletIcon,
+    icon: WalletIcon,
     text: 'حساب',
     modifier: ''
   },
   {
     id: 3,
-    icon: strongboxIcon,
+    icon: StrongBoxIcon,
     text: 'تسهیلات',
     modifier: ''
   },
   {
     id: 4,
-    icon: cardsIcon,
+    icon: CardsIcon,
     text: 'عملیات کارت',
     modifier: ''
   },
   {
     id: 5,
-    icon: receiptSearch,
+    icon: ReceiptSearchIcon,
     text: 'سفته الکترونیک',
     modifier: ''
   },
   {
     id: 6,
-    icon: cardPos,
+    icon: CardPosIcon,
     text: 'خدمات',
     modifier: ''
   },
   {
     id: 7,
-    icon: exitIcon,
+    icon: ExitIcon,
     text: 'خروج',
     modifier: 'exit'
   }

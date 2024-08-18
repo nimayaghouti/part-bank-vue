@@ -1,5 +1,5 @@
 <script setup>
-import { useAuthOut } from '@/composables/useAuthOut'
+import { useAuthOut } from '@/services/logoutService'
 import router from '@/router'
 import { useUserStore } from '@/stores/userStore'
 
@@ -29,9 +29,9 @@ const handleLogout = async () => {
 
     if (response === '200') {
       userStore.$reset()
-      router.push({ path: '/login' })
       sessionStorage.clear()
       localStorage.clear()
+      router.push({ path: '/login' })
     } else {
       throw new Error('not logged in!')
     }
@@ -62,6 +62,10 @@ const handleLogout = async () => {
     position: relative;
     color: #8999b9;
     cursor: pointer;
+    transition:
+      font-weight 0.3s,
+      background-color 0.5s,
+      color 0.5s;
 
     &_active {
       font-weight: 700;

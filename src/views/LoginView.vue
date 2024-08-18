@@ -2,13 +2,19 @@
 import { ref } from 'vue'
 import router from '@/router'
 
-import { useAuth } from '@/composables/useAuth'
+import { useAuth } from '@/services/loginService'
 import { useUserStore } from '@/stores/userStore'
 
-import logoWithText from '@/assets/svg/logos/logo-with-text.vue'
-import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
-import eyeOpen from '@/assets/svg/icons/login/eye-open.vue'
-import { useAppStore } from '@/stores/appStore'
+import useButtonLoading from '@/composables/useButtonLoading'
+
+import BaseFormControl from '@/components/common/BaseFormControl.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
+import LogoWithTextIcon from '@/assets/svg/logos/LogoWithTextIcon.vue'
+import EyeClosedIcon from '@/assets/svg/icons/login/EyeClosedIcon.vue'
+import EyeOpenIcon from '@/assets/svg/icons/login/EyeOpenIcon.vue'
+
+const userStore = useUserStore()
+const { isButtonLoading } = useButtonLoading()
 
 const isPasswordVisible = ref(false)
 
@@ -17,66 +23,42 @@ const togglePasswordVisibility = () => {
 }
 
 const isDisabled = ref(true)
-const setIsDisabled = (areAllValuesValid) => {
-  isDisabled.value = !areAllValuesValid
+const setIsDisabled = (isAllValid) => {
+  isDisabled.value = !isAllValid
 }
 
-const isLoading = ref(false)
-
-const valuesFromInputs = ref({
+const inputsValues = ref({
   phoneNumber: '',
   password: ''
 })
 
-const valuesAreValid = ref({
+const inputsValidities = ref({
   phoneNumber: false,
   password: false
 })
 
-const setValuesFromInputs = (innerValue, field) => {
-  valuesFromInputs.value[field] = innerValue.textfieldValue
-  valuesAreValid.value[field] = innerValue.isValid
+const setInputsValues = (innerValue, field) => {
+  inputsValues.value[field] = innerValue.textfieldValue
+  inputsValidities.value[field] = innerValue.isValid
 
-  const areAllValuesValid = valuesAreValid.value.password && valuesAreValid.value.phoneNumber
-  setIsDisabled(areAllValuesValid)
+  const isAllValid = inputsValidities.value.password && inputsValidities.value.phoneNumber
+  setIsDisabled(isAllValid)
 }
 
 const handleSubmit = async (event) => {
   event.preventDefault()
-  isLoading.value = true
-
-  const userStore = useUserStore()
-  const appStore = useAppStore()
 
   try {
-    console.log('userData', userStore.userData)
-    console.log('depositData', userStore.depositData)
-    console.log('isLoggedin', userStore.isLoggedin)
-    console.log('isLoggedin', userStore.isLoggedin)
-
     if (userStore.isLoggedin) return
 
-    const data = await useAuth(
-      valuesFromInputs.value['phoneNumber'],
-      valuesFromInputs.value['password']
-    )
-
-    userStore.$reset()
+    const data = await useAuth(inputsValues.value['phoneNumber'], inputsValues.value['password'])
 
     userStore.setUserData(data)
     userStore.setIsLoggedin(true)
 
-    console.log('userData', userStore.userData)
-    console.log('depositData', userStore.depositData)
-    console.log('isLoggedin', userStore.isLoggedin)
-    console.log('isLoggedin', userStore.isLoggedin)
-
-    router.push({ path: '/dashboard' })
+    router.push({ path: '/dashboard', replace: true })
   } catch (error) {
     console.error(error)
-    appStore.showToast('error', 'خطایی رخ داد!')
-  } finally {
-    isLoading.value = false
   }
 }
 </script>
@@ -84,7 +66,7 @@ const handleSubmit = async (event) => {
 <template>
   <div class="login">
     <div class="login__form-wrapper">
-      <logoWithText class="login__logo" />
+      <LogoWithTextIcon class="login__logo" />
 
       <form class="login__form form">
         <BaseFormControl
@@ -96,7 +78,7 @@ const handleSubmit = async (event) => {
           pattern="[0-9]{11}"
           maxlength="11"
           validationMessage="شماره همراه خود را وارد کنید"
-          @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'phoneNumber')"
+          @sendValue="(innerValue) => setInputsValues(innerValue, 'phoneNumber')"
         />
         <!-- TODO: pattern must be [۰-۹]{11} -->
 
@@ -108,9 +90,9 @@ const handleSubmit = async (event) => {
           placeholder="رمز عبور"
           pattern="[A-Za-z0-9]{4,}"
           validationMessage="رمز عبور خود را وارد کنید"
-          @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'password')"
+          @sendValue="(innerValue) => setInputsValues(innerValue, 'password')"
           :icon="{
-            component: isPasswordVisible ? eyeOpen : eyeClosed,
+            component: isPasswordVisible ? EyeOpenIcon : EyeClosedIcon,
             onClick: togglePasswordVisibility
           }"
         />
@@ -118,10 +100,10 @@ const handleSubmit = async (event) => {
         <BaseButton
           class="form__submit"
           text="ورود"
-          mode="button_primary"
+          mode="primary"
           buttonType="submit"
           :isDisabled="isDisabled"
-          :isLoading="isLoading"
+          :isLoading="isButtonLoading"
           @click="handleSubmit"
         />
       </form>

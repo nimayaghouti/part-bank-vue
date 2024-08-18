@@ -1,7 +1,7 @@
 <script setup>
-import logoSimple from '@/assets/svg/logos/logo-simple.vue'
-import notificationIcon from '@/assets/svg/icons/dashboard/notificationIcon.vue'
-import angleDown from '@/assets/svg/icons/common/angle-down.vue'
+import LogoSimpleIcon from '@/assets/svg/logos/LogoSimpleIcon.vue'
+import NotificationIcon from '@/assets/svg/icons/dashboard/NotificationIcon.vue'
+import AngleDownIcon from '@/assets/svg/icons/common/AngleDownIcon.vue'
 
 import { useUserStore } from '@/stores/userStore'
 import { convertNumberToPersian } from '@/utils/stringFormatter'
@@ -14,20 +14,20 @@ const phoneNumber = convertNumberToPersian(userData.phoneNumber)
 <template>
   <header class="header">
     <div class="header__logo">
-      <logoSimple />
+      <LogoSimpleIcon />
       پارت بانک
     </div>
 
     <div class="header__user-info user-info">
       <div class="user-info__notifs">
-        <notificationIcon />
+        <NotificationIcon />
       </div>
       <div class="user-info__avatar">
         <img src="@/assets/svg/flats/avatar.svg" alt="avatar" />
       </div>
       <div class="user-info__phone">{{ phoneNumber }}</div>
       <div class="user-info__dropdown">
-        <angleDown />
+        <AngleDownIcon />
       </div>
     </div>
   </header>

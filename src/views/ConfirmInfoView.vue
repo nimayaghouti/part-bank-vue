@@ -1,16 +1,20 @@
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import router from '@/router'
-import { useAppStore } from '@/stores/appStore'
+import BaseButton from '@/components/common/BaseButton.vue'
+
 import { useUserStore } from '@/stores/userStore'
 import { useCreateAccountStore } from '@/stores/createAccountStore'
-import { postCreateDeposit } from '@/composables/usePostCreateDeposit'
+import { postCreateDeposit } from '@/services/createDepositService'
+import useShowToast from '@/composables/useShowToast'
+import useButtonLoading from '@/composables/useButtonLoading'
 
-const appStore = useAppStore()
 const userStore = useUserStore()
 const createAccountStore = useCreateAccountStore()
-const isLoading = ref(false)
 const userData = userStore.userData
+
+const { isButtonLoading } = useButtonLoading()
+const { showToast } = useShowToast()
 
 const userPersonalInfo = ref(null)
 const nullMessage = 'ذخیره نشده'
@@ -24,7 +28,10 @@ const handleSubmit = async (event) => {
   event.preventDefault()
 
   if (!userPersonalInfo.value) {
-    appStore.showToast('error', 'داده ای برای ایجاد حساب بانکی، ثبت نشده است')
+    showToast({
+      mode: 'error',
+      message: 'داده ای برای ایجاد حساب بانکی، ثبت نشده است'
+    })
     return
   }
 
@@ -32,14 +39,14 @@ const handleSubmit = async (event) => {
     const isSure = confirm('در شرف ایجاد حساب هستید، آیا از صحت اطلاعت وارد شده اطمینان دارید؟')
     if (!isSure) return
 
-    isLoading.value = true
     const response = await postCreateDeposit(userData.token, userPersonalInfo.value)
     console.log('confirm-info:', response)
     router.push({ path: '/dashboard' })
   } catch (error) {
-    appStore.showToast('error', 'خطا در ایجاد حساب بانکی')
-  } finally {
-    isLoading.value = false
+    showToast({
+      mode: 'error',
+      message: 'خطا در ایجاد حساب بانکی'
+    })
   }
 }
 
@@ -84,17 +91,17 @@ const handlePrevious = () => {
       <BaseButton
         class="create-account__button"
         text="قبلی"
-        mode="button_secondary"
+        mode="secondary"
         buttonType="button"
         @click="handlePrevious"
       />
       <BaseButton
         class="create-account__button"
         text="افتتاح حساب"
-        mode="button_primary"
+        mode="primary"
         buttonType="submit"
         @click="handleSubmit"
-        :isLoading="isLoading"
+        :isLoading="isButtonLoading"
       />
     </div>
   </form>

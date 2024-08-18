@@ -1,7 +1,7 @@
 @use 'palette' as *;
 
 $header-height: 4.25rem;
-$snackbar-width: 20rem;
+$toast-width: 20rem;
 
 :root {
   // palette:
@@ -26,5 +26,5 @@ $snackbar-width: 20rem;
   }
 
   // variables
-  --snackbar-width: #{$snackbar-width};
+  --toast-width: #{$toast-width};
 }

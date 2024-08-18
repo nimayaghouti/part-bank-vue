@@ -1,4 +1,4 @@
-import instance from '@/services/apiService'
+import instance from '@/helper/apiHelper'
 
 export const useAuth = async (phoneNumber, password) => {
   try {
