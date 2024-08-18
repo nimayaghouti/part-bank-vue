@@ -30,7 +30,9 @@ const updateImageUrl = (type, imageUrl) => {
 
 const handleSubmit = (event) => {
   event.preventDefault()
-  if (frontImageUrl.value === '' || backImageUrl.value === '') {
+
+  const isOneEmpty = frontImageUrl.value === '' || backImageUrl.value === ''
+  if (isOneEmpty) {
     showToast({
       mode: 'error',
       message: 'لطفا هردو تصویر را آپلود نمایید'
@@ -54,9 +56,9 @@ const handleSubmit = (event) => {
 }
 
 const handlePrevious = () => {
-  const areAllinputsEmpty = frontImageUrl.value !== '' || backImageUrl.value !== ''
+  const isOneFilled = frontImageUrl.value !== '' || backImageUrl.value !== ''
 
-  if (areAllinputsEmpty) {
+  if (isOneFilled) {
     const isSure = confirm('تصاویر کارت ملی دخیره نشده اند، از برگشت به صفحه قبل اطمینان دارید؟')
 
     if (!isSure) return

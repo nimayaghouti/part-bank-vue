@@ -23,51 +23,38 @@ const togglePasswordVisibility = () => {
 }
 
 const isDisabled = ref(true)
-const setIsDisabled = (areAllValuesValid) => {
-  isDisabled.value = !areAllValuesValid
+const setIsDisabled = (isAllValid) => {
+  isDisabled.value = !isAllValid
 }
 
-const valuesFromInputs = ref({
+const inputsValues = ref({
   phoneNumber: '',
   password: ''
 })
 
-const valuesAreValid = ref({
+const inputsValidities = ref({
   phoneNumber: false,
   password: false
 })
 
-const setValuesFromInputs = (innerValue, field) => {
-  valuesFromInputs.value[field] = innerValue.textfieldValue
-  valuesAreValid.value[field] = innerValue.isValid
+const setInputsValues = (innerValue, field) => {
+  inputsValues.value[field] = innerValue.textfieldValue
+  inputsValidities.value[field] = innerValue.isValid
 
-  const areAllValuesValid = valuesAreValid.value.password && valuesAreValid.value.phoneNumber
-  setIsDisabled(areAllValuesValid)
+  const isAllValid = inputsValidities.value.password && inputsValidities.value.phoneNumber
+  setIsDisabled(isAllValid)
 }
 
 const handleSubmit = async (event) => {
   event.preventDefault()
 
   try {
-    console.log('userData', userStore.userData)
-    console.log('depositData', userStore.depositData)
-    console.log('isLoggedin', userStore.isLoggedin)
-
     if (userStore.isLoggedin) return
 
-    const data = await useAuth(
-      valuesFromInputs.value['phoneNumber'],
-      valuesFromInputs.value['password']
-    )
-
-    userStore.$reset()
+    const data = await useAuth(inputsValues.value['phoneNumber'], inputsValues.value['password'])
 
     userStore.setUserData(data)
     userStore.setIsLoggedin(true)
-
-    console.log('userData', userStore.userData)
-    console.log('depositData', userStore.depositData)
-    console.log('isLoggedin', userStore.isLoggedin)
 
     router.push({ path: '/dashboard', replace: true })
   } catch (error) {
@@ -92,7 +79,7 @@ const handleSubmit = async (event) => {
           pattern="[0-9]{11}"
           maxlength="11"
           validationMessage="شماره همراه خود را وارد کنید"
-          @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'phoneNumber')"
+          @sendValue="(innerValue) => setInputsValues(innerValue, 'phoneNumber')"
         />
         <!-- TODO: pattern must be [۰-۹]{11} -->
 
@@ -104,7 +91,7 @@ const handleSubmit = async (event) => {
           placeholder="رمز عبور"
           pattern="[A-Za-z0-9]{4,}"
           validationMessage="رمز عبور خود را وارد کنید"
-          @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'password')"
+          @sendValue="(innerValue) => setInputsValues(innerValue, 'password')"
           :icon="{
             component: isPasswordVisible ? eyeOpen : eyeClosed,
             onClick: togglePasswordVisibility
