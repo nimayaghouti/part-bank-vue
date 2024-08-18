@@ -7,7 +7,7 @@ import DashboardDialog from '@/components/view/dashboard/DashboardDialog.vue'
 
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
-import { getDepositAccount } from '@/composables/useGetDeposit'
+import { getDepositAccount } from '@/services/getDepositService'
 
 const userStore = useUserStore()
 const userData = userStore.userData

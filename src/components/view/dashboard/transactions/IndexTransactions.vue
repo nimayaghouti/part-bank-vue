@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/userStore'
-import { getTransaction } from '@/composables/useGetTransactions'
+import { getTransaction } from '@/services/getTransactionsService'
 import { onMounted } from 'vue'
 
 import TransactionsHeader from './TransactionsHeader.vue'

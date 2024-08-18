@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import router from '@/router'
 
 import { useUserStore } from '@/stores/userStore'
-import { deleteDeposite } from '@/composables/useDeleteDeposite'
+import { deleteDeposite } from '@/services/deleteDepositeService'
 
 import useShowToast from '@/composables/useShowToast'
 import { formattedPersianNumber, convertNumberToPersian } from '@/utils/stringFormatter'
