@@ -6,7 +6,6 @@ import LoginLayout from '@/layouts/LoginLayout.vue'
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import CreateAccountLayout from '@/layouts/CreateAccountLayout.vue'
 import TheToast from './components/common/TheToast.vue'
-import { useAppStore } from './stores/appStore'
 
 const layouts = {
   LoginLayout,
@@ -14,7 +13,6 @@ const layouts = {
   CreateAccountLayout
 }
 
-const appStore = useAppStore()
 const route = useRoute()
 
 const layoutName = ref(route.meta.layout)
@@ -31,13 +29,7 @@ const currentLayout = computed(() => layouts[layoutName.value] || null)
 
 <template>
   <component :is="currentLayout" />
-  <TheToast
-    :isShowing="appStore.isToastShowing"
-    :mode="appStore.mode"
-    :message="appStore.message"
-    :appear-from-x="appStore.appearFromX"
-    :appear-from-y="appStore.appearFromY"
-  />
+  <TheToast />
 </template>
 
 <style lang="scss"></style>

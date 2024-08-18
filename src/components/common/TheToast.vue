@@ -1,43 +1,46 @@
 <script setup>
+import useShowToast from '@/composables/useShowToast'
 import CircleError from '@/assets/svg/icons/common/circle-error.vue'
 
-const props = defineProps({
-  isShowing: {
-    type: Boolean,
-    default: false
-  },
-  message: {
-    type: String,
-    required: true
-  },
-  icon: {
-    type: Object,
-    default() {
-      return CircleError
-    }
-  },
-  mode: {
-    type: String,
-    default: 'error',
-    validator(value) {
-      return ['error', 'info'].includes(value)
-    }
-  },
-  appearFromY: {
-    type: String,
-    default: 'bottom',
-    validator(value) {
-      return ['top', 'bottom'].includes(value)
-    }
-  },
-  appearFromX: {
-    type: String,
-    default: 'right',
-    validator(value) {
-      return ['left', 'right'].includes(value)
-    }
-  }
-})
+// const props = defineProps({
+//   isShowing: {
+//     type: Boolean,
+//     default: false
+//   },
+//   message: {
+//     type: String,
+//     required: true
+//   },
+//   icon: {
+//     type: Object,
+//     default() {
+//       return CircleError
+//     }
+//   },
+//   mode: {
+//     type: String,
+//     default: 'error',
+//     validator(value) {
+//       return ['error', 'info'].includes(value)
+//     }
+//   },
+//   appearFromY: {
+//     type: String,
+//     default: 'bottom',
+//     validator(value) {
+//       return ['top', 'bottom'].includes(value)
+//     }
+//   },
+//   appearFromX: {
+//     type: String,
+//     default: 'right',
+//     validator(value) {
+//       return ['left', 'right'].includes(value)
+//     }
+//   }
+// })
+
+const { isShowing, mode, message, appearFromY, appearFromX, icon } = useShowToast()
 </script>
 
 <template>
@@ -50,6 +53,7 @@ const props = defineProps({
     }"
   >
     <component v-if="icon" :is="icon" />
+    <CircleError v-else-if="mode === 'error'" />
     <span>{{ message }}</span>
   </div>
 </template>
