@@ -36,8 +36,7 @@ defineProps({
 <template>
   <button
     :type="buttonType"
-    class="button"
-    :class="`button_${mode}`"
+    :class="['button', `button_${mode}`]"
     :style="{ maxWidth: maxWidth }"
     :disabled="isDisabled || isLoading"
   >
