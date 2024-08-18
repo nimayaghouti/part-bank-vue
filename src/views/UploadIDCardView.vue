@@ -4,8 +4,15 @@ import BaseButton from '@/components/common/BaseButton.vue'
 
 import { ref } from 'vue'
 import router from '@/router'
-import { useAppStore } from '@/stores/appStore'
+
 import { useCreateAccountStore } from '@/stores/createAccountStore'
+
+import useShowToast from '@/composables/useShowToast'
+
+const createAccountStore = useCreateAccountStore()
+
+const { showToast } = useShowToast()
+const isLoading = ref(false)
 
 const frontImageUrl = ref('')
 const backImageUrl = ref('')
@@ -18,16 +25,12 @@ const updateImageUrl = (type, imageUrl) => {
   }
 }
 
-const appStore = useAppStore()
-const createAccountStore = useCreateAccountStore()
-const isLoading = ref(false)
-
 // console.log('id-card: userPersonalInfo',createAccountStore.userPersonalInfo)
 
 const handleSubmit = (event) => {
   event.preventDefault()
   if (frontImageUrl.value === '' || backImageUrl.value === '') {
-    appStore.showToast({
+    showToast({
       mode: 'error',
       message: 'لطفا هردو تصویر را آپلود نمایید'
     })
@@ -42,7 +45,7 @@ const handleSubmit = (event) => {
     })
     router.push({ path: '/confirm-info' })
   } catch (error) {
-    appStore.showToast({
+    showToast({
       mode: 'error',
       message: 'خطا در ثبت تصاویر کارت ملی'
     })

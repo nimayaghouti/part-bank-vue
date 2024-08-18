@@ -2,17 +2,17 @@
 import { ref, onMounted, computed } from 'vue'
 import router from '@/router'
 
-import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
 import { deleteDeposite } from '@/composables/useDeleteDeposite'
 
+import useShowToast from '@/composables/useShowToast'
 import { formattedPersianNumber, convertNumberToPersian } from '@/utils/stringFormatter'
 
 import moreIcon from '@/assets/svg/icons/common/moreIcon.vue'
 import exitIcon from '@/assets/svg/icons/common/exitIcon.vue'
 import convertCard from '@/assets/svg/icons/dashboard/convert-card.vue'
 
-const appStore = useAppStore()
+const { showToast } = useShowToast()
 const userStore = useUserStore()
 const userData = userStore.userData
 
@@ -54,7 +54,7 @@ const handelDeleteAccount = async () => {
     console.log('delete account:', response)
     router.go()
   } catch (error) {
-    appStore.showToast({
+    showToast({
       mode: 'error',
       message: 'خطا در حدف حساب بانکی'
     })

@@ -4,11 +4,13 @@ import BaseButton from '@/components/common/BaseButton.vue'
 
 import { ref } from 'vue'
 import router from '@/router'
-import { useAppStore } from '@/stores/appStore'
-import { useCreateAccountStore } from '@/stores/createAccountStore'
 
-const appStore = useAppStore()
+import { useCreateAccountStore } from '@/stores/createAccountStore'
+import useShowToast from '@/composables/useShowToast'
+
 const createAccountStore = useCreateAccountStore()
+
+const { showToast } = useShowToast()
 const isLoading = ref(false)
 const isDisabled = ref(true)
 
@@ -46,7 +48,7 @@ const handleSubmit = (event) => {
   event.preventDefault()
   console.log(valuesFromInputs.value)
   if (isDisabled.value) {
-    appStore.showToast({
+    showToast({
       mode: 'error',
       message: 'لطفا مقادیر صحیح را وارد نمایید'
     })
@@ -59,7 +61,7 @@ const handleSubmit = (event) => {
     createAccountStore.setUserPersonalInfo(valuesFromInputs.value)
     router.push({ path: '/id-card' })
   } catch (error) {
-    appStore.showToast({
+    showToast({
       mode: 'error',
       message: 'خطا در ثبت اطلاعات فردی'
     })
