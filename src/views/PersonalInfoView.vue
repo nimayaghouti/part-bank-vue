@@ -4,49 +4,53 @@ import BaseButton from '@/components/common/BaseButton.vue'
 
 import { ref } from 'vue'
 import router from '@/router'
-import { useAppStore } from '@/stores/appStore'
+
 import { useCreateAccountStore } from '@/stores/createAccountStore'
 
-const appStore = useAppStore()
-const createAccountStore = useCreateAccountStore()
-const isLoading = ref(false)
-const isDisabled = ref(true)
+import useButtonLoading from '@/composables/useButtonLoading'
+import useShowToast from '@/composables/useShowToast'
 
-const setIsDisabled = (areAllValuesValid) => {
-  isDisabled.value = !areAllValuesValid
+const createAccountStore = useCreateAccountStore()
+
+const { isButtonLoading } = useButtonLoading()
+const { showToast } = useShowToast()
+
+const isDisabled = ref(true)
+const setIsDisabled = (isAllValid) => {
+  isDisabled.value = !isAllValid
 }
 
-const valuesFromInputs = ref({
+const inputsValues = ref({
   firstName: '',
   lastName: '',
   postalCode: '',
   address: ''
 })
 
-const valuesAreValid = ref({
+const inputsValidities = ref({
   firstName: false,
   lastName: false,
   postalCode: false,
   address: false
 })
 
-const setValuesFromInputs = (innerValue, field) => {
-  valuesFromInputs.value[field] = innerValue.textfieldValue
-  valuesAreValid.value[field] = innerValue.isValid
+const setInputsValues = (innerValue, field) => {
+  inputsValues.value[field] = innerValue.textfieldValue
+  inputsValidities.value[field] = innerValue.isValid
 
-  const areAllValuesValid =
-    valuesAreValid.value.firstName &&
-    valuesAreValid.value.lastName &&
-    valuesAreValid.value.postalCode &&
-    valuesAreValid.value.address
-  setIsDisabled(areAllValuesValid)
+  const isAllValid =
+    inputsValidities.value.firstName &&
+    inputsValidities.value.lastName &&
+    inputsValidities.value.postalCode &&
+    inputsValidities.value.address
+  setIsDisabled(isAllValid)
 }
 
 const handleSubmit = (event) => {
   event.preventDefault()
-  console.log(valuesFromInputs.value)
+  console.log(inputsValues.value)
   if (isDisabled.value) {
-    appStore.showToast({
+    showToast({
       mode: 'error',
       message: 'لطفا مقادیر صحیح را وارد نمایید'
     })
@@ -54,29 +58,26 @@ const handleSubmit = (event) => {
   }
 
   try {
-    console.log(valuesFromInputs.value)
-    isLoading.value = true
-    createAccountStore.setUserPersonalInfo(valuesFromInputs.value)
+    console.log(inputsValues.value)
+    createAccountStore.setUserPersonalInfo(inputsValues.value)
     router.push({ path: '/id-card' })
   } catch (error) {
-    appStore.showToast({
+    showToast({
       mode: 'error',
       message: 'خطا در ثبت اطلاعات فردی'
     })
   } finally {
-    isLoading.value = false
-    // console.log('userPersonalInfo', createAccountStore.userPersonalInfo)
   }
 }
 
 const handlePrevious = () => {
-  const areAllinputsEmpty =
-    valuesFromInputs.value.firstName !== '' ||
-    valuesFromInputs.value.lastName !== '' ||
-    valuesFromInputs.value.postalCode !== '' ||
-    valuesFromInputs.value.address !== ''
+  const isOneFilled =
+    inputsValues.value.firstName !== '' ||
+    inputsValues.value.lastName !== '' ||
+    inputsValues.value.postalCode !== '' ||
+    inputsValues.value.address !== ''
 
-  if (areAllinputsEmpty) {
+  if (isOneFilled) {
     const isSure = confirm('اطلاعات فردی دخیره نشده اند، از برگشت به صفحه قبل اطمینان دارید؟')
 
     if (!isSure) return
@@ -100,7 +101,7 @@ const handlePrevious = () => {
         isRequired
         isAutofocus
         hasBorder
-        @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'firstName')"
+        @sendValue="(innerValue) => setInputsValues(innerValue, 'firstName')"
         pattern="^[\u0600-\u06FF\s]+$"
         validation-message="نام فارسی خود را وارد نمایید"
       />
@@ -113,7 +114,7 @@ const handlePrevious = () => {
         placeholder="نام خانوادگی به صورت کامل"
         isRequired
         hasBorder
-        @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'lastName')"
+        @sendValue="(innerValue) => setInputsValues(innerValue, 'lastName')"
         pattern="^[\u0600-\u06FF\s]+$"
         validation-message="نام خانوادگی فارسی خود را وارد نمایید"
       />
@@ -126,7 +127,7 @@ const handlePrevious = () => {
         placeholder="کدپستی ۱۰ رقمی"
         isRequired
         hasBorder
-        @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'postalCode')"
+        @sendValue="(innerValue) => setInputsValues(innerValue, 'postalCode')"
         pattern="[0-9]{10}"
         maxlength="10"
         validation-message="کد پستی 10 رقمی خود را وارد نمایید"
@@ -145,8 +146,8 @@ const handlePrevious = () => {
         isRequired
         hasBorder
         height="7.5rem"
-        @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'address')"
-        pattern="^[\u0600-\u06FF\s]+$"
+        @sendValue="(innerValue) => setInputsValues(innerValue, 'address')"
+        pattern="^[0-9\u0600-\u06FF\s]+$"
         validation-message="محل سکونت خود را به صورت فارسی وارد نمایید"
       />
     </div>
@@ -164,7 +165,7 @@ const handlePrevious = () => {
         mode="primary"
         buttonType="submit"
         @click="handleSubmit"
-        :isLoading="isLoading"
+        :isLoading="isButtonLoading"
       />
     </div>
   </form>

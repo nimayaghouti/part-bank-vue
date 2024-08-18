@@ -3,16 +3,19 @@ import { ref, onMounted } from 'vue'
 import router from '@/router'
 import BaseButton from '@/components/common/BaseButton.vue'
 
-import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
 import { useCreateAccountStore } from '@/stores/createAccountStore'
 import { postCreateDeposit } from '@/composables/usePostCreateDeposit'
 
-const appStore = useAppStore()
+import useShowToast from '@/composables/useShowToast'
+import useButtonLoading from '@/composables/useButtonLoading'
+
 const userStore = useUserStore()
 const createAccountStore = useCreateAccountStore()
-const isLoading = ref(false)
 const userData = userStore.userData
+
+const { isButtonLoading } = useButtonLoading()
+const { showToast } = useShowToast()
 
 const userPersonalInfo = ref(null)
 const nullMessage = 'ذخیره نشده'
@@ -26,7 +29,7 @@ const handleSubmit = async (event) => {
   event.preventDefault()
 
   if (!userPersonalInfo.value) {
-    appStore.showToast({
+    showToast({
       mode: 'error',
       message: 'داده ای برای ایجاد حساب بانکی، ثبت نشده است'
     })
@@ -37,17 +40,15 @@ const handleSubmit = async (event) => {
     const isSure = confirm('در شرف ایجاد حساب هستید، آیا از صحت اطلاعت وارد شده اطمینان دارید؟')
     if (!isSure) return
 
-    isLoading.value = true
     const response = await postCreateDeposit(userData.token, userPersonalInfo.value)
     console.log('confirm-info:', response)
     router.push({ path: '/dashboard' })
   } catch (error) {
-    appStore.showToast({
+    showToast({
       mode: 'error',
       message: 'خطا در ایجاد حساب بانکی'
     })
   } finally {
-    isLoading.value = false
   }
 }
 
@@ -102,7 +103,7 @@ const handlePrevious = () => {
         mode="primary"
         buttonType="submit"
         @click="handleSubmit"
-        :isLoading="isLoading"
+        :isLoading="isButtonLoading"
       />
     </div>
   </form>
