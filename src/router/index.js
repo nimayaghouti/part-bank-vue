@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
 
 const routes = [
   {
@@ -30,7 +31,8 @@ const routes = [
     meta: {
       layout: 'CreateAccountLayout',
       title: 'اطلاعات فردی',
-      requiresAuth: true
+      requiresAuth: true,
+      requiresAccountCreation: true
     }
   },
   {
@@ -40,7 +42,8 @@ const routes = [
     meta: {
       layout: 'CreateAccountLayout',
       title: 'تصویر کارت ملی',
-      requiresAuth: true
+      requiresAuth: true,
+      requiresAccountCreation: true
     }
   },
   {
@@ -50,7 +53,8 @@ const routes = [
     meta: {
       layout: 'CreateAccountLayout',
       title: 'تایید اطلاعات',
-      requiresAuth: true
+      requiresAuth: true,
+      requiresAccountCreation: true
     }
   },
   {
@@ -70,12 +74,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const isLoggedIn = !!localStorage.getItem('userData')
+  const userStore = useUserStore()
+  const isLoggedIn = userStore.isLoggedin
+  const hasDepositAccount = userStore.hasDepositAccount
 
   if (isLoggedIn && to.name === 'login') {
     next({ name: 'dashboard' })
   } else if (to.meta.requiresAuth && !isLoggedIn) {
     next({ name: 'login' })
+  } else if (to.meta.requiresAccountCreation && hasDepositAccount) {
+    next({ name: 'dashboard' })
   } else {
     next()
   }

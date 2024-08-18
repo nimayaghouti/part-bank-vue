@@ -6,7 +6,7 @@ export const useUserStore = defineStore('storeUser', {
     return {
       userData: null,
       depositData: null,
-      //  hasDepositAccount: false,
+      hasDepositAccount: false,
       isLoggedin: false
     }
   },
@@ -23,9 +23,9 @@ export const useUserStore = defineStore('storeUser', {
       this.depositData = depositStorage.getItem()
     },
 
-    // setHasDepositAccount(hasDepositAccount) {
-    //   this.hasDepositAccount = hasDepositAccount
-    // },
+    setHasDepositAccount(hasDepositAccount) {
+      this.hasDepositAccount = hasDepositAccount
+    },
 
     setIsLoggedin(isLogin) {
       this.isLoggedin = isLogin

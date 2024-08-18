@@ -5,10 +5,9 @@ import ScoreBox from '@/components/view/accountBox/ScoreBox.vue'
 import IndexTransactions from '@/components/view/transactions/IndexTransactions.vue'
 import DashboardDialog from '@/components/view/DashboardDialog.vue'
 
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { getDepositAccount } from '@/composables/useGetDeposit'
-import { onMounted } from 'vue'
 
 const userStore = useUserStore()
 const userData = userStore.userData
@@ -21,12 +20,12 @@ const hasDataLoaded = ref(false)
 onMounted(async () => {
   try {
     depositData.value = await getDepositAccount(userData.token)
-    // console.log(depositData)
+
     hasDepositAccount.value = depositData.value?.id ? true : false
     hasDataLoaded.value = true
-    // console.log('hasDepositAccount', hasDepositAccount.value)
-    // userStore.setHasDepositAccount(hasDepositAccount.value)
-    userStore.setDepositData(depositData)
+
+    userStore.setHasDepositAccount(hasDepositAccount.value)
+    userStore.setDepositData(depositData.value)
   } catch (error) {
     console.error(error)
   }
