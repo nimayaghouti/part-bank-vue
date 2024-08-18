@@ -6,9 +6,9 @@ defineProps({
   },
   mode: {
     type: String,
-    default: 'button_primary',
+    default: 'primary',
     validator(value) {
-      return ['button_primary', 'button_secondary'].includes(value)
+      return ['primary', 'secondary'].includes(value)
     }
   },
   buttonType: {
@@ -29,10 +29,6 @@ defineProps({
   maxWidth: {
     type: String,
     default: '22.125rem'
-  },
-  icon: {
-    type: Object,
-    default: null
   }
 })
 </script>
@@ -40,15 +36,19 @@ defineProps({
 <template>
   <button
     :type="buttonType"
-    class="button"
-    :class="[mode]"
+    :class="['button', `button_${mode}`]"
     :style="{ maxWidth: maxWidth }"
     :disabled="isDisabled || isLoading"
   >
     <span v-if="isLoading" class="button__spinner"></span>
     <template v-else>
+      <span class="button__icon">
+        <slot name="prepend"></slot>
+      </span>
       <span>{{ text }}</span>
-      <component v-if="icon" :is="icon" class="button__icon"></component>
+      <span class="button__icon">
+        <slot name="append"></slot>
+      </span>
     </template>
   </button>
 </template>
@@ -64,19 +64,36 @@ defineProps({
   width: 100%;
   border: none;
   cursor: pointer;
+  transition: 0.5s;
 
   &_primary {
     background-color: var(--primary-500);
     color: #fff;
+
+    &:hover {
+      filter: brightness(1.2);
+    }
+
+    &:active {
+      background-color: var(--primary-700);
+    }
   }
 
   &_secondary {
     background-color: var(--primary-50);
     color: var(--black-500);
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+
+    &:active {
+      background-color: var(--primary-100);
+    }
   }
 
   &:disabled {
-    cursor: not-allowed;
+    pointer-events: none;
     opacity: 0.6;
   }
 

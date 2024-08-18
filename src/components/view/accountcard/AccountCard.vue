@@ -1,16 +1,12 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import router from '@/router'
 
 import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
 import { deleteDeposite } from '@/composables/useDeleteDeposite'
 
-import {
-  formattedCardNumber,
-  formattedPersianNumber,
-  convertNumberToPersian
-} from '@/utils/stringFormatter'
+import { formattedPersianNumber, convertNumberToPersian } from '@/utils/stringFormatter'
 
 import moreIcon from '@/assets/svg/icons/common/moreIcon.vue'
 import exitIcon from '@/assets/svg/icons/common/exitIcon.vue'
@@ -37,11 +33,16 @@ const cardNumber = ref()
 onMounted(() => {
   if (props.hasDepositAccount) {
     console.log(props.depositData)
-    accountBalance.value = ref(formattedPersianNumber(props.depositData.balance))
-    cardNumber.value = ref(
-      convertNumberToPersian(formattedCardNumber(props.depositData.cardNumber))
-    )
+    accountBalance.value = formattedPersianNumber(props.depositData.balance)
+    cardNumber.value = convertNumberToPersian(props.depositData.cardNumber)
   }
+})
+
+const splitCardNumber = computed(() => {
+  if (cardNumber.value) {
+    return cardNumber.value.match(/.{1,4}/g)
+  }
+  return []
 })
 
 const handelDeleteAccount = async () => {
@@ -82,7 +83,15 @@ const handelDeleteAccount = async () => {
         <p class="account-card__balance-amount">{{ accountBalance }}</p>
       </div>
     </div>
-    <div class="account-card__number-group">{{ cardNumber }}</div>
+    <div class="account-card__number-group">
+      <div
+        class="account-card__number-segment"
+        v-for="(segment, index) in splitCardNumber"
+        :key="index"
+      >
+        {{ segment }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -139,8 +148,9 @@ const handelDeleteAccount = async () => {
     @include flex(row-reverse, center, center);
     margin: 0 3.25rem 2rem;
     gap: 1rem;
-    font-size: 2.25rem;
+    font-size: 2.2rem;
     font-weight: 400;
+    z-index: 1;
   }
 }
 

@@ -84,14 +84,14 @@ const handlePrevious = () => {
       <BaseButton
         class="create-account__button"
         text="قبلی"
-        mode="button_secondary"
+        mode="secondary"
         buttonType="button"
         @click="handlePrevious"
       />
       <BaseButton
         class="create-account__button"
         text="ثبت و ادامه"
-        mode="button_primary"
+        mode="primary"
         buttonType="submit"
         @click="handleSubmit"
         :isLoading="isLoading"
