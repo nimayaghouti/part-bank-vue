@@ -120,7 +120,7 @@ const handleSubmit = async (event) => {
         <BaseButton
           class="form__submit"
           text="ورود"
-          mode="button_primary"
+          mode="primary"
           buttonType="submit"
           :isDisabled="isDisabled"
           :isLoading="isLoading"
