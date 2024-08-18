@@ -1,6 +1,6 @@
 <script setup>
 import useShowToast from '@/composables/useShowToast'
-import CircleError from '@/assets/svg/icons/common/circle-error.vue'
+import CircleErrorIcon from '@/assets/svg/icons/common/CircleErrorIcon.vue'
 
 // const props = defineProps({
 //   isShowing: {
@@ -53,7 +53,7 @@ const { isShowing, mode, message, appearFromY, appearFromX, icon } = useShowToas
     }"
   >
     <component v-if="icon" :is="icon" />
-    <CircleError v-else-if="mode === 'error'" />
+    <CircleErrorIcon v-else-if="mode === 'error'" />
     <span>{{ message }}</span>
   </div>
 </template>

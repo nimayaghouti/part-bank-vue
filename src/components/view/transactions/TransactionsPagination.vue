@@ -1,6 +1,6 @@
 <script setup>
-import AngleLeft from '@/assets/svg/icons/common/angle-left.vue'
-import AngleRight from '@/assets/svg/icons/common/angle-right.vue'
+import AngleLeftIcon from '@/assets/svg/icons/common/AngleLeftIcon.vue'
+import AngleRightIcon from '@/assets/svg/icons/common/AngleRightIcon.vue'
 import { formattedPersianNumber } from '@/utils/stringFormatter'
 import { onMounted, ref } from 'vue'
 
@@ -59,7 +59,7 @@ const nextButton = () => {
 <template>
   <div class="pagination">
     <button class="pagination__previous" title="قبلی" @click="previousButton">
-      <AngleRight />
+      <AngleRightIcon />
     </button>
     <button
       v-for="index in lastPage"
@@ -74,7 +74,7 @@ const nextButton = () => {
       {{ formattedPersianNumber(index) }}
     </button>
     <button class="pagination__next" title="بعدی" @click="nextButton">
-      <AngleLeft />
+      <AngleLeftIcon />
     </button>
   </div>
 </template>

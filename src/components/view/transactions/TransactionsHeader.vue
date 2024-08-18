@@ -1,7 +1,7 @@
 <script setup>
-import SearchIcon from '@/assets/svg/icons/common/search-icon.vue'
-import AngleDown from '@/assets/svg/icons/common/angle-down.vue'
-import FluentArrow from '@/assets/svg/icons/dashboard/fluent-arrow.vue'
+import SearchIcon from '@/assets/svg/icons/common/SearchIcon.vue'
+import AngleDownIcon from '@/assets/svg/icons/common/AngleDownIcon.vue'
+import FluentArrowIcon from '@/assets/svg/icons/dashboard/FluentArrowIcon.vue'
 // TODO:
 // import BaseFormControl from '../../common/BaseFormControl.vue'
 </script>
@@ -15,7 +15,7 @@ import FluentArrow from '@/assets/svg/icons/dashboard/fluent-arrow.vue'
     <div class="trans-header__tools">
       <div class="trans-header__sort sort">
         <label class="sort__label" for="sort-transactions">
-          <FluentArrow class="sort__fluent-icon" />
+          <FluentArrowIcon class="sort__fluent-icon" />
           مرتب سازی:
         </label>
         <!-- TODO: -->
@@ -23,7 +23,7 @@ import FluentArrow from '@/assets/svg/icons/dashboard/fluent-arrow.vue'
         <select class="sort__select" name="sort-transactions" id="sort-transactions">
           <option value="همه" selected>همه</option>
         </select>
-        <AngleDown class="sort__angle-icon" />
+        <AngleDownIcon class="sort__angle-icon" />
       </div>
       <div class="trans-header__search search">
         <input class="search__input" type="text" placeholder="جستجو" />

@@ -8,9 +8,9 @@ import { deleteDeposite } from '@/composables/useDeleteDeposite'
 
 import { formattedPersianNumber, convertNumberToPersian } from '@/utils/stringFormatter'
 
-import moreIcon from '@/assets/svg/icons/common/moreIcon.vue'
-import exitIcon from '@/assets/svg/icons/common/exitIcon.vue'
-import convertCard from '@/assets/svg/icons/dashboard/convert-card.vue'
+import MoreIcon from '@/assets/svg/icons/common/MoreIcon.vue'
+import ExitIcon from '@/assets/svg/icons/common/ExitIcon.vue'
+import ConvertCardIcon from '@/assets/svg/icons/dashboard/ConvertCardIcon.vue'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -65,15 +65,15 @@ const handelDeleteAccount = async () => {
   <div class="account-card">
     <div class="account-card__header">
       <div class="account-card__actions-btn actions-btn">
-        <moreIcon class="actions-btn__icon" />
+        <MoreIcon class="actions-btn__icon" />
         <div class="actions-btn__menu actions-menu">
           <div class="actions-menu__item actions-menu__item_change">
-            <convertCard class="actions-menu__icon" />
+            <ConvertCardIcon class="actions-menu__icon" />
             تغییر حساب متصل
           </div>
           <div class="actions-btn__separator"></div>
           <div class="actions-menu__item actions-menu__item_delete" @click="handelDeleteAccount">
-            <exitIcon class="actions-menu__icon" />
+            <ExitIcon class="actions-menu__icon" />
             حذف حساب بانکی
           </div>
         </div>

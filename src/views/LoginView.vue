@@ -8,9 +8,9 @@ import useShowToast from '@/composables/useShowToast'
 
 import BaseFormControl from '@/components/common/BaseFormControl.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
-import logoWithText from '@/assets/svg/logos/logo-with-text.vue'
-import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
-import eyeOpen from '@/assets/svg/icons/login/eye-open.vue'
+import LogoWithTextIcon from '@/assets/svg/logos/LogoWithTextIcon.vue'
+import EyeClosedIcon from '@/assets/svg/icons/login/EyeClosedIcon.vue'
+import EyeOpenIcon from '@/assets/svg/icons/login/EyeOpenIcon.vue'
 
 const isPasswordVisible = ref(false)
 
@@ -86,7 +86,7 @@ const handleSubmit = async (event) => {
 <template>
   <div class="login">
     <div class="login__form-wrapper">
-      <logoWithText class="login__logo" />
+      <LogoWithTextIcon class="login__logo" />
 
       <form class="login__form form">
         <BaseFormControl
@@ -112,7 +112,7 @@ const handleSubmit = async (event) => {
           validationMessage="رمز عبور خود را وارد کنید"
           @sendValue="(innerValue) => setValuesFromInputs(innerValue, 'password')"
           :icon="{
-            component: isPasswordVisible ? eyeOpen : eyeClosed,
+            component: isPasswordVisible ? EyeOpenIcon : EyeClosedIcon,
             onClick: togglePasswordVisibility
           }"
         />

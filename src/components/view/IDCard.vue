@@ -1,14 +1,22 @@
 <script setup>
 import { ref } from 'vue'
-import moreIcon from '@/assets/svg/icons/common/moreIcon.vue'
-import editIcon from '@/assets/svg/icons/common/editIcon.vue'
-import trashIcon from '@/assets/svg/icons/common/trashIcon.vue'
-import uploadIcon from '@/assets/svg/flats/uploadIcon.vue'
+import MoreIcon from '@/assets/svg/icons/common/MoreIcon.vue'
+import EditIcon from '@/assets/svg/icons/common/EditIcon.vue'
+import TrashIcon from '@/assets/svg/icons/common/TrashIcon.vue'
+import UploadIcon from '@/assets/svg/flats/UploadIcon.vue'
+import useShowToast from '@/composables/useShowToast'
 
-defineProps({
+const props = defineProps({
   description: {
     type: String,
     required: true
+  },
+  imageSide: {
+    type: String,
+    required: true,
+    validator(value) {
+      return ['front', 'back'].includes(value)
+    }
   }
 })
 
@@ -16,16 +24,37 @@ const emit = defineEmits(['update:image'])
 
 const imageUrl = ref('')
 
+const { showToast } = useShowToast()
+
 const handleFileChange = (event) => {
   const file = event.target.files[0]
-  if (file) {
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      imageUrl.value = e.target.result
-      emit('update:image', imageUrl.value)
-    }
-    reader.readAsDataURL(file)
+  if (!file) return
+
+  const validImageTypes = ['image/jpeg', 'image/png']
+  if (!validImageTypes.includes(file.type)) {
+    showToast({
+      message: 'فقط فرمت‌های تصویری (JPEG, PNG) قابل قبول هستند.'
+    })
+    return
   }
+
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    imageUrl.value = e.target.result
+    emit('update:image', imageUrl.value)
+  }
+  reader.readAsDataURL(file)
+}
+
+const handleEditImage = () => {
+  const fileInput = document.getElementById(`image-${props.imageSide}-side`)
+  if (!fileInput) return
+
+  fileInput.click()
+}
+
+const handleDeleteImage = () => {
+  imageUrl.value = ''
 }
 </script>
 
@@ -34,30 +63,36 @@ const handleFileChange = (event) => {
     <div class="id-card__image">
       <img v-if="imageUrl" :src="imageUrl" alt="Uploaded Image" />
       <template v-else>
-        <uploadIcon class="id-card__upload-icon" />
+        <UploadIcon class="id-card__upload-icon" />
         <div class="id-card__upload-text">
           تصویر را بکشید و اینجا رها کنید
           <br />
           یا
           <span class="id-card__upload-text_highlight"> کلیک کنید. </span>
         </div>
-        <input type="file" id="file-input" accept="image/*" @change="handleFileChange" />
       </template>
+      <input
+        v-show="!imageUrl"
+        type="file"
+        :id="`image-${imageSide}-side`"
+        accept="image/*"
+        @change="handleFileChange"
+      />
     </div>
     <div class="id-card__footer">
       <p class="id-card__description">{{ description }}</p>
       <div v-if="imageUrl" class="id-card__options">
         <div class="id-card__options-icon">
-          <moreIcon />
+          <MoreIcon />
         </div>
         <div class="options-menu">
-          <div class="options-menu__item options-menu__item_edit">
-            <editIcon class="options-menu__icon" />
+          <div class="options-menu__item options-menu__item_edit" @click="handleEditImage">
+            <EditIcon class="options-menu__icon" />
             ویرایش
           </div>
           <div class="options-menu__separator"></div>
-          <div class="options-menu__item options-menu__item_delete">
-            <trashIcon class="options-menu__icon" />
+          <div class="options-menu__item options-menu__item_delete" @click="handleDeleteImage">
+            <TrashIcon class="options-menu__icon" />
             حذف
           </div>
         </div>
@@ -176,7 +211,8 @@ const handleFileChange = (event) => {
   }
 }
 
-#file-input {
+#image-front-side,
+#image-back-side {
   width: 100%;
   height: 100%;
   cursor: pointer;
