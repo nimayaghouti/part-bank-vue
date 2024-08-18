@@ -1,9 +1,9 @@
 <script setup>
-import AccountCard from '@/components/view/accountcard/AccountCard.vue'
-import InstallmentBox from '@/components/view/accountBox/InstallmentBox.vue'
-import ScoreBox from '@/components/view/accountBox/ScoreBox.vue'
-import IndexTransactions from '@/components/view/transactions/IndexTransactions.vue'
-import DashboardDialog from '@/components/view/DashboardDialog.vue'
+import AccountCard from '@/components/view/dashboard/AccountCard.vue'
+import InstallmentBox from '@/components/view/dashboard/accountBox/InstallmentBox.vue'
+import ScoreBox from '@/components/view/dashboard/accountBox/ScoreBox.vue'
+import IndexTransactions from '@/components/view/dashboard/transactions/IndexTransactions.vue'
+import DashboardDialog from '@/components/view/dashboard/DashboardDialog.vue'
 
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
