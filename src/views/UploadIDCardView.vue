@@ -72,11 +72,13 @@ const handlePrevious = () => {
       <IDCard
         class="account-form__id-card"
         description="تصویر روی کارت ملی"
+        imageSide="front"
         @update:image="(imageUrl) => updateImageUrl('front', imageUrl)"
       />
       <IDCard
         class="account-form__id-card"
         description="تصویر پشت کارت ملی"
+        imageSide="back"
         @update:image="(imageUrl) => updateImageUrl('back', imageUrl)"
       />
     </div>
