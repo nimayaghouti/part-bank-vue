@@ -6,7 +6,7 @@ import { onMounted } from 'vue'
 import { formattedPersianNumber, convertNumberToPersian } from '@/utils/stringFormatter'
 
 import TheAccountBox from '@/components/view/accountBox/TheAccountBox.vue'
-import CircleInfoBold from '@/assets/svg/icons/common/circle-info-bold.vue'
+import CircleInfoBoldIcon from '@/assets/svg/icons/common/CircleInfoBoldIcon.vue'
 
 // const userStore = useUserStore()
 // const depositData = userStore.depositData
@@ -35,7 +35,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <TheAccountBox titleText="امتیاز حساب" :moreIcon="CircleInfoBold" buttonTitle="محاسبه امتیاز">
+  <TheAccountBox titleText="امتیاز حساب" :moreIcon="CircleInfoBoldIcon" buttonTitle="محاسبه امتیاز">
     <div class="account-box__score score">
       <div class="score__control">
         <span class="score__money">{{ scoreAmount }}</span>

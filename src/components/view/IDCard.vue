@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import moreIcon from '@/assets/svg/icons/common/moreIcon.vue'
-import editIcon from '@/assets/svg/icons/common/editIcon.vue'
-import trashIcon from '@/assets/svg/icons/common/trashIcon.vue'
-import uploadIcon from '@/assets/svg/flats/uploadIcon.vue'
+import MoreIcon from '@/assets/svg/icons/common/MoreIcon.vue'
+import EditIcon from '@/assets/svg/icons/common/EditIcon.vue'
+import TrashIcon from '@/assets/svg/icons/common/TrashIcon.vue'
+import UploadIcon from '@/assets/svg/flats/UploadIcon.vue'
 import useShowToast from '@/composables/useShowToast'
 
 const props = defineProps({
@@ -63,7 +63,7 @@ const handleDeleteImage = () => {
     <div class="id-card__image">
       <img v-if="imageUrl" :src="imageUrl" alt="Uploaded Image" />
       <template v-else>
-        <uploadIcon class="id-card__upload-icon" />
+        <UploadIcon class="id-card__upload-icon" />
         <div class="id-card__upload-text">
           تصویر را بکشید و اینجا رها کنید
           <br />
@@ -83,16 +83,16 @@ const handleDeleteImage = () => {
       <p class="id-card__description">{{ description }}</p>
       <div v-if="imageUrl" class="id-card__options">
         <div class="id-card__options-icon">
-          <moreIcon />
+          <MoreIcon />
         </div>
         <div class="options-menu">
           <div class="options-menu__item options-menu__item_edit" @click="handleEditImage">
-            <editIcon class="options-menu__icon" />
+            <EditIcon class="options-menu__icon" />
             ویرایش
           </div>
           <div class="options-menu__separator"></div>
           <div class="options-menu__item options-menu__item_delete" @click="handleDeleteImage">
-            <trashIcon class="options-menu__icon" />
+            <TrashIcon class="options-menu__icon" />
             حذف
           </div>
         </div>

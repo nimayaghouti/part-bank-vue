@@ -1,6 +1,6 @@
 <script setup>
-import MoneyDeposit from '@/assets/svg/icons/dashboard/money-deposit.vue'
-import MoneyWithdraw from '@/assets/svg/icons/dashboard/money-withdraw.vue'
+import MoneyDepositIcon from '@/assets/svg/icons/dashboard/MoneyDepositIcon.vue'
+import MoneyWithdrawIcon from '@/assets/svg/icons/dashboard/MoneyWithdrawIcon.vue'
 
 const props = defineProps({
   slicedDataArray: {
@@ -44,7 +44,7 @@ const formatAmount = (amount) => {
     <tbody class="table__body">
       <tr class="table__row" v-for="data in slicedDataArray" :key="data.id">
         <td class="table__column-type">
-          <MoneyDeposit v-if="data.type === 'deposit'" /> <MoneyWithdraw v-else />
+          <MoneyDepositIcon v-if="data.type === 'deposit'" /> <MoneyWithdrawIcon v-else />
           <span>{{ formatType(data.type) }}</span>
         </td>
         <td class="table__column-data">
