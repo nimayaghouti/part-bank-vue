@@ -6,14 +6,16 @@ import { ref } from 'vue'
 import router from '@/router'
 
 import { useCreateAccountStore } from '@/stores/createAccountStore'
+
+import useButtonLoading from '@/composables/useButtonLoading'
 import useShowToast from '@/composables/useShowToast'
 
 const createAccountStore = useCreateAccountStore()
 
+const { isButtonLoading } = useButtonLoading()
 const { showToast } = useShowToast()
-const isLoading = ref(false)
-const isDisabled = ref(true)
 
+const isDisabled = ref(true)
 const setIsDisabled = (areAllValuesValid) => {
   isDisabled.value = !areAllValuesValid
 }
@@ -57,7 +59,6 @@ const handleSubmit = (event) => {
 
   try {
     console.log(valuesFromInputs.value)
-    isLoading.value = true
     createAccountStore.setUserPersonalInfo(valuesFromInputs.value)
     router.push({ path: '/id-card' })
   } catch (error) {
@@ -66,8 +67,6 @@ const handleSubmit = (event) => {
       message: 'خطا در ثبت اطلاعات فردی'
     })
   } finally {
-    isLoading.value = false
-    // console.log('userPersonalInfo', createAccountStore.userPersonalInfo)
   }
 }
 
@@ -166,7 +165,7 @@ const handlePrevious = () => {
         mode="primary"
         buttonType="submit"
         @click="handleSubmit"
-        :isLoading="isLoading"
+        :isLoading="isButtonLoading"
       />
     </div>
   </form>

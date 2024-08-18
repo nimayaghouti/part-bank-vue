@@ -5,7 +5,7 @@ import router from '@/router'
 import { useAuth } from '@/composables/useAuth'
 import { useUserStore } from '@/stores/userStore'
 
-import useShowToast from '@/composables/useShowToast'
+import useButtonLoading from '@/composables/useButtonLoading'
 
 import BaseFormControl from '@/components/common/BaseFormControl.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
@@ -14,7 +14,7 @@ import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
 import eyeOpen from '@/assets/svg/icons/login/eye-open.vue'
 
 const userStore = useUserStore()
-const { showToast } = useShowToast()
+const { isButtonLoading } = useButtonLoading()
 
 const isPasswordVisible = ref(false)
 
@@ -26,8 +26,6 @@ const isDisabled = ref(true)
 const setIsDisabled = (areAllValuesValid) => {
   isDisabled.value = !areAllValuesValid
 }
-
-const isLoading = ref(false)
 
 const valuesFromInputs = ref({
   phoneNumber: '',
@@ -49,12 +47,10 @@ const setValuesFromInputs = (innerValue, field) => {
 
 const handleSubmit = async (event) => {
   event.preventDefault()
-  isLoading.value = true
 
   try {
     console.log('userData', userStore.userData)
     console.log('depositData', userStore.depositData)
-    console.log('isLoggedin', userStore.isLoggedin)
     console.log('isLoggedin', userStore.isLoggedin)
 
     if (userStore.isLoggedin) return
@@ -72,14 +68,11 @@ const handleSubmit = async (event) => {
     console.log('userData', userStore.userData)
     console.log('depositData', userStore.depositData)
     console.log('isLoggedin', userStore.isLoggedin)
-    console.log('isLoggedin', userStore.isLoggedin)
 
     router.push({ path: '/dashboard', replace: true })
   } catch (error) {
     console.error(error)
-    showToast()
   } finally {
-    isLoading.value = false
   }
 }
 </script>
@@ -124,7 +117,7 @@ const handleSubmit = async (event) => {
           mode="primary"
           buttonType="submit"
           :isDisabled="isDisabled"
-          :isLoading="isLoading"
+          :isLoading="isButtonLoading"
           @click="handleSubmit"
         />
       </form>
