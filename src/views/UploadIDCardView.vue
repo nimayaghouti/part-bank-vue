@@ -27,7 +27,10 @@ const isLoading = ref(false)
 const handleSubmit = (event) => {
   event.preventDefault()
   if (frontImageUrl.value === '' || backImageUrl.value === '') {
-    appStore.showToast('error', 'لطفا هردو تصویر را آپلود نمایید')
+    appStore.showToast({
+      mode: 'error',
+      message: 'لطفا هردو تصویر را آپلود نمایید'
+    })
     return
   }
 
@@ -39,7 +42,10 @@ const handleSubmit = (event) => {
     })
     router.push({ path: '/confirm-info' })
   } catch (error) {
-    appStore.showToast('error', 'خطا در ثبت تصاویر کارت ملی')
+    appStore.showToast({
+      mode: 'error',
+      message: 'خطا در ثبت تصاویر کارت ملی'
+    })
   } finally {
     isLoading.value = false
     // console.log('userIdCards', createAccountStore.userIdCards)

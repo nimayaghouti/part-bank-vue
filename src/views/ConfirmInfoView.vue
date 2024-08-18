@@ -26,7 +26,10 @@ const handleSubmit = async (event) => {
   event.preventDefault()
 
   if (!userPersonalInfo.value) {
-    appStore.showToast('error', 'داده ای برای ایجاد حساب بانکی، ثبت نشده است')
+    appStore.showToast({
+      mode: 'error',
+      message: 'داده ای برای ایجاد حساب بانکی، ثبت نشده است'
+    })
     return
   }
 
@@ -39,7 +42,10 @@ const handleSubmit = async (event) => {
     console.log('confirm-info:', response)
     router.push({ path: '/dashboard' })
   } catch (error) {
-    appStore.showToast('error', 'خطا در ایجاد حساب بانکی')
+    appStore.showToast({
+      mode: 'error',
+      message: 'خطا در ایجاد حساب بانکی'
+    })
   } finally {
     isLoading.value = false
   }

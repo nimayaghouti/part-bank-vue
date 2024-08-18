@@ -46,7 +46,10 @@ const handleSubmit = (event) => {
   event.preventDefault()
   console.log(valuesFromInputs.value)
   if (isDisabled.value) {
-    appStore.showToast('error', 'لطفا مقادیر صحیح را وارد نمایید')
+    appStore.showToast({
+      mode: 'error',
+      message: 'لطفا مقادیر صحیح را وارد نمایید'
+    })
     return
   }
 
@@ -56,7 +59,10 @@ const handleSubmit = (event) => {
     createAccountStore.setUserPersonalInfo(valuesFromInputs.value)
     router.push({ path: '/id-card' })
   } catch (error) {
-    appStore.showToast('error', 'خطا در ثبت اطلاعات فردی')
+    appStore.showToast({
+      mode: 'error',
+      message: 'خطا در ثبت اطلاعات فردی'
+    })
   } finally {
     isLoading.value = false
     // console.log('userPersonalInfo', createAccountStore.userPersonalInfo)

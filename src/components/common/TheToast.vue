@@ -70,6 +70,11 @@ const props = defineProps({
   border-radius: 1rem;
   transition: opacity 0.7s ease-in-out;
 
+  &_success {
+    color: #fff;
+    background-color: var(--success-500);
+  }
+
   &_error {
     color: #fff;
     background-color: var(--fail-500);

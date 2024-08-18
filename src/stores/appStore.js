@@ -4,17 +4,20 @@ export const useAppStore = defineStore('storeApp', {
   state: () => {
     return {
       isToastShowing: false,
-      toastMessage: '',
-      toastMode: 'error',
-      appearFromX: 'right',
-      appearFromY: 'top'
+      message: 'خطایی رخ داد',
+      mode: 'error',
+      appearFromY: 'bottom',
+      appearFromX: 'right'
     }
   },
   actions: {
-    showToast(mode, message) {
+    showToast(toastParams) {
+      this.mode = toastParams?.mode || 'error'
+      this.message = toastParams?.message || 'خطایی رخ داد'
+      this.appearFromY = toastParams?.appearFromY || 'bottom'
+      this.appearFromX = toastParams?.appearFromX || 'right'
+
       this.isToastShowing = true
-      this.toastMode = mode
-      this.toastMessage = message
       setTimeout(() => {
         this.isToastShowing = false
       }, 3000)

@@ -33,8 +33,8 @@ const currentLayout = computed(() => layouts[layoutName.value] || null)
   <component :is="currentLayout" />
   <TheToast
     :isShowing="appStore.isToastShowing"
-    :mode="appStore.toastMode"
-    :message="appStore.toastMessage"
+    :mode="appStore.mode"
+    :message="appStore.message"
     :appear-from-x="appStore.appearFromX"
     :appear-from-y="appStore.appearFromY"
   />

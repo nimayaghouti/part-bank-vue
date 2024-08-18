@@ -76,7 +76,7 @@ const handleSubmit = async (event) => {
     router.push({ path: '/dashboard', replace: true })
   } catch (error) {
     console.error(error)
-    appStore.showToast('error', 'خطایی رخ داد!')
+    appStore.showToast()
   } finally {
     isLoading.value = false
   }
