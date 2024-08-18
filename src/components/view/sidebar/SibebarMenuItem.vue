@@ -62,6 +62,10 @@ const handleLogout = async () => {
     position: relative;
     color: #8999b9;
     cursor: pointer;
+    transition:
+      font-weight 0.3s,
+      background-color 0.5s,
+      color 0.5s;
 
     &_active {
       font-weight: 700;
