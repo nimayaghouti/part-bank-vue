@@ -5,6 +5,8 @@ import router from '@/router'
 import { useAuth } from '@/composables/useAuth'
 import { useUserStore } from '@/stores/userStore'
 
+import BaseFormControl from '@/components/common/BaseFormControl.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
 import logoWithText from '@/assets/svg/logos/logo-with-text.vue'
 import eyeClosed from '@/assets/svg/icons/login/eye-closed.vue'
 import eyeOpen from '@/assets/svg/icons/login/eye-open.vue'

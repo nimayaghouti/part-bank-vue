@@ -36,7 +36,7 @@ const isRight = props.appearFromX === 'right'
 <template>
   <div :class="['toast', `toast_${mode}`]" :style="{ opacity: isShowing ? '1' : '0' }">
     <component v-if="icon" :is="icon" />
-    <CircleError v-else="mode === 'error'" />
+    <CircleError v-else-if="mode === 'error'" />
     <span
       :style="{
         top: isTop ? '3rem' : 'auto',

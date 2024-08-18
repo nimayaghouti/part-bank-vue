@@ -1,6 +1,8 @@
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import router from '@/router'
+import BaseButton from '@/components/common/BaseButton.vue'
+
 import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
 import { useCreateAccountStore } from '@/stores/createAccountStore'

@@ -1,4 +1,6 @@
 <script setup>
+import BaseButton from '@/components/common/BaseButton.vue'
+
 defineProps({
   titleText: {
     type: String,

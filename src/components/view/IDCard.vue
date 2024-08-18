@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue'
+import { ref } from 'vue'
 import moreIcon from '@/assets/svg/icons/common/moreIcon.vue'
 import editIcon from '@/assets/svg/icons/common/editIcon.vue'
 import trashIcon from '@/assets/svg/icons/common/trashIcon.vue'
